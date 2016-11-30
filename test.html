@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ondrop="drop(event)"
+      ondragover="allowDrop(event)">
+
+
+<script>
+
+    function onEleDragstart(event){
+        event.dataTransfer.setData("text/plain", "sdf");
+        event.dataTransfer.setData("Text", "baidu");
+    }
+
+    function onEleDragend(event){
+        alert('onEleDragend : ' + event.dataTransfer.getData('Text'));
+    }
+
+    function drop(event){
+        console.log('data : ' + event.dataTransfer.getData('Text'));
+
+        alert('sf');
+    }
+
+    function allowDrop(allowdropevent) {
+        allowdropevent.target.style.color = 'blue';
+        allowdropevent.preventDefault();
+    }
+
+</script>
+<button class="show" draggable="true" ondragend="onEleDragend(event)"
+        ondrop="drop(event)"
+        ondragstart="onEleDragstart(event)">Open</button>
+
+<!--<div style="height: 80px;width: 80px; border: 1px solid red" ondrop="drop(event)"-->
+     <!--ondragover="allowDrop(event)"-->
+<!--&gt;-->
+
+</div>
+
+</body>
+</html>

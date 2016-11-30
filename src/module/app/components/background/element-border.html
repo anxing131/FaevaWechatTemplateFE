@@ -1,0 +1,25 @@
+<div class="my-border" [ngStyle]="{'-webkit-transform': 'rotate('+ele.angle+'deg)'}" draggable="true" #eleDragBorder
+>
+    <div class="element-area">
+
+    </div>
+    <!--angular2 DataTransfer 中没有定义setDragImg图片, 多加一个原生的ondragstart事件调用-->
+    <div class="left-top"
+         draggable="true"
+         ondragstart="event.dataTransfer.setDragImage(document.getElementById('panel'), 0, 0)"
+         (click)="onclick($event)"
+         (dragend)="onEleDragend($event)"
+         (dragstart)="onEleDragstart($event)"
+         (dragover)="onEleDragover($event)"
+         (drag)="onDrag($event)"
+    >
+
+    </div>
+    <div class="top"></div>
+    <div class="right-top"></div>
+    <div class="right"></div>
+    <div class="right-bottom"></div>
+    <div class="bottom"></div>
+    <div class="left-bottom"></div>
+    <div class="left"></div>
+</div>

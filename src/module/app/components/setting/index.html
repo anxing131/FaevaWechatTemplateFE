@@ -1,0 +1,55 @@
+
+<div class="sidebar"
+     (mouseover)="onMouseover($event)"
+     (mouseleave)="onSidebarMouseleave($event)"
+>
+
+</div>
+<div id="test" draggable="true"
+     (dblclick)="ondblclick($event)"
+     (dragend)="onDragend($event)"
+     (dragstart)="onDragstart($event)"
+
+     class="ui left pointing dropdown"
+>
+
+    <!--<i class="settings big icon my-setting-icon"></i>-->
+    <i class="big loading sun icon my-setting-icon"></i>
+    <div class="pulse" ></div>
+
+    <!--<i class="tags icon" *ngIf="true"></i>-->
+    <div class="menu" tabindex="-1">
+        <div class="item"  (click)="onTagClick('setting')">
+            <i class="olive setting big icon"></i>Setting
+        </div>
+        <div class="item" (click)="onTagClick('new-template')">
+            <i class="olive plus big icon"></i>New Template
+        </div>
+        <div class="item" (click)="onTagClick('Login')">
+            <i class="olive connectdevelop big icon"></i>Login
+        </div>
+
+
+    <!--<div class="setting-item-list" *ngIf="settingFlag">
+        <div class="ui animated list">
+            <div class="item">
+                <div class="content">
+                    <div class="header">
+                        <i class="setting icon"></i>海伦
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="content">
+                    <div class="header">克里斯托</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="content">
+                    <div class="header">丹尼尔</div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    </div>
+</div>

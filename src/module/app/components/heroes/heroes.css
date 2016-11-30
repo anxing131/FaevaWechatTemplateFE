@@ -1,0 +1,89 @@
+.content{
+    position: relative;
+    margin-left: 5%;
+}
+
+.hero_list{
+    margin-top: 4vh;
+}
+
+.hero{
+    position: relative;
+    margin-top: 10px;
+    max-width: 15em;
+    background: hotpink;
+    height: 30px;
+    border-radius:0 4px 4px 0 ;
+
+}
+
+.hero:hover{
+    background: #f33fff;
+}
+
+.hero:first-child.select:hover {
+    background-color: #BBD8DC !important;
+    color: white;
+}
+.selected {
+    background-color: #c696dc
+}
+.selected:hover {
+    background-color: #d3dcd7
+}
+
+.hero_id{
+    position: relative;
+    background: #e2b1ff;
+    float: left;
+    border-radius: 4px 0 0 4px;
+    font-weight: 800;
+    width: 30px;
+    text-align: center;
+    height: 30px;
+    margin-left: -1px;
+}
+
+.delete_icon{
+    position: relative;
+    background: #ff7e68;
+    float: right;
+    border-radius: 35%;
+    text-align: center;
+    margin-left: -4px;
+    margin-top: -17px;
+    width: 18px;
+    transform:rotate(45deg)
+}
+
+.delete_icon:hover{
+    background: red;
+}
+
+.hero_name{
+    margin-left: 50px;
+    padding-top: 5px;
+    font-weight: 600;
+}
+
+.selectHero{
+    position: relative;
+    margin-top:1%;
+    margin-left: 1%;
+}
+
+.content a{
+    position: absolute;
+    margin-top: 20px;
+    margin-left: 1%;
+    padding: 4px 4px;
+    background: #e5e3ff;
+    text-decoration: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.content a:hover{
+    background: #e2b1ff;
+}

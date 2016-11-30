@@ -1,0 +1,146 @@
+.my-border{
+    position: absolute;
+    height: 300px;
+    width: 300px;;
+    border: 1px solid #fff530;
+    content: '';
+    z-index: 2000;
+    /*display: none;*/
+}
+
+.element-area2{
+    position: absolute;
+    height: 300px;
+    width: 300px;;
+    border: 1px solid #fff530;
+    content: '';
+    z-index: 2000;
+    display: none;
+}
+
+.my-border:hover{
+    cursor: all-scroll;
+}
+
+.element-area{
+    position: fixed;
+    height:100%;
+    width: 100%;
+    border: 1px dashed white;
+    background: lightskyblue;
+    content: '';
+    display: flex;
+    opacity: 0.3;
+}
+
+.left-top{
+    position: absolute;
+    width: 3%;
+    height: 3%;
+    min-width: 8px;
+    min-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: nw-resize;
+    left: -5px;
+    top: -5px;
+    content: '';
+}
+
+.top{
+    position: absolute;
+    width: 3%;
+    height: 3%;
+    min-width: 8px;
+    min-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: n-resize;
+    left: 48%;
+    top: -5px;
+    content: '';
+}
+
+.right-top{
+    position: absolute;
+    width: 3%;
+    height: 3%;
+    min-width: 8px;
+    min-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: ne-resize;
+    left: 99%;
+    top: -5px;
+    content: '';
+}
+
+.right{
+    position: absolute;
+    width: 3%;
+    height: 3%;
+    min-width: 8px;
+    min-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: e-resize;
+    left: 99%;
+    top: 48%;
+    content: '';
+}
+
+.right-bottom{
+    position: absolute;
+    width: 3%;
+    height: 3%;
+    min-width: 8px;
+    min-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: se-resize;
+    left: 99%;
+    top: 99%;
+    content: '';
+}
+
+.bottom{
+    position: absolute;
+    width: 3%;
+    height: 3%;
+    min-width: 8px;
+    min-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: s-resize;
+    left: 48%;
+    top: 99%;
+    content: '';
+}
+
+.left-bottom{
+    position: absolute;
+    width: 3%;
+    height: 3%;
+    min-width: 8px;
+    min-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: sw-resize;
+    left: -5px;
+    top: 99%;
+    content: '';
+}
+
+.left{
+    position: absolute;
+    width: 3%;
+    height: 3%;
+    min-width: 8px;
+    min-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: w-resize;
+    left: -5px;
+    top: 48%;
+    content: '';
+}

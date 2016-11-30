@@ -1,0 +1,36 @@
+.right-side{
+    position: fixed;
+    right: 0;
+    top: 10vh;
+    margin:auto;
+}
+
+.item{
+     top: 50px;
+     margin:auto;
+     min-width: 200px;
+     min-height: 35px;
+     z-index: 1010;
+
+ }
+
+.item:hover{
+    background: rgba(0,0,0,.03);
+    border-radius: 4px;
+}
+
+.header{
+    font-size: 25px;
+}
+
+.header i.icon{
+    position: absolute;
+    right: 0;
+    margin: auto;
+}
+
+#temp-bg-img2{
+    height: 0px;
+    width: 0px;
+    border: none;
+}

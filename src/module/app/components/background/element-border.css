@@ -1,0 +1,33 @@
+.my-border{
+    position: absolute;
+    height: 100%;
+    width:100%;
+    border: 1px solid #fff530;
+    content: '';
+    z-index: 2000;
+    /*display: none;*/
+}
+
+.element-area{
+    height:100%;
+    width: 100%;
+    border: 1px dashed white;
+    background: lightskyblue;
+    content: '';
+    display: none;
+    opacity: 0.3;
+}
+
+.left-top{
+    position: absolute;
+    width: 3%;
+    height: 3%;
+    min-width: 8px;
+    min-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: nw-resize;
+    left: -5px;
+    top: -5px;
+    content: '';
+}

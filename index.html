@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>Angular QuickStart</title>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="src/assets/css/semantic.min.css">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- 1. Load libraries -->
+    <script type="text/javascript" src="src/assets/js/jquery.min.js"></script>
+    <script src="src/assets/js/semantic.min.js"></script>
+    <script src="src/assets/js/reflect.js"></script>
+    <!-- Polyfill(s) for older browsers -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <!-- 2. Configure SystemJS -->
+    <script src="systems.config.js"></script>
+    <script>
+        if (!String.prototype.trim) {
+            (function() {
+                // Make sure we trim BOM and NBSP
+                var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+                String.prototype.trim = function() {
+                    return this.replace(rtrim, '');
+                };
+            })();
+        }
+
+        System.import('app').catch(function(err){ console.error(err); });
+    </script>
+</head>
+<!-- 3. Display the application -->
+<body>
+<my-app>Loading...</my-app>
+</body>
+</html>

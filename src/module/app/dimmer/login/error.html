@@ -1,0 +1,11 @@
+<div>
+    <div class="ui small modal axLoginErrorDimmer" *ngIf="!!errorInfo">
+        <div class="ui floating message">
+
+            <h4 class="code" style="position: absolute; padding-top: 3px; top: 3px; color: red"> {{errorInfo.code}} </h4>
+            <div class="title"><h1 #title>{{errorInfo.title}} </h1></div>
+            <hr>
+            <h4 class="detail">{{errorInfo.details}}</h4>
+        </div>
+    </div>
+</div>

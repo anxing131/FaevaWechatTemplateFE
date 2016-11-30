@@ -1,0 +1,29 @@
+<div class="content" *ngIf="heroes">
+    <h2> My Heroes </h2>
+
+    <div class="hero_list">
+        <div class="hero" *ngFor="let hero of heroes"
+             [class.selected]="hero === selectHero"
+             (click)="onSelect(hero)"
+             (mouseover)="onBlur(hero)"
+            >
+            <span class="hero_id">{{hero.id}}</span>
+            <div class="hero_name">{{hero.name}}</div>
+
+            <span class="delete_icon"
+                  (click)="delHero(hero)"
+                  *ngIf="hero === blurHero"
+            >
+                +
+            </span>
+
+        </div>
+    </div>
+
+
+    <div *ngIf="selectHero">
+        <div class="selectHero">{{selectHero.name}} is my Hero</div>
+        <a (click)="viewHeroDetail()">view Detail </a>
+    </div>
+
+</div>

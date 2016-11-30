@@ -1,0 +1,217 @@
+
+
+.testtt{
+    position: fixed;
+    top: -5000px;
+    left: -5000px;
+    height: 50000px;
+    width: 50000px;
+    border: 1px solid #0e0cff;
+    display: none;
+}
+
+.my-border{
+    position: absolute;
+    height: 300px;
+    width: 300px;;
+    border: 1px solid #fff530;
+    content: '';
+    z-index: 2000;
+    /*display: none;*/
+}
+
+.element-area2{
+    position: absolute;
+    height: 300px;
+    width: 300px;;
+    border: 1px solid #fff530;
+    content: '';
+    z-index: 2000;
+    display: none;
+}
+
+.my-border:hover{
+    cursor: all-scroll;
+}
+
+.element-area{
+    position: fixed;
+    height:100%;
+    width: 100%;
+    border: 1px dashed white;
+    background: lightskyblue;
+    content: '';
+    display: flex;
+    opacity: 0.3;
+}
+
+.left-top{
+    position: absolute;
+    width: .9vw;
+    height: .9vw;
+    min-width: 6px;
+    min-height: 6px;
+    max-width: 8px;
+    max-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: nw-resize;
+    left: -5px;
+    top: -5px;
+    content: '';
+}
+
+.border-rotating .rotating-bar{
+    position: absolute;
+    border: .3px solid #fff530;
+    height: 18px;
+    width: 1px;
+}
+
+.border-rotating .rotating{
+     position: absolute;
+     height: 11px;
+     width: 11px;
+    background-color: #ff8533;
+     margin: auto;
+     -moz-border-radius: 50%;
+     border-radius: 50%;
+     cursor: pointer;
+     top: -10px;
+     left: -4px;
+ }
+
+.border-rotating .rotating:hover{
+    background-color: unset;
+}
+
+.border-rotating .rotating i{
+    position: absolute;
+    height: 11px;
+    width: 11px;
+    margin: auto;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    cursor: pointer;
+    top: -9px;
+    left: -3px;
+    display: none;
+}
+
+.border-rotating{
+    position: absolute;
+    top: -18px;
+    left: 40%;
+}
+
+.top{
+    position: absolute;
+    width: .9vw;
+    height: .9vw;
+    min-width: 6px;
+    min-height: 6px;
+    max-width: 8px;
+    max-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: n-resize;
+    left: 50%;
+    top: -5px;
+    content: '';
+}
+
+.right-top{
+    position: absolute;
+    width: .9vw;
+    height: .9vw;
+    min-width: 6px;
+    min-height: 6px;
+    max-width: 8px;
+    max-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: ne-resize;
+    left: 99.8%;
+    top: -5px;
+    content: '';
+}
+
+.right{
+    position: absolute;
+    width: .9vw;
+    height: .9vw;
+    min-width: 6px;
+    min-height: 6px;
+    max-width: 8px;
+    max-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: e-resize;
+    left: 99.8%;
+    top: 48%;
+    content: '';
+}
+
+.right-bottom{
+    position: absolute;
+    width: .9vw;
+    height: .9vw;
+    min-width: 6px;
+    min-height: 6px;
+    max-width: 8px;
+    max-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: se-resize;
+    left: 99.8%;
+    top: 99%;
+    content: '';
+}
+
+.bottom{
+    position: absolute;
+    width: .9vw;
+    height: .9vw;
+    min-width: 6px;
+    min-height: 6px;
+    max-width: 8px;
+    max-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: s-resize;
+    left: 48%;
+    top: 99%;
+    content: '';
+}
+
+.left-bottom{
+    position: absolute;
+    width: .9vw;
+    height: .9vw;
+    min-width: 6px;
+    min-height: 6px;
+    max-width: 8px;
+    max-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: sw-resize;
+    left: -5px;
+    top: 99%;
+    content: '';
+}
+
+.left{
+    position: absolute;
+    width: .9vw;
+    height: .9vw;
+    min-width: 6px;
+    min-height: 6px;
+    max-width: 8px;
+    max-height: 8px;
+    background: #ff8533;
+    opacity: 1;
+    cursor: w-resize;
+    left: -5px;
+    top: 48%;
+    content: '';
+}

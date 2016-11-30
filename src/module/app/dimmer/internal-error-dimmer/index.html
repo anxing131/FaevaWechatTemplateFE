@@ -1,0 +1,10 @@
+<div>
+    <div class="ui modal system-internal-error-dimmer" *ngIf="!!data" >
+        <div class="ui floating message">
+            <h4 class="code" style="position: absolute; padding-top: 3px; top: 3px; color: red"> {{data.code}} </h4> <div class="title"><h1 > {{data.title}} </h1></div>
+            <hr>
+
+            <h4 class="detail"> {{data.details}} </h4>
+        </div>
+    </div>
+</div>

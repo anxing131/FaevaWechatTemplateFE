@@ -1,0 +1,59 @@
+<div class="ui large aligned animated list right-side" #main>
+<!--<div class="ui vertical pointing menu right-side" style="border: none">-->
+<!--<div class="ui secondary vertical pointing menu right-side">-->
+<!--<div class="ui vertical menu right-side">-->
+
+    <div class="item" *ngFor="let item of itemList" (dblclick)="onFieldSelect(item)">
+        <div class="content">
+            <div class="header" style="color: olive"><i class="ax-text">{{item.value}}</i> <i class="olive {{item.icon}} icon"></i></div>
+        </div>
+    </div>
+
+  <!--  <div class="header" style="color: olive"><i class="ax-text">QrCode</i> <i class="olive image icon"></i></div>
+    <div class="item">
+        <div class="content">
+            <div class="header" style="color: olive">ProductImg <i class="olive image icon"></i> </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="content">
+            <div class="header" style="color: olive">ProductName <i class="olive content icon"></i></div>
+        </div>
+    </div>-->
+
+    <hr/>
+    <div class="item">
+        <div class="content">
+            <div class="header config-item" style="color: olive" (dblclick)="onDblclick('+customField')">+ Custom Field <i class="add circle icon"></i> </div>
+        </div>
+    </div>
+
+    <div class="item" *ngIf="addCustomFieldFlag">
+        <div class="content">
+            <div class="ui action input form-group">
+                <input type="text" placeholder="name" #newFieldName (keypress)="onAddFieldInputKeyPress(newFieldName, newFieldType,$event)" (mousedown)="clearInputBorderWarnning(newFieldName)">
+                <select class="ui compact selection dropdown" #newFieldType>
+                    <option value="info">Custom</option>
+                    <option selected="" value="image">Image</option>
+                    <option value="content">Field</option>
+                </select>
+
+                <div type="submit" class="ui button" (click)="addField(newFieldName, newFieldType)">Add</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="item" (dblclick)="onDblclick('onChangeBackground')">
+        <div class="content">
+            <div class="header" style="color: olive">Background <i class="olive Square icon"></i> </div>
+            <input type="file" style="display: none"
+                   #backgroundInput
+                   (change)="fileChangeEvent($event)"
+            />
+        </div>
+    </div>
+
+    <img id="temp-bg-img2" (click)="imgChange()">
+
+</div>

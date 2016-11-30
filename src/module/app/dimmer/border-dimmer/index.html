@@ -1,0 +1,140 @@
+<div class="ui modal ax-border-modal-flags">
+
+<!--    &lt;!&ndash;<i class="close icon"></i>&ndash;&gt;
+    <div class="header">
+        弹出层标题{{ele.name}}
+    </div>
+    <div class="content">
+        <div class="image">
+            图像可以显示在左或图标
+        </div>
+        <div class="description">
+            描述可以出现在右边
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui button">取消</div>
+        <div class="ui button">确定</div>
+    </div>-->
+
+    <div class="ui segment">
+        <a class="ui ribbon label">{{templateService.currentElement.name}}</a>
+        <br>
+        <br>
+        <br>
+
+        <div class="ui two column grid">
+            <div class="column">
+                <div class="ui left action input">
+                    <div class="ui teal labeled icon button">
+                        <i class="joomla icon"></i>
+                        左上角(X)
+                    </div>
+                    <input type="number" value="" [(ngModel)]="templateService.currentElement.px">
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="ui right action input">
+                    <div class="ui teal labeled icon button">
+                        <i class="joomla icon"></i>
+                        左上角(Y)
+                    </div>
+                    <input type="number" value="" [(ngModel)]="templateService.currentElement.py">
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="ui left action input">
+            <div class="ui teal labeled icon button">
+                <i class="joomla icon"></i>
+                字体大小
+            </div>
+            <input type="number" value="" [(ngModel)]="templateService.currentElement.fontSize">
+        </div>
+
+        <br>
+        <br>
+        <div class="ui left action input">
+            <div class="ui teal labeled icon button">
+                <i class="joomla icon"></i>
+                字体粗细
+            </div>
+            <input type="number" value="" [(ngModel)]="templateService.currentElement.fontWeight">
+
+            <br>
+
+            <div class="ax-custom-popup" data-tooltip="属性值可以取100、200、…、900这九个值。
+                  400相当于正常字体normal，700相当于bold。100~900分别表示字体的粗细，
+                  是对字体粗细的一种量化方式，值越大就表示越粗，值越小就表示越细"
+                  data-position="top center"
+                  data-variation="huge"
+                  >
+                <i class="ui big help icon" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;"> </i>
+            </div>
+        </div>
+
+
+        <br>
+        <br>
+        <div class="ui left action input">
+            <div class="ui teal labeled icon button">
+                <i class="joomla icon"></i>
+                图片宽度
+            </div>
+            <input type="number" value="" [(ngModel)]="templateService.currentElement.width">
+        </div>
+
+        <br>
+        <br>
+        <div class="ui left action input">
+            <div class="ui teal labeled icon button">
+                <i class="joomla icon"></i>
+                图片高度
+            </div>
+            <input type="number" value="" [(ngModel)]="templateService.currentElement.height">
+        </div>
+
+        <br>
+        <br>
+        <div class="ui left action input">
+            <div class="ui teal labeled icon button">
+                <i class="joomla icon"></i>
+                旋转角度
+            </div>
+            <input type="number" value="" [(ngModel)]="templateService.currentElement.angle">
+        </div>
+
+        <br>
+        <br>
+        <div class="ui left action input">
+            <div class="ui teal labeled icon button">
+                <i class="joomla icon"></i>
+                字体颜色
+            </div>
+            <input type="text" value="" [(ngModel)]="templateService.currentElement.color">
+        </div>
+
+        <br>
+        <br>
+        <div class="ui left action input">
+            <div class="ui teal labeled icon button">
+                <i class="joomla icon"></i>
+                边框角度
+            </div>
+            <input type="text" value="" [(ngModel)]="templateService.currentElement.borderRadius">
+        </div>
+
+        <br>
+        <br>
+        <div class="ui left action input">
+            <div class="ui teal labeled icon button">
+                <i class="joomla icon"></i>
+                内容透明度
+            </div>
+            <input type="number" value="" [(ngModel)]="templateService.currentElement.opacity">
+        </div>
+    </div>
+</div>
+

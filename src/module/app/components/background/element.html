@@ -1,0 +1,35 @@
+<!--<my-border2>-->
+    <div class="element"
+     draggable="true"
+     (click)="onclick($event)"
+     (dblclick)="onEleDblclick($event)"
+     (dragend)="onEleDragend($event)"
+     (dragstart)="onEleDragstart($event)"
+
+     [ngStyle]="{'left': ele.px, 'top': ele.py, 'border-radius':ele.borderRadius, 'opacity':ele.opacity}"
+     #elementDiv
+    >
+
+        <div [ngSwitch]="ele.type">
+            <div *ngSwitchCase="'img'"
+                 [ngStyle]="{'-webkit-transform': 'rotate('+ele.angle+'deg)', 'transform':'rotate('+ele.angle+'deg)'}"
+            >
+                <img src="../../../../../src/assets/img/drawable-xxhdpi-icon.png"
+                     [ngStyle]="{'width': ele.width, 'height': ele.height, 'border-radius':ele.borderRadius}"
+                >
+            </div>
+
+            <div *ngSwitchCase="'text'"
+                 [ngStyle]="{'-webkit-transform': 'rotate('+ele.angle+'deg)', 'transform':'rotate('+ele.angle+'deg)'}"
+            >
+                <!--<span>{{ele.name}}</span>-->
+                <label [ngStyle]="{'font-weight': ele.fontWeight, 'font-size': ele.fontSize,'color': ele.color}"
+                    (resize)="resize($event)"
+                    #textLabel
+                >{{ele.name}}</label>
+
+            </div>
+        </div>
+
+    </div>
+<!--</my-border2>-->

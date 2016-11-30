@@ -1,0 +1,23 @@
+.element{
+    position: absolute;
+    z-index: 1500;
+    width: auto;
+    display:inline-block;
+    *display:inline;
+    *zoom:1;
+}
+
+.element:hover{
+    border: 1px solid transparent;
+}
+
+
+label{
+    padding: 0;
+    margin: 0;
+}
+
+
+ax-element-border{
+    display: block;
+}

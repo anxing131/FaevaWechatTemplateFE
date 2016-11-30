@@ -1,0 +1,13 @@
+<div class="content" *ngIf="hero">
+    <h1 class="title">{{hero.name}} details</h1>
+
+    <div class="record">
+        <i>id: </i>: {{hero.id}}
+    </div>
+    <div class="record">
+        <i>name: </i> <input [(ngModel)]="hero.name">
+    </div>
+
+    <a (click)="gotoBack()">back</a>
+    <!--<a routerLink="../../dashboard">back</a>-->
+</div>

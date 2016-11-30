@@ -1,0 +1,27 @@
+<div class="content" id="background-content-div"
+     [ngStyle]="{height: templateService.height, width: templateService.width, 'background-image': 'url('+ templateService.bg +')'}"
+>
+    <ax-element *ngFor="let ele of templateService.elements; let index = index" [ele]="ele" [index]="index" ></ax-element>
+    <!--<div class="element" *ngFor="let ele of templateService.elements"
+         draggable="true"
+         (dblclick)="onEleDblclick($event)"
+         (dragend)="onEleDragend($event)"
+         (dragstart)="onEleDragstart($event)"
+    >
+        <div [ngSwitch]="ele.type">
+            <div *ngSwitchCase="'img'">
+                <img src="../../../../../src/assets/img/drawable-xxhdpi-icon.png">
+            </div>
+
+            <div *ngSwitchCase="'text'">
+                &lt;!&ndash;<span>{{ele.name}}</span>&ndash;&gt;
+                <label style="padding: 0; margin: 0">{{ele.name}}</label>
+            </div>
+
+
+        </div>
+
+        &lt;!&ndash;<div > {{ele.name}}</div>&ndash;&gt;
+    </div>-->
+
+</div>

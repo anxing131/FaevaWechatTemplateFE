@@ -1,0 +1,89 @@
+<div class="my-border" [ngStyle]="{'-webkit-transform': 'rotate('+templateService.currentElement.angle+'deg)', 'top': templateService.currentElement.py, 'left': templateService.currentElement.px, 'width': templateService.currentElement.width, 'height':templateService.currentElement.height}" draggable="true" #eleDragBorder
+     (mousedown)="mousedown($event, 'element')"
+     *ngIf="templateService.showFlag"
+     (dblclick)="ondblclick($event)"
+     #myBorder
+>
+
+    <div class="element-area"
+         [ngStyle]="{'-webkit-transform': 'rotate('+dragViewData.angle+'deg)', 'top': dragViewData.py, 'left': dragViewData.px, 'width': dragViewData.width, 'height':dragViewData.height,
+            'display': dragViewData.display}"
+         draggable="true"
+         ondrop="return true;"
+    >
+    </div>
+
+    <!--用户整个element移动展示-->
+    <div class="element-area2"
+         [ngStyle]="{'-webkit-transform': 'rotate('+dragViewData.angle+'deg)', 'top': dragViewData.py, 'left': dragViewData.px, 'width': dragViewData.width, 'height':dragViewData.height,
+            'display': dragViewData.display2}"
+         (mouseup)="mouseupForEnd($event)"
+         (mousemove)="mousemove($event)"
+
+    ></div>
+
+    <div class="testtt" #tempDiv
+         (mouseup)="mouseupForEnd($event)"
+         (mousemove)="mousemove($event)"
+    >
+
+    </div>
+
+    <!--angular2 DataTransfer 中没有定义setDragImg图片, 多加一个原生的ondragstart事件调用-->
+    <div class="left-top"
+         (mousedown)="mousedown($event, 'left-top')"
+    >
+    </div>
+
+
+    <!---->
+    <!---->
+    <div class="top"
+         (mousedown)="mousedown($event, 'top')"
+        >
+        <div class="border-rotating"
+             (mousemove)="mousemoveOfRotating($event)"
+        >
+            <!--mouse over/hover icon-->
+            <div class="rotating"
+                 (mouseover)="mouseoverOfBorder($event)"
+                 (mouseleave)="mouseleaveOfBorder($event)"
+                 (mousedown)="mousedown($event, 'rotating')"
+            >
+                <i class="large orange refresh icon" [ngStyle]="{'display': rotatingDisplay}"></i>
+            </div>
+            <div class="rotating-bar"></div>
+        </div>
+    </div>
+
+    <div class="right-top"
+         (mousedown)="mousedown($event, 'right-top')"
+    ></div>
+
+    <div class="right"
+         (mousedown)="mousedown($event, 'right')"
+    ></div>
+
+    <div class="right-bottom"
+         (mousedown)="mousedown($event, 'right-bottom')"
+    ></div>
+
+    <div class="bottom"
+         (mousedown)="mousedown($event, 'bottom')"
+    ></div>
+
+    <div class="left-bottom"
+         (mousedown)="mousedown($event, 'left-bottom')"
+    ></div>
+
+    <div class="left"
+         (mousedown)="mousedown($event, 'left')"
+    ></div>
+
+    <!--<button (click)="test()">-->
+        <!--test-->
+    <!--</button>-->
+
+    <ax-border-dimmer #dimmer></ax-border-dimmer>
+</div>
+
