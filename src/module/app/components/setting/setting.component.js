@@ -16,13 +16,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 /**
  * Created by Administrator on 2016/10/26.
  */
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
+var user_service_1 = require("../../../../services/user.service");
+var dashboard_component_1 = require("./../dashboard/dashboard.component");
 var SettingComponent = (function (_super) {
     __extends(SettingComponent, _super);
-    function SettingComponent(renderer) {
-        _super.call(this);
-        this.renderer = renderer;
-        this.settingFlag = true;
+    function SettingComponent(renderer, userService) {
+        var _this = _super.call(this) || this;
+        _this.renderer = renderer;
+        _this.userService = userService;
+        _this.settingFlag = true;
+        _this.attrSidebarOpenFlag = false;
+        return _this;
     }
     SettingComponent.prototype.ngOnInit = function () {
         this._settingEle = document.getElementById('test');
@@ -75,8 +80,12 @@ var SettingComponent = (function (_super) {
         }
     };
     SettingComponent.prototype.ondblclick = function (event) {
-        console.log('db ---sdf');
-        this.settingFlag = !this.settingFlag;
+        // this.settingFlag = !this.settingFlag;
+        console.log('db --------------------');
+    };
+    SettingComponent.prototype.contextmenu = function (event) {
+        console.log('contextmenu -----------------');
+        return false;
     };
     // 隐藏setting 到左侧, Y是要隐藏时的高度
     SettingComponent.prototype.hidden = function () {
@@ -86,9 +95,33 @@ var SettingComponent = (function (_super) {
         switch (tag) {
             case 'tag':
                 break;
+            case 'LoginOut':
+                this.userService.logout();
+                break;
+            case 'OpenAttributesSidebar':
+                this.toggleAttributesSidebar();
             default:
                 break;
         }
+    };
+    SettingComponent.prototype.toggleAttributesSidebar = function () {
+        var _this = this;
+        $('#dashboard-content .ui.sidebar')
+            .sidebar({
+            context: $('#dashboard-content'),
+            dimPage: false,
+            transition: 'overlay',
+            onVisible: function () {
+                _this.attrSidebarOpenFlag = true;
+            },
+            onHidden: function () {
+                _this.attrSidebarOpenFlag = false;
+                dashboard_component_1.DashboardComponent.changeSubject.next({ event: 'closeInputCustomField' });
+                // DashboardComponent.inputCustomFieldFlag = false;
+                console.log('toggleAttributesSidebar onHidden');
+            }
+        })
+            .sidebar('toggle');
     };
     SettingComponent.prototype.onDragend = function (event) {
         var clientX = event.clientX;
@@ -115,32 +148,33 @@ var SettingComponent = (function (_super) {
         this.y = clientY - eClientY;
         console.log('onDragstart');
     };
-    SettingComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'ax-setting',
-            templateUrl: 'index.html',
-            styleUrls: ['style.css'],
-            animations: [
-                core_1.trigger('heroState', [
-                    core_1.state('inactive', core_1.style({
-                        backgroundColor: '#eee',
-                        transform: 'scale(1)'
-                    })),
-                    core_1.state('active', core_1.style({
-                        backgroundColor: '#cfd8dc',
-                        transform: 'scale(1.1)',
-                        top: "{{x}}px"
-                    })),
-                    //转场配置
-                    core_1.transition('inactive => active', core_1.animate('100ms ease-in')),
-                    core_1.transition('active => inactive', core_1.animate('100ms ease-out'))
-                ])
-            ]
-        }), 
-        __metadata('design:paramtypes', [core_1.Renderer])
-    ], SettingComponent);
     return SettingComponent;
 }(core_1.OnInit));
+SettingComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'ax-setting, [ax-setting]',
+        templateUrl: 'index.html',
+        styleUrls: ['style.css'],
+        animations: [
+            core_1.trigger('heroState', [
+                core_1.state('inactive', core_1.style({
+                    backgroundColor: '#eee',
+                    transform: 'scale(1)'
+                })),
+                core_1.state('active', core_1.style({
+                    backgroundColor: '#cfd8dc',
+                    transform: 'scale(1.1)',
+                    top: "{{x}}px"
+                })),
+                //转场配置
+                core_1.transition('inactive => active', core_1.animate('100ms ease-in')),
+                core_1.transition('active => inactive', core_1.animate('100ms ease-out'))
+            ])
+        ]
+    }),
+    __metadata("design:paramtypes", [core_1.Renderer,
+        user_service_1.UserService])
+], SettingComponent);
 exports.SettingComponent = SettingComponent;
 //# sourceMappingURL=setting.component.js.map

@@ -19,18 +19,19 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 /**
  * Created by Administrator on 2016/10/26.
  */
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var template_service_1 = require("../../../../services/template.service");
 var element_component_1 = require("./element.component");
 var ElementBorderComponent = (function (_super) {
     __extends(ElementBorderComponent, _super);
     function ElementBorderComponent(app, renderer, templateService) {
-        _super.call(this);
-        this.renderer = renderer;
-        this.templateService = templateService;
-        this.prop = {};
-        this.tempEle = {}; //用来保存拖动组件时的组件属性数据
-        this.app = app;
+        var _this = _super.call(this) || this;
+        _this.renderer = renderer;
+        _this.templateService = templateService;
+        _this.prop = {};
+        _this.tempEle = {}; //用来保存拖动组件时的组件属性数据
+        _this.app = app;
+        return _this;
     }
     ElementBorderComponent.prototype.ngOnInit = function () {
         this.border = this.border.nativeElement;
@@ -128,22 +129,23 @@ var ElementBorderComponent = (function (_super) {
                 event.stopImmediatePropagation();*/
         event.stopImmediatePropagation();
     };
-    __decorate([
-        core_1.ViewChild('eleDragBorder'), 
-        __metadata('design:type', Object)
-    ], ElementBorderComponent.prototype, "border", void 0);
-    ElementBorderComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'ax-element-border',
-            templateUrl: 'element-border.html',
-            styleUrls: ['element-border.css'],
-        }),
-        __param(0, core_1.Host()),
-        __param(0, core_1.Inject(core_1.forwardRef(function () { return element_component_1.ElementComponent; }))), 
-        __metadata('design:paramtypes', [element_component_1.ElementComponent, core_1.Renderer, template_service_1.TemplateService])
-    ], ElementBorderComponent);
     return ElementBorderComponent;
 }(core_1.OnInit));
+__decorate([
+    core_1.ViewChild('eleDragBorder'),
+    __metadata("design:type", Object)
+], ElementBorderComponent.prototype, "border", void 0);
+ElementBorderComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'ax-element-border, [ax-element-border]',
+        templateUrl: 'element-border.html',
+        styleUrls: ['element-border.css'],
+    }),
+    __param(0, core_1.Host()), __param(0, core_1.Inject(core_1.forwardRef(function () { return element_component_1.ElementComponent; }))),
+    __metadata("design:paramtypes", [element_component_1.ElementComponent,
+        core_1.Renderer,
+        template_service_1.TemplateService])
+], ElementBorderComponent);
 exports.ElementBorderComponent = ElementBorderComponent;
 //# sourceMappingURL=element-border.component.js.map

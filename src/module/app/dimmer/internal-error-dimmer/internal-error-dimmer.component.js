@@ -19,7 +19,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 /**
  * Created by Administrator on 2016/10/26.
  */
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var user_service_1 = require("../../../../services/user.service");
 var http_1 = require("@angular/http");
 var faeva_beapi_service_1 = require("../../../../services/faeva-beapi.service");
@@ -27,13 +27,14 @@ var router_1 = require("@angular/router");
 var InternalErrorDimmerComponent = (function (_super) {
     __extends(InternalErrorDimmerComponent, _super);
     function InternalErrorDimmerComponent(renderer, userService, faevaBeApiService, http, router, config) {
-        _super.call(this);
-        this.renderer = renderer;
-        this.userService = userService;
-        this.faevaBeApiService = faevaBeApiService;
-        this.http = http;
-        this.router = router;
-        this.config = config;
+        var _this = _super.call(this) || this;
+        _this.renderer = renderer;
+        _this.userService = userService;
+        _this.faevaBeApiService = faevaBeApiService;
+        _this.http = http;
+        _this.router = router;
+        _this.config = config;
+        return _this;
     }
     InternalErrorDimmerComponent.prototype.ngOnInit = function () {
     };
@@ -64,17 +65,21 @@ var InternalErrorDimmerComponent = (function (_super) {
             allowMultiple: false
         }).modal('hide all');
     };
-    InternalErrorDimmerComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'ax-internal-error-dimmer',
-            templateUrl: 'index.html',
-            styleUrls: ['style.css'],
-        }),
-        __param(5, core_1.Inject('config')), 
-        __metadata('design:paramtypes', [core_1.Renderer, user_service_1.UserService, faeva_beapi_service_1.FaevaBeApiService, http_1.Http, router_1.Router, Object])
-    ], InternalErrorDimmerComponent);
     return InternalErrorDimmerComponent;
 }(core_1.OnInit));
+InternalErrorDimmerComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'ax-internal-error-dimmer, [ax-internal-error-dimmer]',
+        templateUrl: 'index.html',
+        styleUrls: ['style.css'],
+    }),
+    __param(5, core_1.Inject('config')),
+    __metadata("design:paramtypes", [core_1.Renderer,
+        user_service_1.UserService,
+        faeva_beapi_service_1.FaevaBeApiService,
+        http_1.Http,
+        router_1.Router, Object])
+], InternalErrorDimmerComponent);
 exports.InternalErrorDimmerComponent = InternalErrorDimmerComponent;
 //# sourceMappingURL=internal-error-dimmer.component.js.map

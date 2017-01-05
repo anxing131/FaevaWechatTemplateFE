@@ -23,10 +23,11 @@ var common_1 = require("@angular/common");
 var HeroDetailComponent = (function (_super) {
     __extends(HeroDetailComponent, _super);
     function HeroDetailComponent(heroesService, router, location) {
-        _super.call(this);
-        this.heroesService = heroesService;
-        this.router = router;
-        this.location = location;
+        var _this = _super.call(this) || this;
+        _this.heroesService = heroesService;
+        _this.router = router;
+        _this.location = location;
+        return _this;
     }
     HeroDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -38,16 +39,18 @@ var HeroDetailComponent = (function (_super) {
     HeroDetailComponent.prototype.gotoBack = function () {
         this.location.back();
     };
-    HeroDetailComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'hero-detail',
-            templateUrl: 'hero-detail.html',
-            styleUrls: ['hero-detail.css']
-        }), 
-        __metadata('design:paramtypes', [heroes_service_1.HeroesService, router_1.ActivatedRoute, common_1.Location])
-    ], HeroDetailComponent);
     return HeroDetailComponent;
 }(core_1.OnInit));
+HeroDetailComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'hero-detail, [hero-detail]',
+        templateUrl: 'hero-detail.html',
+        styleUrls: ['hero-detail.css']
+    }),
+    __metadata("design:paramtypes", [heroes_service_1.HeroesService,
+        router_1.ActivatedRoute,
+        common_1.Location])
+], HeroDetailComponent);
 exports.HeroDetailComponent = HeroDetailComponent;
 //# sourceMappingURL=hero-detail.component.js.map

@@ -8,8 +8,8 @@ var template_1 = require("./template");
 var Template2 = (function (_super) {
     __extends(Template2, _super);
     function Template2(obj) {
-        _super.call(this);
-        this._attrs = [
+        var _this = _super.call(this) || this;
+        _this._attrs = [
             'id',
             'name',
             'createDate',
@@ -20,15 +20,16 @@ var Template2 = (function (_super) {
             'positionConfig',
             'age'
         ];
-        this.id = obj && obj.id || '';
-        this.name = obj && obj.name || '';
-        this.createDate = obj && obj.createDate || -1;
-        this.background = obj && obj.background || 's';
-        this.preview = obj && obj.preview || '';
-        this.qrCodeWidth = obj && obj.qrCodeWidth || 240;
-        this.positionConfig = obj && obj.positionConfig || new Object();
-        this.tags = obj && obj.tags || [];
-        this.age = obj && obj.age || 7;
+        _this.id = obj && obj.id || '';
+        _this.name = obj && obj.name || '';
+        _this.createDate = obj && obj.createDate || -1;
+        _this.background = obj && obj.background || 's';
+        _this.preview = obj && obj.preview || '';
+        _this.qrCodeWidth = obj && obj.qrCodeWidth || 240;
+        _this.positionConfig = obj && obj.positionConfig || new Object();
+        _this.tags = obj && obj.tags || [];
+        _this.age = obj && obj.age || 7;
+        return _this;
         // this.postConstructor();
     }
     return Template2;

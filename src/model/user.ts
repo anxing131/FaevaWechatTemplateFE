@@ -17,6 +17,7 @@ export class User{
         this.createDate = obj && obj.createDate || -1;
         this.accId = obj && obj.accId || '';
         this.avator = obj && obj.avator || '';
+        this.token = obj && obj.token || '';
     }
 
     protected localStorage(){

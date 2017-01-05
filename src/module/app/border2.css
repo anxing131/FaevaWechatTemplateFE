@@ -1,12 +1,12 @@
 
 
 .testtt{
-    position: fixed;
+    position: absolute;
     top: -5000px;
     left: -5000px;
     height: 50000px;
     width: 50000px;
-    border: 1px solid #0e0cff;
+    border: 5px solid #0e0cff;
     display: none;
 }
 
@@ -20,28 +20,19 @@
     /*display: none;*/
 }
 
-.element-area2{
-    position: absolute;
-    height: 300px;
-    width: 300px;;
-    border: 1px solid #fff530;
-    content: '';
-    z-index: 2000;
-    display: none;
-}
-
 .my-border:hover{
     cursor: all-scroll;
 }
 
 .element-area{
-    position: fixed;
+    position: absolute;
     height:100%;
     width: 100%;
     border: 1px dashed white;
     background: lightskyblue;
     content: '';
     display: flex;
+    z-index: 1501;
     opacity: 0.3;
 }
 
@@ -214,4 +205,24 @@
     left: -5px;
     top: 48%;
     content: '';
+}
+
+.right-menu{
+    position: absolute;
+    width: 150px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.right-menu.menu-hide{
+    display: none;
+}
+
+.right-menu .item{
+    padding: 13px 20px 13px 20px;
+}
+
+.right-menu .item:hover{
+    border-radius: 5px;
+    background-color: #f3f3ec;
 }

@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 /**
  * Created by Administrator on 2016/10/9.
  */
-var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
+var core_1 = require("@angular/core");
+var platform_browser_1 = require("@angular/platform-browser");
 var template_routing_1 = require("./template.routing");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/http");
@@ -20,17 +20,17 @@ var template_component_1 = require("./template.component");
 var TemplateModule = (function () {
     function TemplateModule() {
     }
-    TemplateModule = __decorate([
-        core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule, template_routing_1.router],
-            declarations: [
-                template_component_1.TemplateComponent,
-            ],
-            exports: [template_component_1.TemplateComponent]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], TemplateModule);
     return TemplateModule;
 }());
+TemplateModule = __decorate([
+    core_1.NgModule({
+        imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule, template_routing_1.router],
+        declarations: [
+            template_component_1.TemplateComponent,
+        ],
+        exports: [template_component_1.TemplateComponent]
+    }),
+    __metadata("design:paramtypes", [])
+], TemplateModule);
 exports.TemplateModule = TemplateModule;
 //# sourceMappingURL=template.module.js.map

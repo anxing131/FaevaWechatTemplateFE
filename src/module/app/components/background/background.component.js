@@ -1,9 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -16,16 +11,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 /**
  * Created by Administrator on 2016/10/26.
  */
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var template_service_1 = require("../../../../services/template.service");
-var BackgroundComponent = (function (_super) {
-    __extends(BackgroundComponent, _super);
+var Rx_1 = require("rxjs/Rx");
+var BackgroundComponent = BackgroundComponent_1 = (function () {
     function BackgroundComponent(renderer, templateService) {
-        _super.call(this);
         this.renderer = renderer;
         this.templateService = templateService;
     }
     BackgroundComponent.prototype.ngOnInit = function () {
+        this.changeSubjection = BackgroundComponent_1.changeSubject.subscribe({
+            next: function (p) {
+                switch (p.event) {
+                }
+            }
+        });
+    };
+    BackgroundComponent.prototype.ngOnDestroy = function () {
+        this.changeSubjection.unsubscribe();
     };
     BackgroundComponent.prototype.drop = function (event) {
     };
@@ -75,16 +78,19 @@ var BackgroundComponent = (function (_super) {
         currentTarget.style.left = x + '';
         console.log('onDragend');
     };
-    BackgroundComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'ax-background',
-            templateUrl: 'index.html',
-            styleUrls: ['style.css'],
-        }), 
-        __metadata('design:paramtypes', [core_1.Renderer, template_service_1.TemplateService])
-    ], BackgroundComponent);
     return BackgroundComponent;
-}(core_1.OnInit));
+}());
+BackgroundComponent.changeSubject = new Rx_1.Subject();
+BackgroundComponent = BackgroundComponent_1 = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'ax-background, [ax-background]',
+        templateUrl: 'index.html',
+        styleUrls: ['style.css'],
+    }),
+    __metadata("design:paramtypes", [core_1.Renderer,
+        template_service_1.TemplateService])
+], BackgroundComponent);
 exports.BackgroundComponent = BackgroundComponent;
+var BackgroundComponent_1;
 //# sourceMappingURL=background.component.js.map

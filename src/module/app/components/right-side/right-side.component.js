@@ -16,23 +16,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 /**
  * Created by Administrator on 2016/10/26.
  */
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var core_2 = require("@angular/core");
 var template_service_1 = require("../../../../services/template.service");
 var RightSideComponent = (function (_super) {
     __extends(RightSideComponent, _super);
     function RightSideComponent(renderer, templateService) {
-        _super.call(this);
-        this.renderer = renderer;
-        this.templateService = templateService;
-        this.addCustomFieldFlag = false;
-        this.addCustomFieldError = false;
-        this.fieldSelect = new core_1.EventEmitter();
-        this.itemList = [
+        var _this = _super.call(this) || this;
+        _this.renderer = renderer;
+        _this.templateService = templateService;
+        _this.addCustomFieldFlag = false;
+        _this.addCustomFieldError = false;
+        _this.fieldSelect = new core_1.EventEmitter();
+        _this.itemList = [
             { value: "QrCode", icon: "image" },
             { value: "ProductImg", icon: "image" },
             { value: "ProductName", icon: "content" },
         ];
+        return _this;
     }
     RightSideComponent.prototype.ngOnInit = function () {
     };
@@ -118,24 +119,31 @@ var RightSideComponent = (function (_super) {
     };
     RightSideComponent.prototype.tests = function (parent) {
     };
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], RightSideComponent.prototype, "fieldSelect", void 0);
-    __decorate([
-        core_2.ViewChild('backgroundInput'), 
-        __metadata('design:type', Object)
-    ], RightSideComponent.prototype, "backgroundInput", void 0);
-    RightSideComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'ax-right-side',
-            templateUrl: 'index.html',
-            styleUrls: ['style.css'],
-        }), 
-        __metadata('design:paramtypes', [core_1.Renderer, template_service_1.TemplateService])
-    ], RightSideComponent);
+    RightSideComponent.prototype.test = function (event) {
+        console.log('teset -=--------------sdf-----');
+        // $('#right-side-attrs-menu')
+        //     .sidebar('setting', 'transition', 'overlay')
+        //     .sidebar('toggle');
+    };
     return RightSideComponent;
 }(core_1.OnInit));
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], RightSideComponent.prototype, "fieldSelect", void 0);
+__decorate([
+    core_2.ViewChild('backgroundInput'),
+    __metadata("design:type", Object)
+], RightSideComponent.prototype, "backgroundInput", void 0);
+RightSideComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'ax-right-side, [ax-right-side]',
+        templateUrl: 'index.html',
+        styleUrls: ['style.css'],
+    }),
+    __metadata("design:paramtypes", [core_1.Renderer,
+        template_service_1.TemplateService])
+], RightSideComponent);
 exports.RightSideComponent = RightSideComponent;
 //# sourceMappingURL=right-side.component.js.map

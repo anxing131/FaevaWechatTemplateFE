@@ -1,0 +1,112 @@
+
+<link rel="stylesheet" rev="stylesheet" href="../../../../assets/css/datatables/material.scss" type="text/css" media="all" />
+<link rel="stylesheet" rev="stylesheet" href="../../../../assets/css/datatables/datatables-icons.css" type="text/css" media="all" />
+
+<div style="background: #f5f5f5;">
+    <h3>Server-side Paging</h3>
+
+    <hr>
+
+
+
+    <div class="toolBar">
+        <div class="ui menu">
+            <a class="browse item">Browse <i class="dropdown icon"></i> </a>
+
+            <div class="ui fluid popup bottom left transition hidden" style="top: 548.333px; left: 1.11111px; bottom: auto; right: auto; width: 819.896px;">
+                <div class="fields">
+                    <div class="ui transparent icon input">
+                        <input type="text" placeholder="Search ..." (input)="onFilterFieldsKeyChange($event)" [(ngModel)]="filterFieldsKey">
+                        <i class="search icon"></i>
+                    </div>
+
+                    <br>
+                    <br>
+
+                    <div class="ui stackable Reversed  grid" style="padding-left: 0">
+                            <div class="two wide fine wide column" *ngFor="let field of allColumns | axwhere:filterFields:getFilterFieldsKey" style="padding: none">
+                                <div class="ui checkbox">
+                                    <input type="checkbox" (change)="onFieldSelect($event, field.name)">
+                                    <label>{{field.name}}</label>
+                                </div>
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="right item">
+                <div class="ui right transparent icon input" >
+                    <input type="text" placeholder="Search..." (input)="updateFilter($event)" (change)="searchToggleBE($event)">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+
+            <div class="ui top right pointing dropdown item" >
+                <i class="setting icon"></i>
+                <div class="small menu">
+                    <div class="item">
+                        <div class="ui checkbox">
+                            <input type="checkbox" [(ngModel)]="searchToggleBEFlag">
+                            <label> search toggle BE </label>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <button (click)="test($event)">Test</button>
+
+    <swui-datatable
+            style="height: 600px; border-radius: 5px"
+            class="material"
+            #datatable
+            [rows]="rows"
+            [columns]="selectColumns"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="50"
+            [count]="count"
+            [offset]="offset"
+
+            [scrollbarV]="true"
+            [scrollbarH]="true"
+
+            [externalPaging]="true"
+            (page)="onPageChange($event)"
+
+    >
+    </swui-datatable>
+
+    <template #hdrTpl let-column="column" >
+        <strong>Fancy</strong>: {{column.name}} !!
+    </template>
+    <template #editTmpl let-row="row">
+        sdfsd
+        <div>
+            <div> row : {{row.name}} </div>
+            <!--<div> value : {{value}} </div>-->
+            <!--<div> index : {{index}} </div>-->
+        </div>
+        <!--<img
+          *ngIf="value === 'male'"
+          width="150"
+          src="https://media.giphy.com/media/I8nepxWwlEuqI/giphy.gif"
+        />
+        <img
+          *ngIf="value === 'female'"
+          width="150"
+          src="https://media.giphy.com/media/sxSVG3XHf7yww/giphy.gif"
+        />-->
+      </template>
+</div>

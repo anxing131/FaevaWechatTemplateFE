@@ -4,7 +4,7 @@ import {HeroesService} from "../../../../services/heroes.service";
 
 @Component({
     moduleId:  module.id,
-    selector: 'hero-create-form',
+    selector: 'hero-create-form, [hero-create-form]',
     templateUrl: 'hero-create.html',
     styleUrls: ['hero-create.css']
 })

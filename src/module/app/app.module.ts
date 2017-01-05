@@ -5,6 +5,8 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent }   from './app.component';
+// import '../../../da';
+
 import {router} from "./app.routing";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {HeroesService} from "../../services/heroes.service";
@@ -32,15 +34,36 @@ import {ConfigureService} from "../../services/configure.service";
 import {LoginErrorDimmerComponent} from "./dimmer/login/login-error-dimmer.component";
 import {InternalErrorDimmerComponent} from "./dimmer/internal-error-dimmer/internal-error-dimmer.component";
 import {InitDir} from "./test-directive";
+import {TemplateListComponent} from "./components/template-list/template-list.component";
+import { NgPipesModule} from "angular-pipes";
+import {Angular2DataTableModule} from "angular2-data-table";
+import { FieldsPipe } from './components/template-list/Fields.pipes';
+import {ColorPickerModule} from 'angular2-color-picker';
+// import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
+
+declare var $ : any;
+declare var lunr : any;
 
 @NgModule({
-    imports:      [ TemplateModule, BrowserModule, router, FormsModule, HttpModule, JsonpModule],
+    imports:      [
+        Angular2DataTableModule,
+        TemplateModule,
+        BrowserModule,
+        router,
+        FormsModule,
+        HttpModule,
+        JsonpModule,
+        NgPipesModule,
+        ColorPickerModule,
+        // Ng2FilterPipeModule,
+    ],
     providers:[
         HeroesService,
         BeApiService,
         UserService,
         TemplateService,
         FaevaBeApiService,
+
         {provide:'config', useClass: ConfigureService}
     ],
     declarations: [
@@ -61,7 +84,12 @@ import {InitDir} from "./test-directive";
         LoginErrorDimmerComponent,
         InternalErrorDimmerComponent,
         BackgroundComponent,
-        InitDir
+        TemplateListComponent,
+        InitDir,
+        FieldsPipe
+    ],
+    entryComponents: [
+        SettingComponent
     ],
     bootstrap:    [ AppComponent ]
 })

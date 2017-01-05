@@ -12,7 +12,7 @@ declare var $ : any;
 
 @Component({
     moduleId: module.id,
-    selector: 'my-test',
+    selector: 'my-test, [my-test]',
     templateUrl: 'index.html',
     styleUrls: ['index.css'],
 })

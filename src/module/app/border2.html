@@ -1,37 +1,27 @@
-<div class="my-border" [ngStyle]="{'-webkit-transform': 'rotate('+templateService.currentElement.angle+'deg)', 'top': templateService.currentElement.py, 'left': templateService.currentElement.px, 'width': templateService.currentElement.width, 'height':templateService.currentElement.height}" draggable="true" #eleDragBorder
-     (mousedown)="mousedown($event, 'element')"
-     *ngIf="templateService.showFlag"
-     (dblclick)="ondblclick($event)"
-     #myBorder
+<div class="my-border" 
+    [ngStyle]="{'-webkit-transform': 'rotate('+templateService.currentElement.angle+'deg)', 'top': templateService.currentElement.py, 'left': templateService.currentElement.px, 'width': templateService.currentElement.width, 'height':templateService.currentElement.height}" draggable="true"   #eleDragBorder
+    (mousedown)="mousedown($event, 'element')"
+    *ngIf="templateService.showFlag"
+    (dblclick)="ondblclick($event)"
+    #myBorder
+    (contextmenu)="contextmenu($event)"
+    onmousedown="event.stopPropagation()"
+    (click)="click($event)" 
 >
-
-    <div class="element-area"
-         [ngStyle]="{'-webkit-transform': 'rotate('+dragViewData.angle+'deg)', 'top': dragViewData.py, 'left': dragViewData.px, 'width': dragViewData.width, 'height':dragViewData.height,
-            'display': dragViewData.display}"
-         draggable="true"
-         ondrop="return true;"
-    >
-    </div>
-
-    <!--用户整个element移动展示-->
-    <div class="element-area2"
-         [ngStyle]="{'-webkit-transform': 'rotate('+dragViewData.angle+'deg)', 'top': dragViewData.py, 'left': dragViewData.px, 'width': dragViewData.width, 'height':dragViewData.height,
-            'display': dragViewData.display2}"
-         (mouseup)="mouseupForEnd($event)"
-         (mousemove)="mousemove($event)"
-
-    ></div>
+<!---->
 
     <div class="testtt" #tempDiv
          (mouseup)="mouseupForEnd($event)"
          (mousemove)="mousemove($event)"
     >
-
     </div>
+
+
 
     <!--angular2 DataTransfer 中没有定义setDragImg图片, 多加一个原生的ondragstart事件调用-->
     <div class="left-top"
          (mousedown)="mousedown($event, 'left-top')"
+         (mousemove)="pointMousemove($event)"
     >
     </div>
 
@@ -40,6 +30,7 @@
     <!---->
     <div class="top"
          (mousedown)="mousedown($event, 'top')"
+         (mousemove)="pointMousemove($event)"
         >
         <div class="border-rotating"
              (mousemove)="mousemoveOfRotating($event)"
@@ -58,32 +49,52 @@
 
     <div class="right-top"
          (mousedown)="mousedown($event, 'right-top')"
+         (mousemove)="pointMousemove($event)"
     ></div>
 
     <div class="right"
          (mousedown)="mousedown($event, 'right')"
+         (mousemove)="pointMousemove($event)"
     ></div>
 
     <div class="right-bottom"
          (mousedown)="mousedown($event, 'right-bottom')"
+         (mousemove)="pointMousemove($event)"
     ></div>
 
     <div class="bottom"
          (mousedown)="mousedown($event, 'bottom')"
+         (mousemove)="pointMousemove($event)"
     ></div>
 
     <div class="left-bottom"
          (mousedown)="mousedown($event, 'left-bottom')"
+         (mousemove)="pointMousemove($event)"
     ></div>
 
     <div class="left"
          (mousedown)="mousedown($event, 'left')"
+         (mousemove)="pointMousemove($event)"
     ></div>
-
-    <!--<button (click)="test()">-->
-        <!--test-->
-    <!--</button>-->
 
     <ax-border-dimmer #dimmer></ax-border-dimmer>
 </div>
 
+
+<div class="element-area"
+     [ngStyle]="{'-webkit-transform': 'rotate('+dragViewData.angle+'deg)', 'top': dragViewData.py, 'left': dragViewData.px, 'width': dragViewData.width, 'height':dragViewData.height,
+            'display': dragViewData.display}"
+     draggable="true"
+     ondrop="return true;"
+>
+</div>
+
+<!--右击菜单-->
+<div class="ui middle aligned list right-menu ax-border menu-hide" #rightClickMenu>
+    <div class="item">
+        <i class="image icon"></i><div class="content">更换背景</div>
+    </div>
+    <div class="item">
+        <i class="paste icon"></i><div class="content">粘贴</div>
+    </div>
+</div>

@@ -6,29 +6,43 @@ import {Component, OnInit, trigger,
     style,
     transition,
     animate,
-    Renderer
+    Renderer,
+    OnDestroy,
 } from '@angular/core';
 import {TemplateService} from "../../../../services/template.service";
+import {Subject, Subscription} from "rxjs/Rx";
 
 declare var $ : any;
 
 @Component({
     moduleId: module.id,
-    selector: 'ax-background',
+    selector: 'ax-background, [ax-background]',
     templateUrl: 'index.html',
     styleUrls: ['style.css'],
 })
-export class BackgroundComponent extends OnInit{
+export class BackgroundComponent implements OnInit, OnDestroy{
     x:number;
-
+    static changeSubject: Subject<any> = new Subject();
+    changeSubjection: Subscription;
+    
     constructor(
         private renderer: Renderer,
         private templateService: TemplateService
     ){
-        super();
     }
 
     ngOnInit(){
+        this.changeSubjection = BackgroundComponent.changeSubject.subscribe({
+            next: (p) => {
+                switch(p.event){
+                }
+            }
+        });
+
+    }
+
+    ngOnDestroy(){
+        this.changeSubjection.unsubscribe();
     }
 
 

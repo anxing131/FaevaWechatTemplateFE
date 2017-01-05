@@ -25,14 +25,14 @@ var InitDir = (function () {
             console.log('iife : ' + JSON.stringify(iife));
         }
     };
-    InitDir = __decorate([
-        core_1.Directive({
-            selector: '[init]',
-            inputs: ['init']
-        }), 
-        __metadata('design:paramtypes', [])
-    ], InitDir);
     return InitDir;
 }());
+InitDir = __decorate([
+    core_1.Directive({
+        selector: 'init, [init]',
+        inputs: ['init']
+    }),
+    __metadata("design:paramtypes", [])
+], InitDir);
 exports.InitDir = InitDir;
 //# sourceMappingURL=test-directive.js.map

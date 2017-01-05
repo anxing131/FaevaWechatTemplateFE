@@ -11,9 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 /**
  * Created by Administrator on 2016/10/9.
  */
-var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var app_component_1 = require('./app.component');
+var core_1 = require("@angular/core");
+var platform_browser_1 = require("@angular/platform-browser");
+var app_component_1 = require("./app.component");
+// import '../../../da';
 var app_routing_1 = require("./app.routing");
 var dashboard_component_1 = require("./components/dashboard/dashboard.component");
 var heroes_service_1 = require("../../services/heroes.service");
@@ -41,45 +42,65 @@ var configure_service_1 = require("../../services/configure.service");
 var login_error_dimmer_component_1 = require("./dimmer/login/login-error-dimmer.component");
 var internal_error_dimmer_component_1 = require("./dimmer/internal-error-dimmer/internal-error-dimmer.component");
 var test_directive_1 = require("./test-directive");
+var template_list_component_1 = require("./components/template-list/template-list.component");
+var angular_pipes_1 = require("angular-pipes");
+var angular2_data_table_1 = require("angular2-data-table");
+var Fields_pipes_1 = require("./components/template-list/Fields.pipes");
+var angular2_color_picker_1 = require("angular2-color-picker");
 var AppModule = (function () {
     function AppModule() {
     }
-    AppModule = __decorate([
-        core_1.NgModule({
-            imports: [template_module_1.TemplateModule, platform_browser_1.BrowserModule, app_routing_1.router, forms_1.FormsModule, http_1.HttpModule, http_1.JsonpModule],
-            providers: [
-                heroes_service_1.HeroesService,
-                beapi_service_1.BeApiService,
-                user_service_1.UserService,
-                template_service_1.TemplateService,
-                faeva_beapi_service_1.FaevaBeApiService,
-                { provide: 'config', useClass: configure_service_1.ConfigureService }
-            ],
-            declarations: [
-                app_component_1.AppComponent,
-                dashboard_component_1.DashboardComponent,
-                hero_detail_component_1.HeroDetailComponent,
-                heroes_component_1.HeroesComponent,
-                hero_create_component_1.HeroCreateComponent,
-                right_side_component_1.RightSideComponent,
-                setting_component_1.SettingComponent,
-                element_component_1.ElementComponent,
-                element_border_component_1.ElementBorderComponent,
-                border_component_1.BorderComponent,
-                border2_component_1.Border2Component,
-                border_dimmer_component_1.BorderDimmerComponent,
-                test_component_1.TestComponent,
-                login_dimmer_component_1.LoginDimmerComponent,
-                login_error_dimmer_component_1.LoginErrorDimmerComponent,
-                internal_error_dimmer_component_1.InternalErrorDimmerComponent,
-                background_component_1.BackgroundComponent,
-                test_directive_1.InitDir
-            ],
-            bootstrap: [app_component_1.AppComponent]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AppModule);
     return AppModule;
 }());
+AppModule = __decorate([
+    core_1.NgModule({
+        imports: [
+            angular2_data_table_1.Angular2DataTableModule,
+            template_module_1.TemplateModule,
+            platform_browser_1.BrowserModule,
+            app_routing_1.router,
+            forms_1.FormsModule,
+            http_1.HttpModule,
+            http_1.JsonpModule,
+            angular_pipes_1.NgPipesModule,
+            angular2_color_picker_1.ColorPickerModule,
+        ],
+        providers: [
+            heroes_service_1.HeroesService,
+            beapi_service_1.BeApiService,
+            user_service_1.UserService,
+            template_service_1.TemplateService,
+            faeva_beapi_service_1.FaevaBeApiService,
+            { provide: 'config', useClass: configure_service_1.ConfigureService }
+        ],
+        declarations: [
+            app_component_1.AppComponent,
+            dashboard_component_1.DashboardComponent,
+            hero_detail_component_1.HeroDetailComponent,
+            heroes_component_1.HeroesComponent,
+            hero_create_component_1.HeroCreateComponent,
+            right_side_component_1.RightSideComponent,
+            setting_component_1.SettingComponent,
+            element_component_1.ElementComponent,
+            element_border_component_1.ElementBorderComponent,
+            border_component_1.BorderComponent,
+            border2_component_1.Border2Component,
+            border_dimmer_component_1.BorderDimmerComponent,
+            test_component_1.TestComponent,
+            login_dimmer_component_1.LoginDimmerComponent,
+            login_error_dimmer_component_1.LoginErrorDimmerComponent,
+            internal_error_dimmer_component_1.InternalErrorDimmerComponent,
+            background_component_1.BackgroundComponent,
+            template_list_component_1.TemplateListComponent,
+            test_directive_1.InitDir,
+            Fields_pipes_1.FieldsPipe
+        ],
+        entryComponents: [
+            setting_component_1.SettingComponent
+        ],
+        bootstrap: [app_component_1.AppComponent]
+    }),
+    __metadata("design:paramtypes", [])
+], AppModule);
 exports.AppModule = AppModule;
 //# sourceMappingURL=app.module.js.map

@@ -5,7 +5,7 @@
     margin:auto;
 }
 
-.item{
+/*.item{
      top: 50px;
      margin:auto;
      min-width: 200px;
@@ -15,9 +15,9 @@
  }
 
 .item:hover{
-    background: rgba(0,0,0,.03);
+    background: #ff0000;
     border-radius: 4px;
-}
+}*/
 
 .header{
     font-size: 25px;
@@ -33,4 +33,9 @@
     height: 0px;
     width: 0px;
     border: none;
+}
+
+#right-side-menu{
+    height: 100%;
+    position: fixed;
 }

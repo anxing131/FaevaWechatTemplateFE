@@ -19,7 +19,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 /**
  * Created by Administrator on 2016/10/26.
  */
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var user_service_1 = require("../../../../services/user.service");
 var http_1 = require("@angular/http");
 var faeva_beapi_service_1 = require("../../../../services/faeva-beapi.service");
@@ -29,19 +29,20 @@ var beapi_service_1 = require("../../../../services/beapi.service");
 var LoginDimmerComponent = (function (_super) {
     __extends(LoginDimmerComponent, _super);
     function LoginDimmerComponent(renderer, userService, faevaBeApiService, beApiService, http, router, config) {
-        _super.call(this);
-        this.renderer = renderer;
-        this.userService = userService;
-        this.faevaBeApiService = faevaBeApiService;
-        this.beApiService = beApiService;
-        this.http = http;
-        this.router = router;
-        this.config = config;
+        var _this = _super.call(this) || this;
+        _this.renderer = renderer;
+        _this.userService = userService;
+        _this.faevaBeApiService = faevaBeApiService;
+        _this.beApiService = beApiService;
+        _this.http = http;
+        _this.router = router;
+        _this.config = config;
         // @Input() ele: any;
-        this.jumpLink = '';
-        this.changeEmit = new core_1.EventEmitter();
-        this.pwdMiniLen = 6;
+        _this.jumpLink = '';
+        _this.changeEmit = new core_1.EventEmitter();
+        _this.pwdMiniLen = 6;
         console.log('login dimmer construct');
+        return _this;
     }
     LoginDimmerComponent.prototype.ngOnInit = function () {
         $('.ax-login-form').form({
@@ -200,29 +201,34 @@ var LoginDimmerComponent = (function (_super) {
             };
         })(this), 50);
     };
-    __decorate([
-        core_1.ViewChild('errorDimmer'), 
-        __metadata('design:type', Object)
-    ], LoginDimmerComponent.prototype, "errorDimmer", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], LoginDimmerComponent.prototype, "changeEmit", void 0);
-    LoginDimmerComponent = __decorate([
-        core_1.Directive({
-            selector: '[testData]',
-            exportAs: 'testData'
-        }),
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'ax-login-form-dimmer',
-            templateUrl: 'index.html',
-            styleUrls: ['style.css'],
-        }),
-        __param(6, core_1.Inject('config')), 
-        __metadata('design:paramtypes', [core_1.Renderer, user_service_1.UserService, faeva_beapi_service_1.FaevaBeApiService, beapi_service_1.BeApiService, http_1.Http, router_1.Router, Object])
-    ], LoginDimmerComponent);
     return LoginDimmerComponent;
 }(core_1.OnInit));
+__decorate([
+    core_1.ViewChild('errorDimmer'),
+    __metadata("design:type", Object)
+], LoginDimmerComponent.prototype, "errorDimmer", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], LoginDimmerComponent.prototype, "changeEmit", void 0);
+LoginDimmerComponent = __decorate([
+    core_1.Directive({
+        selector: '[testData]',
+        exportAs: 'testData'
+    }),
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'ax-login-form-dimmer, [ax-login-form-dimmer]',
+        templateUrl: 'index.html',
+        styleUrls: ['style.css'],
+    }),
+    __param(6, core_1.Inject('config')),
+    __metadata("design:paramtypes", [core_1.Renderer,
+        user_service_1.UserService,
+        faeva_beapi_service_1.FaevaBeApiService,
+        beapi_service_1.BeApiService,
+        http_1.Http,
+        router_1.Router, Object])
+], LoginDimmerComponent);
 exports.LoginDimmerComponent = LoginDimmerComponent;
 //# sourceMappingURL=login-dimmer.component.js.map

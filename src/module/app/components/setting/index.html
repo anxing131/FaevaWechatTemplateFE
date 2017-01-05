@@ -2,7 +2,7 @@
 <div class="sidebar"
      (mouseover)="onMouseover($event)"
      (mouseleave)="onSidebarMouseleave($event)"
->
+     >
 
 </div>
 <div id="test" draggable="true"
@@ -11,6 +11,8 @@
      (dragstart)="onDragstart($event)"
 
      class="ui left pointing dropdown"
+     (contextmenu)="contextmenu($event)"
+
 >
 
     <!--<i class="settings big icon my-setting-icon"></i>-->
@@ -22,12 +24,19 @@
         <div class="item"  (click)="onTagClick('setting')">
             <i class="olive setting big icon"></i>Setting
         </div>
+        <div class="item" (click)="onTagClick('OpenAttributesSidebar')">
+           <i class="olive Hashtag big icon"></i>  
+           <span *ngIf="attrSidebarOpenFlag" >Close</span> 
+           <span *ngIf="!attrSidebarOpenFlag" >Open</span> 
+           Attributes Sidebar
+        </div>
         <div class="item" (click)="onTagClick('new-template')">
             <i class="olive plus big icon"></i>New Template
         </div>
-        <div class="item" (click)="onTagClick('Login')">
-            <i class="olive connectdevelop big icon"></i>Login
+        <div class="item" (click)="onTagClick('LoginOut')">
+            <i class="olive connectdevelop big icon"></i>Log out
         </div>
+      
 
 
     <!--<div class="setting-item-list" *ngIf="settingFlag">

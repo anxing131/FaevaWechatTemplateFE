@@ -15,7 +15,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var core_1 = require("@angular/core");
-var mock_heroes_1 = require('./mock-heroes');
+var mock_heroes_1 = require("./mock-heroes");
 var http_1 = require("@angular/http");
 var user_service_1 = require("./user.service");
 var urls = {};
@@ -39,7 +39,7 @@ var BeApiService = (function () {
     BeApiService.prototype.commonReqByFaeva = function (url, body, headers, successCB, errorCB, completeCB) {
         var _this = this;
         if (headers) {
-            if (!headers.has('Content-Type') || headers.get('Content-Typ') != 'application/json') {
+            if (!headers.has('Content-Type') || headers.get('Content-Type') != 'application/json') {
                 headers.append('Content-Type', 'application/json');
             }
         }
@@ -137,12 +137,13 @@ var BeApiService = (function () {
             //console.log('complete : ');
         });
     };
-    BeApiService = __decorate([
-        core_1.Injectable(),
-        __param(2, core_1.Inject('config')), 
-        __metadata('design:paramtypes', [http_1.Http, user_service_1.UserService, Object])
-    ], BeApiService);
     return BeApiService;
 }());
+BeApiService = __decorate([
+    core_1.Injectable(),
+    __param(2, core_1.Inject('config')),
+    __metadata("design:paramtypes", [http_1.Http,
+        user_service_1.UserService, Object])
+], BeApiService);
 exports.BeApiService = BeApiService;
 //# sourceMappingURL=beapi.service.js.map

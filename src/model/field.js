@@ -2,6 +2,7 @@
  * Created by Administrator on 2016/10/10.
  */
 "use strict";
+var fieldType;
 (function (fieldType) {
     fieldType[fieldType["QrCode"] = 0] = "QrCode";
     fieldType[fieldType["ProductImage"] = 1] = "ProductImage";
@@ -10,8 +11,7 @@
     fieldType[fieldType["ProductName"] = 4] = "ProductName";
     fieldType[fieldType["OriginalPrice"] = 5] = "OriginalPrice";
     fieldType[fieldType["Catalogs"] = 6] = "Catalogs";
-})(exports.fieldType || (exports.fieldType = {}));
-var fieldType = exports.fieldType;
+})(fieldType = exports.fieldType || (exports.fieldType = {}));
 //暂时不要, 好像是多余不需要的
 var Field = (function () {
     function Field(obj) {

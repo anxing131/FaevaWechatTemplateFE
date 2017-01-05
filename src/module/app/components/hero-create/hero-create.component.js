@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var hero_1 = require("../../../../model/hero");
 var heroes_service_1 = require("../../../../services/heroes.service");
 var HeroCreateComponent = (function () {
@@ -29,20 +29,20 @@ var HeroCreateComponent = (function () {
     HeroCreateComponent.prototype.cancel = function () {
         this.cancelEvent.emit(false);
     };
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', Object)
-    ], HeroCreateComponent.prototype, "cancelEvent", void 0);
-    HeroCreateComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'hero-create-form',
-            templateUrl: 'hero-create.html',
-            styleUrls: ['hero-create.css']
-        }), 
-        __metadata('design:paramtypes', [heroes_service_1.HeroesService])
-    ], HeroCreateComponent);
     return HeroCreateComponent;
 }());
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], HeroCreateComponent.prototype, "cancelEvent", void 0);
+HeroCreateComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'hero-create-form, [hero-create-form]',
+        templateUrl: 'hero-create.html',
+        styleUrls: ['hero-create.css']
+    }),
+    __metadata("design:paramtypes", [heroes_service_1.HeroesService])
+], HeroCreateComponent);
 exports.HeroCreateComponent = HeroCreateComponent;
 //# sourceMappingURL=hero-create.component.js.map

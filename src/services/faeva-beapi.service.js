@@ -14,7 +14,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var urls = {
-    login: 'user/user/login'
+    login: 'user/user/login',
+    getEventTemplateList: 'dm/wechatDm/listWxEvent',
+    getEventTemplateListByPagination: 'dm/wechatDm/listWxEventByPagination',
+    deleteTemplate: 'admin/eventmgt/deleteEvent',
+    uploadTemporaryImgByAdmin: 'dm/assets/uploadTemporaryImgByAdmin'
 };
 var FaevaBeApiService = (function () {
     function FaevaBeApiService(http) {
@@ -25,11 +29,11 @@ var FaevaBeApiService = (function () {
     FaevaBeApiService.prototype.getUrl = function (url) {
         return this.beDomain + this.urls[url];
     };
-    FaevaBeApiService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
-    ], FaevaBeApiService);
     return FaevaBeApiService;
 }());
+FaevaBeApiService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http])
+], FaevaBeApiService);
 exports.FaevaBeApiService = FaevaBeApiService;
 //# sourceMappingURL=faeva-beapi.service.js.map

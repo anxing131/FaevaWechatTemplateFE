@@ -10,7 +10,7 @@ declare var $ : any;
 
 @Component({
     moduleId: module.id,
-    selector: 'ax-login-error-dimmer',
+    selector: 'ax-login-error-dimmer, [ax-login-error-dimmer]',
     templateUrl: 'error.html',
     styleUrls: ['style.css'],
 })

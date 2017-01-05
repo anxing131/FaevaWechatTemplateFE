@@ -25,6 +25,9 @@
             // other libraries
             'rxjs':                      'npm:rxjs',
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
+            'angular-pipes': 'npm:angular-pipes/src', //非得手动去修改src 下面的index.js 文件引用其他的文件内容后面加上index
+            'angular2-data-table': 'node_modules/angular2-data-table/release',
+            'angular2-color-picker': 'node_modules/angular2-color-picker',
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -35,12 +38,23 @@
             rxjs: {
                 // defaultExtension: 'js'
                 'rxjs': { main: 'bundles/Rx.min.js', defaultExtension: 'js' }
-            }
-            ,
+            },
             'angular-in-memory-web-api': {
                 main: './index.js',
                 defaultExtension: 'js'
-            }
+            },
+            'angular2-data-table': {
+                main: './index.js',
+                defaultExtension: 'js'
+            },
+            'angular2-color-picker': {
+                main: './index.js',
+                defaultExtension: 'js'
+            },
+            'angular-pipes': {
+                main: './index.js',
+                defaultExtension: 'js'
+            },
         }
     });
 })(this);

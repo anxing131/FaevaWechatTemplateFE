@@ -13,7 +13,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var CanActivateViaAuthGuard = (function () {
     function CanActivateViaAuthGuard() {
     }
@@ -21,11 +21,11 @@ var CanActivateViaAuthGuard = (function () {
     CanActivateViaAuthGuard.prototype.canActivate = function () {
         return true;
     };
-    CanActivateViaAuthGuard = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], CanActivateViaAuthGuard);
     return CanActivateViaAuthGuard;
 }());
+CanActivateViaAuthGuard = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], CanActivateViaAuthGuard);
 exports.CanActivateViaAuthGuard = CanActivateViaAuthGuard;
 //# sourceMappingURL=can.activate.auth.js.map

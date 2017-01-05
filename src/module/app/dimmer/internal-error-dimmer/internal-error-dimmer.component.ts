@@ -23,7 +23,7 @@ declare var $ : any;
 
 @Component({
     moduleId: module.id,
-    selector: 'ax-internal-error-dimmer',
+    selector: 'ax-internal-error-dimmer, [ax-internal-error-dimmer]',
     templateUrl: 'index.html',
     styleUrls: ['style.css'],
 })

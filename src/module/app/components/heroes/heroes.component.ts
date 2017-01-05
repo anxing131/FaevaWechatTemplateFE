@@ -10,7 +10,7 @@ import {Params, ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
 @Component({
     moduleId: module.id,
-    selector: 'heroes',
+    selector: 'heroes, [heroes]',
     templateUrl: 'heroes.html',
     styleUrls: ['heroes.css']
 })

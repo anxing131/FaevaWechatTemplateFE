@@ -3,6 +3,7 @@
     z-index: 1500;
     width: auto;
     display:inline-block;
+    text-align: center;
     *display:inline;
     *zoom:1;
 }
@@ -20,4 +21,20 @@ label{
 
 ax-element-border{
     display: block;
+}
+
+.testSpan{
+    display:block;
+    float: left;
+    word-break:break-all;
+    border: none;
+    overflow:hidden;
+}
+
+.testSpan:read-write:focus { 
+    outline: none; 
+}
+
+.test33{
+    overflow:hidden;
 }

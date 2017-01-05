@@ -15,7 +15,7 @@ declare var $ : any;
 
 @Component({
     moduleId: module.id,
-    selector: 'my-border',
+    selector: 'my-border, [my-border]',
     templateUrl: 'border.html',
     styleUrls: ['border.css'],
 })

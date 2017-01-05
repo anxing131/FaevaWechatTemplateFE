@@ -38,7 +38,7 @@ export class BeApiService{
      */
     commonReqByFaeva(url, body, headers ?: Headers, successCB ?: any, errorCB ?: any, completeCB ?: any){
         if(headers){
-            if(!headers.has('Content-Type') || headers.get('Content-Typ') != 'application/json'){
+            if(!headers.has('Content-Type') || headers.get('Content-Type') != 'application/json'){
                 headers.append('Content-Type', 'application/json');
             }
         }else{

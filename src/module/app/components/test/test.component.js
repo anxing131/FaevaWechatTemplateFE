@@ -17,27 +17,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Created by AnXing on 2016/10/26.
  *
  */
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var TestComponent = (function (_super) {
     __extends(TestComponent, _super);
     function TestComponent(el) {
-        _super.call(this);
-        this.el = el;
+        var _this = _super.call(this) || this;
+        _this.el = el;
+        return _this;
     }
     TestComponent.prototype.ngOnInit = function () {
         console.log('innerHtml : ' + this.el.nativeElement.innerHTML);
         console.log('innerText : ' + this.el.nativeElement.innerText);
     };
-    TestComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'my-test',
-            templateUrl: 'index.html',
-            styleUrls: ['index.css'],
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], TestComponent);
     return TestComponent;
 }(core_1.OnInit));
+TestComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'my-test, [my-test]',
+        templateUrl: 'index.html',
+        styleUrls: ['index.css'],
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], TestComponent);
 exports.TestComponent = TestComponent;
 //# sourceMappingURL=test.component.js.map

@@ -12,7 +12,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var mock_heroes_1 = require('./mock-heroes');
+var mock_heroes_1 = require("./mock-heroes");
 var http_1 = require("@angular/http");
 var beapi_service_1 = require("./beapi.service");
 var Rx_1 = require("rxjs/Rx");
@@ -132,11 +132,11 @@ var HeroesService = (function () {
         console.log('response : ' + JSON.stringify(body));
         return body.data || {};
     };
-    HeroesService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, beapi_service_1.BeApiService, http_1.Jsonp])
-    ], HeroesService);
     return HeroesService;
 }());
+HeroesService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http, beapi_service_1.BeApiService, http_1.Jsonp])
+], HeroesService);
 exports.HeroesService = HeroesService;
 //# sourceMappingURL=heroes.service.js.map

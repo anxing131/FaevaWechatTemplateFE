@@ -16,16 +16,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 /**
  * Created by Administrator on 2016/10/26.
  */
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var template_service_1 = require("../../../../services/template.service");
 var BorderDimmerComponent = (function (_super) {
     __extends(BorderDimmerComponent, _super);
     function BorderDimmerComponent(renderer, templateService) {
-        _super.call(this);
-        this.renderer = renderer;
-        this.templateService = templateService;
+        var _this = _super.call(this) || this;
+        _this.renderer = renderer;
+        _this.templateService = templateService;
         // @Input() ele: any;
-        this.changeEmit = new core_1.EventEmitter();
+        _this.changeEmit = new core_1.EventEmitter();
+        return _this;
     }
     BorderDimmerComponent.prototype.ngOnInit = function () {
         $('.ax-custom-popup').popup({
@@ -41,6 +42,25 @@ var BorderDimmerComponent = (function (_super) {
             },
             onHidden: (function (obj) {
                 return function () {
+                    var body = $('body')[0];
+                    if (obj.templateService.height > body.clientHeight ||
+                        obj.templateService.width > body.clientWidth) {
+                        if (obj.templateService.height > body.clientHeight) {
+                            $('body').height(obj.templateService.height);
+                        }
+                        else {
+                            $('body').height('100%');
+                        }
+                        if (obj.templateService.width > body.clientWidth) {
+                            $('body').width(obj.templateService.width);
+                        }
+                        else {
+                            $('body').width('100%');
+                        }
+                    }
+                    else {
+                        $('body').width('100%').height('100%');
+                    }
                     for (var index in obj.templateService.elements) {
                         var tempEle = obj.templateService.elements[index];
                         if (obj.templateService.currentElement._id == tempEle._id) {
@@ -52,20 +72,21 @@ var BorderDimmerComponent = (function (_super) {
             })(this)
         }).modal('show');
     };
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], BorderDimmerComponent.prototype, "changeEmit", void 0);
-    BorderDimmerComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'ax-border-dimmer',
-            templateUrl: 'index.html',
-            styleUrls: ['style.css'],
-        }), 
-        __metadata('design:paramtypes', [core_1.Renderer, template_service_1.TemplateService])
-    ], BorderDimmerComponent);
     return BorderDimmerComponent;
 }(core_1.OnInit));
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], BorderDimmerComponent.prototype, "changeEmit", void 0);
+BorderDimmerComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'ax-border-dimmer, [ax-border-dimmer]',
+        templateUrl: 'index.html',
+        styleUrls: ['style.css'],
+    }),
+    __metadata("design:paramtypes", [core_1.Renderer,
+        template_service_1.TemplateService])
+], BorderDimmerComponent);
 exports.BorderDimmerComponent = BorderDimmerComponent;
 //# sourceMappingURL=border-dimmer.component.js.map

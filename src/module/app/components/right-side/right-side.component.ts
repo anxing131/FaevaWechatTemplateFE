@@ -18,7 +18,7 @@ declare var $ : any;
 
 @Component({
     moduleId: module.id,
-    selector: 'ax-right-side',
+    selector: 'ax-right-side, [ax-right-side]',
     templateUrl: 'index.html',
     styleUrls: ['style.css'],
 })
@@ -145,5 +145,13 @@ export class RightSideComponent extends OnInit{
     }
 
     tests(parent: HTMLElement){
+    }
+
+    test(event: any){
+
+        console.log('teset -=--------------sdf-----');
+        // $('#right-side-attrs-menu')
+        //     .sidebar('setting', 'transition', 'overlay')
+        //     .sidebar('toggle');
     }
 }

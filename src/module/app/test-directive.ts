@@ -5,7 +5,7 @@
 import {Directive} from "@angular/core";
 
 @Directive({
-    selector: '[init]',
+    selector: 'init, [init]',
     inputs: ['init']
 })
 export class InitDir {

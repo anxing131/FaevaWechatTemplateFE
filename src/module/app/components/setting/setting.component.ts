@@ -8,12 +8,14 @@ import {Component, OnInit, trigger,
     animate,
     Renderer
 } from '@angular/core';
+import {UserService} from "../../../../services/user.service";
+import { DashboardComponent } from './../dashboard/dashboard.component';
 
 declare var $ : any;
 
 @Component({
     moduleId: module.id,
-    selector: 'ax-setting',
+    selector: 'ax-setting, [ax-setting]',
     templateUrl: 'index.html',
     styleUrls: ['style.css'],
     animations: [
@@ -39,7 +41,11 @@ export class SettingComponent extends OnInit{
     y: number;
     settingFlag: boolean =true;
 
-    constructor(private renderer: Renderer){
+    attrSidebarOpenFlag: boolean = false;
+
+    constructor(private renderer: Renderer,
+        private userService : UserService
+    ){
         super();
     }
 
@@ -107,10 +113,15 @@ export class SettingComponent extends OnInit{
     }
 
     ondblclick(event: MouseEvent){
-        console.log('db ---sdf');
-
-        this.settingFlag = !this.settingFlag;
+        // this.settingFlag = !this.settingFlag;
+        console.log('db --------------------');
     }
+
+    contextmenu(event: MouseEvent){
+        console.log('contextmenu -----------------');
+        return false;
+    }
+
 
     // 隐藏setting 到左侧, Y是要隐藏时的高度
     hidden(){
@@ -121,9 +132,34 @@ export class SettingComponent extends OnInit{
         switch (tag){
             case 'tag':
                 break;
+            case 'LoginOut':
+                this.userService.logout();
+                break;
+            case 'OpenAttributesSidebar': 
+                this.toggleAttributesSidebar();
             default :
                 break;
         }
+    }
+
+    toggleAttributesSidebar(){
+        $('#dashboard-content .ui.sidebar')
+            .sidebar({
+                context: $('#dashboard-content'),
+                dimPage: false,
+                transition: 'overlay',
+                onVisible: () => {
+                    this.attrSidebarOpenFlag = true;
+                },
+
+                onHidden: () => {
+                    this.attrSidebarOpenFlag = false;
+                    DashboardComponent.changeSubject.next({event: 'closeInputCustomField'});
+                    // DashboardComponent.inputCustomFieldFlag = false;
+                    console.log('toggleAttributesSidebar onHidden');
+                }
+            })
+            .sidebar('toggle');
     }
 
     onDragend(event: DragEvent){

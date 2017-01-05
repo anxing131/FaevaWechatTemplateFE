@@ -1,6 +1,13 @@
 <div class="content" id="background-content-div"
-     [ngStyle]="{height: templateService.height, width: templateService.width, 'background-image': 'url('+ templateService.bg +')'}"
+     [ngStyle]="{height: templateService.height, width: templateService.width, background: 'url('+ templateService.bg +') no-repeat center center'}"
 >
+    <!--<div class="bottom-background"
+        [ngStyle]="{height: templateService.height, width: templateService.width, 'background': 'url('+ templateService.bg +') no-repeat center center'}"
+    >
+    
+    </div>-->
+
+    <my-border2></my-border2>
     <ax-element *ngFor="let ele of templateService.elements; let index = index" [ele]="ele" [index]="index" ></ax-element>
     <!--<div class="element" *ngFor="let ele of templateService.elements"
          draggable="true"

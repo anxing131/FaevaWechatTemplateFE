@@ -8,52 +8,124 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var dashboard_component_1 = require("./../dashboard/dashboard.component");
+var border2_component_1 = require("./../../border2.component");
 /**
  * Created by Administrator on 2016/10/26.
  */
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var template_service_1 = require("../../../../services/template.service");
 var forms_1 = require("@angular/forms");
 var ElementComponent = (function () {
     function ElementComponent(renderer, templateService) {
-        this.renderer = renderer;
-        this.templateService = templateService;
         // super();
         // console.log('subscribe - ' + templateService.changeStream.subscribe((param) => ));
         // templateService.changeStream.subscribe((param): any => {console.log('yser' + param); return true});
         // let Observer  = Observer.subscribe();
+        this.renderer = renderer;
+        this.templateService = templateService;
+        this.contentEditableFlag = false;
     }
     ElementComponent.prototype.ngOnChanges = function (changes) {
     };
     ElementComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.elementDiv = this.elementDiv.nativeElement;
         if (this.ele.type == 'text') {
             this.textSubscription = this.templateService.changeTextSubject.subscribe({
                 next: function (eleId) {
                     if (_this.ele._id === eleId) {
                         var textLableEle = _this.textLabel.nativeElement;
-                        _this.templateService.currentElement.width = textLableEle.offsetWidth;
-                        _this.templateService.currentElement.height = textLableEle.style.fontSize;
-                        console.log('style : ' + textLableEle.offsetHeight);
-                        console.log('style : ' + textLableEle.offsetWidth);
-                        console.log('style : ' + textLableEle.style.fontSize);
+                        // this.templateService.currentElement.width = textLableEle.offsetWidth;
+                        // this.templateService.currentElement.height = textLableEle.offsetHeight;
+                        _this.templateService.currentElement.name = textLableEle.innerText;
+                        for (var index in _this.templateService.elements) {
+                            var tempEle = _this.templateService.elements[index];
+                            if (eleId == tempEle._id) {
+                                _this.templateService.elements[index] = _this.templateService.currentElement;
+                                break;
+                            }
+                        }
                     }
+                }
+            });
+            this.changeSubject = border2_component_1.Border2Component.changeSubject.subscribe({
+                next: function (data) {
+                    if (_this.ele._id != data.id) {
+                        return;
+                    }
+                    _this.contentEditableFlag = true;
+                    var textLabel = _this.textLabel.nativeElement;
+                    textLabel.focus();
+                    _this.collapseToEnd(textLabel);
                 }
             });
         }
     };
+    ElementComponent.prototype.collapseToCusotom = function (data) {
+        var target = this.textLabel.nativeElement;
+        var range = document.createRange();
+        var sel = window.getSelection();
+        range.setStart(target, 0);
+        range.setEnd(target, 5);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    };
+    //将光标定位到最后
+    ElementComponent.prototype.collapseToEnd = function (obj) {
+        if (window.getSelection) {
+            obj.focus(); //解决ff不获取焦点无法定位问题
+            var range = window.getSelection(); //创建range
+            range.selectAllChildren(obj); //range 选择obj下所有子内容
+            range.collapseToEnd(); //光标移至最后
+        }
+        //放弃IE
+        // else if (document.selection) {//ie10 9 8 7 6 5
+        //     var range = document.selection.createRange();//创建选择对象
+        //     //var range = document.body.createTextRange();
+        //     range.moveToElementText(obj);//range定位到obj
+        //     range.collapse(false);//光标移至最后
+        //     range.select();
+        // }
+    };
     ElementComponent.prototype.ngOnDestroy = function () {
         if (this.textSubscription) {
             this.textSubscription.unsubscribe();
+            this.changeSubject.unsubscribe();
         }
     };
     ElementComponent.prototype.resize = function (event) {
-        console.log('resize : ' + event);
+        if (this.ele.type == 'text') {
+            var textLableEle = this.textLabel.nativeElement;
+            if (this.ele.clamp != -1) {
+                var height = this.ele.fontSize * this.ele.clamp;
+                if (height > textLableEle.offsetHeight) {
+                    this.templateService.currentElement.height = textLableEle.offsetHeight;
+                }
+                else {
+                    this.templateService.currentElement.height = height;
+                }
+            }
+            else {
+                if (textLableEle.offsetHeight > this.templateService.currentElement.height) {
+                    this.templateService.currentElement.height = textLableEle.offsetHeight;
+                }
+            }
+        }
     };
     ElementComponent.prototype.onclick = function (event) {
+        //close right menu 
+        dashboard_component_1.DashboardComponent.changeSubject.next({ event: 'closeRightMenu' });
+        var currentElement = this.ele;
         this.templateService.currentElement = this.ele;
         this.templateService.showFlag = true;
+        //超出高度解决方案
+        if (currentElement.type == 'text') {
+            if (currentElement.clamp != -1) {
+                //借用其他工具来解决高度问题
+                $clamp(this.textLabel.nativeElement, { clamp: 3 });
+            }
+        }
         console.log('onclick ele : ' + JSON.stringify(this.ele));
         return true;
     };
@@ -111,36 +183,37 @@ var ElementComponent = (function () {
         console.log('top : ' + top);
         console.log('left : ' + left);
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], ElementComponent.prototype, "ele", void 0);
-    __decorate([
-        core_1.ViewChild('elementDiv'), 
-        __metadata('design:type', Object)
-    ], ElementComponent.prototype, "elementDiv", void 0);
-    __decorate([
-        core_1.ViewChild('testt'), 
-        __metadata('design:type', Object)
-    ], ElementComponent.prototype, "testt", void 0);
-    __decorate([
-        core_1.ViewChild('textLabel'), 
-        __metadata('design:type', Object)
-    ], ElementComponent.prototype, "textLabel", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Number)
-    ], ElementComponent.prototype, "index", void 0);
-    ElementComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'ax-element',
-            templateUrl: 'element.html',
-            styleUrls: ['element.css'],
-        }), 
-        __metadata('design:paramtypes', [core_1.Renderer, template_service_1.TemplateService])
-    ], ElementComponent);
     return ElementComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], ElementComponent.prototype, "ele", void 0);
+__decorate([
+    core_1.ViewChild('elementDiv'),
+    __metadata("design:type", Object)
+], ElementComponent.prototype, "elementDiv", void 0);
+__decorate([
+    core_1.ViewChild('testt'),
+    __metadata("design:type", Object)
+], ElementComponent.prototype, "testt", void 0);
+__decorate([
+    core_1.ViewChild('textLabel'),
+    __metadata("design:type", Object)
+], ElementComponent.prototype, "textLabel", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Number)
+], ElementComponent.prototype, "index", void 0);
+ElementComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'ax-element, [ax-element]',
+        templateUrl: 'element.html',
+        styleUrls: ['element.css'],
+    }),
+    __metadata("design:paramtypes", [core_1.Renderer,
+        template_service_1.TemplateService])
+], ElementComponent);
 exports.ElementComponent = ElementComponent;
 //# sourceMappingURL=element.component.js.map

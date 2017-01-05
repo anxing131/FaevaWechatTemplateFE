@@ -27,6 +27,7 @@ export class UserService implements CanActivate {
 
     showInternalErrorDimmer(data){
         if(!this.internalErrorDimmer){
+            console.log('error : ',data);
             throw new Error('internalErrorDimmer not init! ');
         }
         this.internalErrorDimmer.show(data);
@@ -45,11 +46,15 @@ export class UserService implements CanActivate {
         localStorage.setItem('loginUserInfo', userInfo);
     }
 
-    loginOut(){
+    logout(){
         this.loginUser = null;
         localStorage.removeItem('loginUserInfo');
 
-        this.router.navigateByUrl('http://baidu.com/');
+        // this.router.navigateByUrl('http://baidu.com/');
+        console.log('logout ... ');
+        // this.router.navigate(['/dashboard', new Date().getTime()]);
+        // this.router.navigateByUrl('/dashboard');
+        location.reload();
     }
 
     /**

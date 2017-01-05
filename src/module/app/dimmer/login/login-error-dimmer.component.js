@@ -16,11 +16,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 /**
  * Created by Administrator on 2016/10/26.
  */
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var LoginErrorDimmerComponent = (function (_super) {
     __extends(LoginErrorDimmerComponent, _super);
     function LoginErrorDimmerComponent() {
-        _super.apply(this, arguments);
+        return _super.apply(this, arguments) || this;
     }
     LoginErrorDimmerComponent.prototype.ngOnInit = function () {
     };
@@ -34,20 +34,20 @@ var LoginErrorDimmerComponent = (function (_super) {
         }).modal('show');
         console.log('errorInfo : ' + JSON.stringify(this.errorInfo));
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], LoginErrorDimmerComponent.prototype, "errorInfo", void 0);
-    LoginErrorDimmerComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'ax-login-error-dimmer',
-            templateUrl: 'error.html',
-            styleUrls: ['style.css'],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], LoginErrorDimmerComponent);
     return LoginErrorDimmerComponent;
 }(core_1.OnInit));
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], LoginErrorDimmerComponent.prototype, "errorInfo", void 0);
+LoginErrorDimmerComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'ax-login-error-dimmer, [ax-login-error-dimmer]',
+        templateUrl: 'error.html',
+        styleUrls: ['style.css'],
+    }),
+    __metadata("design:paramtypes", [])
+], LoginErrorDimmerComponent);
 exports.LoginErrorDimmerComponent = LoginErrorDimmerComponent;
 //# sourceMappingURL=login-error-dimmer.component.js.map

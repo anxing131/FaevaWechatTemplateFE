@@ -1,14 +1,210 @@
-<div class="content">
+<div div class="dashboard-content" id='dashboard-content' 
+    [ngStyle]="{background: bottomBackground}"
+    (contextmenu)="contextmenu($event)" 
+    (click)="onclick($event)">
 
-    <ax-setting></ax-setting>
+    <div 
+    [ngClass]="{'very': inputCustomFieldFlag, 'wide': inputCustomFieldFlag}"
+    class="ui right vertical sidebar menu dashboard-content-right-menu" id="dashboard-content-right-menu">
+        
+        <a class="item" *ngFor="let field of fields"> 
+            {{field.name}} <i class="olive {{field.icon}} icon"></i> 
+        </a>
+        
+  
+        <hr/>
+        <a class="item"  (dblclick)="rightBarDbclick('addCustomFieldFlag')"> 
+                + Custom Field <i class="olive add circle icon"></i> 
+        </a>
 
-    <ax-background></ax-background>
- <!--   <iframe src="template"
+        <div class="item" *ngIf="inputCustomFieldFlag" >
+            <div class="content">
+                <div class="ui action input form-group">
+                    <input type="text" placeholder="name" #newFieldName (keypress)="onAddFieldInputKeyPress(newFieldName, newFieldType,$event)" (mousedown)="clearInputBorderWarnning(newFieldName)">
+                    <select class="ui compact selection dropdown" #newFieldType>
+                        <option value="info">Custom</option>
+                        <option selected="" value="image">Image</option>
+                        <option value="content">Field</option>
+                    </select>
 
-[ngStyle]="{height: templateService.height, width: templateService.width}"
-    >
-    </iframe>-->
+                    <div type="submit" class="ui mini button" (click)="addField(newFieldName, newFieldType)">Add</div>
+                </div>
+            </div>
+        </div>
+       
+       <a class="item" (dblclick)="dblclick($event, 'changeTemplateBG')">
+            Background <i class="olive Square icon"></i> 
+            <input type="file" style="display: none" id="templateBGInput"
+                #templateBGInput
+                (change)="fileChange($event, 'templateBGInput')"
+            />
 
+            <img id="preview_img2" style="display: none" (click)="imgChange('preview_img2')">
+        </a>
+    </div>
 
-    <ax-right-side (fieldSelect)="addField($event)"></ax-right-side>
+    <div class="pusher">
+        <div class="content">
+
+            <!--已经移动到app component 下-->
+            <!--<ax-setting></ax-setting>-->
+            
+            <ax-background></ax-background>
+        <!-- <iframe src="template"
+
+        [ngStyle]="{height: templateService.height, width: templateService.width}"
+            >
+            </iframe>
+
+            -->
+            <!--<ax-right-side (fieldSelect)="addField($event)"></ax-right-side>-->
+       
+            <!--右击菜单  menu-hide-->
+            <div class="ui middle aligned list right-menu" #rightClickMenu>
+                <div class="item" (click)="rightMenuItemClick($event, 'changeBG')">
+                    <i class="image icon"></i><div class="content">更换背景</div>
+                </div>
+           
+                <div *ngIf="changeBGModalConf.type == 'image'" class="item" (click)="rightMenuItemClick($event, 'repeatBG')">
+                    <i class="image icon"></i><div class="content">Repeat 背景</div>
+                </div>
+           
+            </div>
+        </div>
+
+    </div>
 </div>
+
+<div class="ui modal changeBGModal ">
+    
+    <div *ngIf="changeBGModalConf.loaddingFlag" class="loadding ui segment" style="z-index: 2000">
+        <div class="ui active inverted dimmer">
+            <div class="ui text loader">Uploading ~</div>
+        </div>
+        <p></p>
+    </div>
+
+    <div class="bg">
+        <div class="bg-header">
+            <div class="back">
+                
+                <i *ngIf="changeBGModalConf && changeBGModalConf.index != 1" class="ui arrow left large icon" (click)="click($event, 'bgModalMenuBack')"></i>
+            
+                <i class="ui remove large icon" (click)="click($event, 'closeBGModalMenu')"></i>
+            </div>
+            
+            <div class="ui steps bg-steps">
+            <a class="step"
+                [ngClass]="{'active': changeBGModalConf && changeBGModalConf.index == '1'}"
+            >
+                <div class="content">
+                    <div class="title">Type</div>
+                    <div class="description">Choose BG Type</div>
+                </div>
+            </a>
+            <a class="step"
+                [ngClass]="{'active': changeBGModalConf && changeBGModalConf.index == '2'}"
+            >
+                <div class="content">
+                <div class="title">Setting</div>
+                <div class="description">Enter Setting information</div>
+                </div>
+            </a>
+        </div>
+
+            
+        </div>
+        <div class="bg-content">
+            <div *ngIf="changeBGModalConf && changeBGModalConf.index == 1">
+                <div class="ui massive buttons">
+                    <div class="ui button" (click)="click($event, 'changeModal_selectImage')">Image</div>
+                    <div class="or"></div>
+                    <div class="ui positive button" (click)="click($event, 'changeModal_selectColor')">Color</div>
+                </div>
+            </div>
+
+            <div *ngIf="changeBGModalConf && changeBGModalConf.index == 2 && changeBGModalConf.type == 'color'">
+                <div class="color-content">
+                    <div class="colorPicker2" >    
+                       <input
+                        style="position: fixed; width: 0; height: 0; top: 0%; left: 0;" 
+                        [(colorPicker)]="color" 
+                        [style.background]="color" 
+                        [value]="color"
+                        [(cpToggle)]="cpToggle"
+                        [cpCancelButton]="true"
+                        [cpPositionRelativeToArrow]="true"
+                        [cpCancelButtonClass]= "'btn btn-primary btn-xs'"/>
+                    </div>
+
+                   <div class="ui right labeled input">
+                        <div class="ui label">颜色:</div>
+                        <input type="text" placeholder="color" 
+                            [style.background]="color" 
+                            [value]="color"
+                            (focus)="input($event, 'focus')">
+                    </div>
+
+                    <br>
+                    <!--<div class="ui right labeled input" style="padding-top: 30px;">
+                        <div class="ui label">长度: </div>
+                        <input type="text" placeholder="width"  type="number" [(ngModel)]="changeBGModalConf.width">
+                    </div>
+
+                    <br>
+                    <div class="ui right labeled input" style="padding-top: 30px;">
+                        <div class="ui label">高度: </div>
+                        <input type="text" placeholder="height" type="number" [(ngModel)]="changeBGModalConf.height">
+                    </div>-->
+                  
+                    <div class="submit" style="padding-top: 30px;"> 
+                        <button class="ui primary button" (click)="click($event, 'saveBGChange_colors')">Save </button>
+                    </div>
+                    <div class="error-space" style="margin-bottom: 0; padding-top: 30px;"
+                        *ngIf="changeBGModalConf.errInfo.length != 0"
+                    >
+                        <div class="ui warning form segment">
+                            <div class="ui warning message">
+                                <div style="position: relative; margin-left: 0; width: 20%">
+                                    <div class="left header" >Error Information</div>
+                                </div>
+                                <ul class="list">
+                                    <li *ngFor="let err of (changeBGModalConf.errInfo)">
+                                        {{err.msg}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="changeBGModalConf && changeBGModalConf.index == 2 && changeBGModalConf.type == 'image'">
+                <div class="image-content">
+
+                    <div style="padding-top: 10px;">
+                        <img id="changeBGModalConf_preview_img" style="width: 50px;" (click)="imgChange()">
+                    </div>
+
+                    <div class="ui action input">
+                        <input type="text" placeholder="Key In" #bgChangModelImgInput>
+                        <select class="ui compact selection dropdown" (change)="change($event, 'onBgChange_img_select')" #bgChangModelImgSelect>
+                            <option selected="" value="external">外部链接</option>
+                            <option value="local">本地图片</option>
+                        </select>
+                        <div type="submit" class="ui positive button" (click)="click($event, 'onBgChange_img_save_' + bgChangModelImgSelect.value)">Save</div>
+
+                        <!-- hide file input  -->
+                        <input type="file" id="backgroundInput"
+                            style="display: none"
+                            #backgroundInput
+                            (change)="fileChange($event, '')"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

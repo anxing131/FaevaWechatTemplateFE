@@ -9,8 +9,12 @@ import {Headers, RequestOptions, Http} from "@angular/http";
 
 
 let urls = {
-    login: 'user/user/login'
-}
+    login: 'user/user/login',
+    getEventTemplateList: 'dm/wechatDm/listWxEvent',
+    getEventTemplateListByPagination: 'dm/wechatDm/listWxEventByPagination',
+    deleteTemplate: 'admin/eventmgt/deleteEvent',
+    uploadTemporaryImgByAdmin: 'dm/assets/uploadTemporaryImgByAdmin'
+};
 
 @Injectable()
 export class FaevaBeApiService{

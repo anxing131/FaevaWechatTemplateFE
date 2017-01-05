@@ -11,17 +11,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var setting_component_1 = require("./components/setting/setting.component");
 /**
  * Created by Administrator on 2016/10/9.
  */
-var core_1 = require('@angular/core');
-var Rx = require("rxjs/rx");
+var core_1 = require("@angular/core");
+var Rx = require("rxjs/Rx");
 var user_service_1 = require("../../services/user.service");
 var user_1 = require("../../model/user");
 var AppComponent = (function () {
-    function AppComponent(userService, config) {
+    function AppComponent(userService, resolver, config) {
         var _this = this;
         this.userService = userService;
+        this.resolver = resolver;
         this.config = config;
         this.name = 'ax';
         this.testFlag = false;
@@ -31,14 +33,28 @@ var AppComponent = (function () {
         });
         console.log('changeStream1 : ' + this.changeStream);
         this.initAppData();
+        setTimeout(function () {
+        }, 5000);
     }
+    AppComponent.prototype.ngOnInit = function () {
+    };
+    AppComponent.prototype.addSettingComponent = function () {
+        if (this.axSettingComponentRef) {
+            return;
+        }
+        var componentFactory = this.resolver.resolveComponentFactory(setting_component_1.SettingComponent);
+        this.axSettingComponentRef = this.axSetting.createComponent(componentFactory);
+    };
+    AppComponent.prototype.destroySettingComponent = function () {
+        if (this.axSettingComponentRef) {
+            this.axSettingComponentRef.destroy();
+        }
+    };
     AppComponent.prototype.allowDrop = function (event) {
         event.preventDefault();
     };
-    AppComponent.prototype.test = function () {
-        var _a = this.example(), a = _a[0], b = _a[1], c = _a[2];
-        console.log('this.data : ' + this.data);
-        console.log('a : ' + a);
+    AppComponent.prototype.pageX = function (elem) {
+        return elem.offsetParent ? (elem.offsetLeft + this.pageX(elem.offsetParent)) : elem.offsetLeft;
     };
     AppComponent.prototype.example = function () {
         return ['anxing', 2, 3];
@@ -51,6 +67,9 @@ var AppComponent = (function () {
     AppComponent.prototype.initAppData = function () {
         var _this = this;
         var userInfo = localStorage.getItem('loginUserInfo');
+        setTimeout(function () {
+            _this.userService.loginDimmer = _this.loginDimmer;
+        }, 1000);
         if (userInfo) {
             var user = new user_1.User(JSON.parse(userInfo));
             this.userService.loginUser = user;
@@ -62,29 +81,34 @@ var AppComponent = (function () {
             }, 1000);
         }
     };
-    __decorate([
-        core_1.ViewChild('loginDimmer'), 
-        __metadata('design:type', Object)
-    ], AppComponent.prototype, "loginDimmer", void 0);
-    __decorate([
-        core_1.ViewChild('internalErrorDimmer'), 
-        __metadata('design:type', Object)
-    ], AppComponent.prototype, "internalErrorDimmer", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], AppComponent.prototype, "data", void 0);
-    AppComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'my-app',
-            templateUrl: 'app.html',
-            styleUrls: ['app.css']
-        }),
-        __param(1, core_1.Inject('config')), 
-        __metadata('design:paramtypes', [user_service_1.UserService, Object])
-    ], AppComponent);
     return AppComponent;
 }());
+__decorate([
+    core_1.ViewChild('loginDimmer'),
+    __metadata("design:type", Object)
+], AppComponent.prototype, "loginDimmer", void 0);
+__decorate([
+    core_1.ViewChild('internalErrorDimmer'),
+    __metadata("design:type", Object)
+], AppComponent.prototype, "internalErrorDimmer", void 0);
+__decorate([
+    core_1.ViewChild('axSetting', { read: core_1.ViewContainerRef }),
+    __metadata("design:type", Object)
+], AppComponent.prototype, "axSetting", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], AppComponent.prototype, "data", void 0);
+AppComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'my-app, [my-app]',
+        templateUrl: 'app.html',
+        styleUrls: ['app.css']
+    }),
+    __param(2, core_1.Inject('config')),
+    __metadata("design:paramtypes", [user_service_1.UserService,
+        core_1.ComponentFactoryResolver, Object])
+], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map

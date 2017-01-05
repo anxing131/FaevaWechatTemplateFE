@@ -1,27 +1,9 @@
-<div class="ui large aligned animated list right-side" #main>
-<!--<div class="ui vertical pointing menu right-side" style="border: none">-->
-<!--<div class="ui secondary vertical pointing menu right-side">-->
-<!--<div class="ui vertical menu right-side">-->
-
+<!--<div class="ui large aligned animated list right-side" #main>
     <div class="item" *ngFor="let item of itemList" (dblclick)="onFieldSelect(item)">
         <div class="content">
             <div class="header" style="color: olive"><i class="ax-text">{{item.value}}</i> <i class="olive {{item.icon}} icon"></i></div>
         </div>
     </div>
-
-  <!--  <div class="header" style="color: olive"><i class="ax-text">QrCode</i> <i class="olive image icon"></i></div>
-    <div class="item">
-        <div class="content">
-            <div class="header" style="color: olive">ProductImg <i class="olive image icon"></i> </div>
-        </div>
-    </div>
-
-    <div class="item">
-        <div class="content">
-            <div class="header" style="color: olive">ProductName <i class="olive content icon"></i></div>
-        </div>
-    </div>-->
-
     <hr/>
     <div class="item">
         <div class="content">
@@ -47,7 +29,7 @@
     <div class="item" (dblclick)="onDblclick('onChangeBackground')">
         <div class="content">
             <div class="header" style="color: olive">Background <i class="olive Square icon"></i> </div>
-            <input type="file" style="display: none"
+            <input type="file" style="display: none" id="backgroundInput"
                    #backgroundInput
                    (change)="fileChangeEvent($event)"
             />
@@ -56,4 +38,16 @@
 
     <img id="temp-bg-img2" (click)="imgChange()">
 
+</div>-->
+
+<div id="right-side-menu">
+    <div class="ui  inverted right vertical sidebar menu">
+        <a class="item" *ngFor="let item of itemList" (dblclick)="onFieldSelect(item)">
+            {{item.value}} <i class="olive {{item.icon}} icon"></i>
+        </a>
+    </div>
+
+    <div class="pusher">
+    
+    </div>
 </div>

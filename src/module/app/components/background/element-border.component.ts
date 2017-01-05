@@ -13,7 +13,7 @@ declare var $ : any;
 
 @Component({
     moduleId: module.id,
-    selector: 'ax-element-border',
+    selector: 'ax-element-border, [ax-element-border]',
     templateUrl: 'element-border.html',
     styleUrls: ['element-border.css'],
 })

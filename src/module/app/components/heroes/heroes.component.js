@@ -23,10 +23,11 @@ var common_1 = require("@angular/common");
 var HeroesComponent = (function (_super) {
     __extends(HeroesComponent, _super);
     function HeroesComponent(heroesService, router, location) {
-        _super.call(this);
-        this.heroesService = heroesService;
-        this.router = router;
-        this.location = location;
+        var _this = _super.call(this) || this;
+        _this.heroesService = heroesService;
+        _this.router = router;
+        _this.location = location;
+        return _this;
     }
     HeroesComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -48,16 +49,18 @@ var HeroesComponent = (function (_super) {
         var _this = this;
         this.heroesService.delHero(hero.id).then(function (heroes) { _this.heroes = heroes; });
     };
-    HeroesComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'heroes',
-            templateUrl: 'heroes.html',
-            styleUrls: ['heroes.css']
-        }), 
-        __metadata('design:paramtypes', [heroes_service_1.HeroesService, router_1.Router, common_1.Location])
-    ], HeroesComponent);
     return HeroesComponent;
 }(core_1.OnInit));
+HeroesComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'heroes, [heroes]',
+        templateUrl: 'heroes.html',
+        styleUrls: ['heroes.css']
+    }),
+    __metadata("design:paramtypes", [heroes_service_1.HeroesService,
+        router_1.Router,
+        common_1.Location])
+], HeroesComponent);
 exports.HeroesComponent = HeroesComponent;
 //# sourceMappingURL=heroes.component.js.map

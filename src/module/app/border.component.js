@@ -20,12 +20,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  *  使用 DragDrop event系列来实现的, 不过中间出现一个小小的问题(有时拖下拖下边框就变成屏幕的高度, 或者变成0, 不是想要的效果, 暂时没有解决这个问题),
  *  便采用用mouse event 来实现, 效果还不错, 没有上面所说的问题
  */
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var BorderComponent = (function (_super) {
     __extends(BorderComponent, _super);
     function BorderComponent() {
-        _super.call(this);
-        this.ele = {
+        var _this = _super.call(this) || this;
+        _this.ele = {
             angle: 0,
             px: 200,
             py: 200,
@@ -33,7 +33,7 @@ var BorderComponent = (function (_super) {
             height: 300
         };
         //拖动时的临时数据
-        this.dragViewData = {
+        _this.dragViewData = {
             angle: 0,
             px: 0,
             py: 0,
@@ -42,8 +42,9 @@ var BorderComponent = (function (_super) {
             display: 'none'
         };
         //整个element是否可以拖动
-        this.elementDraggable = true;
-        this.changeEvent = new core_1.EventEmitter();
+        _this.elementDraggable = true;
+        _this.changeEvent = new core_1.EventEmitter();
+        return _this;
     }
     BorderComponent.prototype.ngOnInit = function () {
     };
@@ -280,16 +281,16 @@ var BorderComponent = (function (_super) {
         this.dragViewData.px = x;
         this.dragViewData.py = y;
     };
-    BorderComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'my-border',
-            templateUrl: 'border.html',
-            styleUrls: ['border.css'],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], BorderComponent);
     return BorderComponent;
 }(core_1.OnInit));
+BorderComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'my-border, [my-border]',
+        templateUrl: 'border.html',
+        styleUrls: ['border.css'],
+    }),
+    __metadata("design:paramtypes", [])
+], BorderComponent);
 exports.BorderComponent = BorderComponent;
 //# sourceMappingURL=border.component.js.map

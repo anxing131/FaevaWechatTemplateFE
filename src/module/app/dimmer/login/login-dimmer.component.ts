@@ -28,7 +28,7 @@ declare var $ : any;
 })
 @Component({
     moduleId: module.id,
-    selector: 'ax-login-form-dimmer',
+    selector: 'ax-login-form-dimmer, [ax-login-form-dimmer]',
     templateUrl: 'index.html',
     styleUrls: ['style.css'],
 })

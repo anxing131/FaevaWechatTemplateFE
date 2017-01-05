@@ -3,11 +3,22 @@
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
     margin: auto;
-    background: url("../../../../../src/assets/img/drawable-xxhdpi-icon.png")no-repeat;
+    background: url("../../../../../src/assets/img/drawable-xxhdpi-icon.png") center no-repeat;
     background-size: 100%;
+    /*border: 1px solid red;*/
     content: '';
 }
+.content .bottom-background{
+    position: fixed;
+    padding-top: 0px;
+    border: 1px solid red;    
+    
+    margin: 0px auto;
+    overflow: hidden;
+}
+
 
 .element{
     position: absolute;

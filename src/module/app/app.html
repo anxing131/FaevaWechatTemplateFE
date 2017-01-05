@@ -1,15 +1,12 @@
 <div class="content" (dragover)="allowDrop($event)"
+     [init]="[this, 'this.data = \'anxing\';']"
+     id="app-content"
+>   
+    <div #axSetting></div>
+    <!--<ax-setting></ax-setting>-->
 
-     [init]="[this, 'this.data = \'anxing\'; this.test();']"
->
     <div id="panel" style="border: none; margin: 0; display: none;">
     </div>
-    <!--<h1> AnXing </h1>-->
-
-    <!--<nav>-->
-        <!--<a routerLink="dashboard"> Dashboard</a>-->
-        <!--<a routerLink="heroes"> Heroes</a>-->
-    <!--</nav>-->
 
     <div class="my-router">
         <router-outlet></router-outlet>
@@ -17,11 +14,7 @@
 
     <!--<my-border></my-border>-->
 
-    <my-border2></my-border2>
-
-    <button class="test" (click)="test($event)" id="myteset"></button>
-
-    <!--<my-test></my-test>-->
+    <!--<my-border2></my-border2>-->
     <ax-login-form-dimmer #loginDimmer></ax-login-form-dimmer>
     <ax-internal-error-dimmer #internalErrorDimmer></ax-internal-error-dimmer>
 </div>

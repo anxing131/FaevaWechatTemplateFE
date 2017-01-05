@@ -25,6 +25,7 @@ var UserService = (function () {
     };
     UserService.prototype.showInternalErrorDimmer = function (data) {
         if (!this.internalErrorDimmer) {
+            console.log('error : ', data);
             throw new Error('internalErrorDimmer not init! ');
         }
         this.internalErrorDimmer.show(data);
@@ -39,10 +40,14 @@ var UserService = (function () {
         var userInfo = JSON.stringify(user);
         localStorage.setItem('loginUserInfo', userInfo);
     };
-    UserService.prototype.loginOut = function () {
+    UserService.prototype.logout = function () {
         this.loginUser = null;
         localStorage.removeItem('loginUserInfo');
-        this.router.navigateByUrl('http://baidu.com/');
+        // this.router.navigateByUrl('http://baidu.com/');
+        console.log('logout ... ');
+        // this.router.navigate(['/dashboard', new Date().getTime()]);
+        // this.router.navigateByUrl('/dashboard');
+        location.reload();
     };
     /**
      *  处理通用的API相应错误, 是内容里面的code != 200 的处理方式
@@ -61,11 +66,11 @@ var UserService = (function () {
                 return false;
         }
     };
-    UserService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router])
-    ], UserService);
     return UserService;
 }());
+UserService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router])
+], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

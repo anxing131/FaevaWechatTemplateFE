@@ -12,7 +12,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var application_1 = require('../config/application');
+var application_1 = require("../config/application");
 var ConfigureService = (function () {
     function ConfigureService() {
         this._separated = ':';
@@ -33,11 +33,11 @@ var ConfigureService = (function () {
     };
     ConfigureService.prototype.all = function () {
     };
-    ConfigureService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], ConfigureService);
     return ConfigureService;
 }());
+ConfigureService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], ConfigureService);
 exports.ConfigureService = ConfigureService;
 //# sourceMappingURL=configure.service.js.map
