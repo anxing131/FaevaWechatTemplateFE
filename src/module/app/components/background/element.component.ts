@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import {TemplateService} from "../../../../services/template.service";
 import {Validators} from "@angular/forms";
-import * as Rx from "rxjs/Rx";
+import {Subscription, Subject} from "rxjs/Rx";
 
 declare var $ : any;
 declare var $clamp : any;
@@ -33,11 +33,14 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
     x: number;
     y: number;
     @Input() index: number;
-    textSubscription: Rx.Subscription;
-    changeSubject: Rx.Subscription;
+    textSubscription: Subscription;
+    borderSubscription: Subscription;
+    static changeSubscription: Subscription;
+    static changeSubject: Subject<any> = new Subject();
     contentEditableFlag: boolean = false;
 
-
+    //当前右击的element id
+    static currentRightMenuId : any;
 
     constructor(
         private renderer: Renderer,
@@ -47,8 +50,6 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
         // console.log('subscribe - ' + templateService.changeStream.subscribe((param) => ));
         // templateService.changeStream.subscribe((param): any => {console.log('yser' + param); return true});
         // let Observer  = Observer.subscribe();
-
-       
     }
 
     ngOnChanges(changes){
@@ -56,6 +57,30 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
     }
 
     ngOnInit(){
+        
+        if(!ElementComponent.changeSubscription){
+            ElementComponent.changeSubscription = ElementComponent.changeSubject.subscribe({
+                next: data => {
+                    console.log('element change : ', data);
+                    switch(data.event){
+                        case 'moveUpOne':
+                            this.moveUpOne(data);
+                            break;
+                        case 'moveDownOne': 
+                            this.moveDownOne(data);
+                            break;
+                        case 'moveToTop':
+                            this.moveToTop(data);
+                            break;
+                        case 'moveToBottom':
+                            this.moveToBottom(data);
+                            break;
+                    }
+                }
+            });
+        }
+        
+
         if(this.ele.type == 'text'){
             this.textSubscription = this.templateService.changeTextSubject.subscribe({
                 next: (eleId) => {
@@ -76,7 +101,7 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
                 }
             });
 
-            this.changeSubject = Border2Component.changeSubject.subscribe({
+            this.borderSubscription = Border2Component.changeSubject.subscribe({
                 next: (data) => {
                     if(this.ele._id != data.id){
                         return;
@@ -89,6 +114,42 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
                 }
             });
         }
+    }
+
+    //上移一层
+    moveUpOne(data: any){
+        this.templateService.elements.forEach((item, index, elements) => {
+            if(item._id == ElementComponent.currentRightMenuId && item.zIndex < (TemplateService.minZIndex + elements.length)){
+                elements[index].zIndex += 1;
+            }
+        });
+    }
+
+    //下移一层
+    moveDownOne(data: any){
+        this.templateService.elements.forEach((item, index, elements) => {
+            console.log('item : ', item);
+            if(item._id == ElementComponent.currentRightMenuId && item.zIndex > TemplateService.minZIndex){
+                elements[index].zIndex -= 1;
+                console.log('yes down one ');
+            }
+        });
+    }
+
+    //移至底层
+    moveToBottom(data: any){
+        this.templateService.elements.forEach((item, index, elements) => {
+            if(item._id == ElementComponent.currentRightMenuId){
+                elements[index].zIndex = TemplateService.minZIndex;
+            }
+        });
+    }
+    moveToTop(data: any){
+        this.templateService.elements.forEach((item, index, elements) => {
+            if(item._id == ElementComponent.currentRightMenuId){
+                elements[index].zIndex = TemplateService.minZIndex + elements.length;
+            }
+        });
     }
 
     collapseToCusotom(data){
@@ -123,8 +184,12 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
     ngOnDestroy(){
         if(this.textSubscription){
             this.textSubscription.unsubscribe();
-            this.changeSubject.unsubscribe();
+            this.borderSubscription.unsubscribe();
         }
+
+        // if(ElementComponent.changeSubscription){
+        //     ElementComponent.changeSubscription.unsubscribe();
+        // }
     }
 
     resize(event: any){
@@ -146,10 +211,19 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
         }
     }
 
+    contextmenu(event: MouseEvent){
+        Border2Component.changeSubject.next({event: 'showRightClickMenu', eleId: this.ele._id, eventObj: event});
+
+        event.stopImmediatePropagation();
+        return false;
+    }
+
     onclick(event){
 
         //close right menu 
         DashboardComponent.changeSubject.next({event: 'closeRightMenu'});
+
+        Border2Component.changeSubject.next({event: 'elementClict'});
 
         let currentElement = this.ele;
         this.templateService.currentElement = this.ele;
@@ -164,7 +238,8 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
         }
         
         console.log('onclick ele : ' + JSON.stringify(this.ele));
-        return true;
+        event.stopImmediatePropagation();
+        return false;
     }
 
     changeEleEvent(){

@@ -7,6 +7,7 @@
     height: 50000px;
     width: 50000px;
     border: 5px solid #0e0cff;
+    /*z-index: 1500;*/
     display: none;
 }
 
@@ -16,7 +17,7 @@
     width: 300px;;
     border: 1px solid #fff530;
     content: '';
-    z-index: 2000;
+    /*z-index: 2000;*/
     /*display: none;*/
 }
 
@@ -32,7 +33,7 @@
     background: lightskyblue;
     content: '';
     display: flex;
-    z-index: 1501;
+    /*z-index: 1501;*/
     opacity: 0.3;
 }
 

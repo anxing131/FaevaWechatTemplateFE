@@ -16,20 +16,42 @@ var border2_component_1 = require("./../../border2.component");
 var core_1 = require("@angular/core");
 var template_service_1 = require("../../../../services/template.service");
 var forms_1 = require("@angular/forms");
-var ElementComponent = (function () {
+var Rx_1 = require("rxjs/Rx");
+var ElementComponent = ElementComponent_1 = (function () {
     function ElementComponent(renderer, templateService) {
+        this.renderer = renderer;
+        this.templateService = templateService;
+        this.contentEditableFlag = false;
         // super();
         // console.log('subscribe - ' + templateService.changeStream.subscribe((param) => ));
         // templateService.changeStream.subscribe((param): any => {console.log('yser' + param); return true});
         // let Observer  = Observer.subscribe();
-        this.renderer = renderer;
-        this.templateService = templateService;
-        this.contentEditableFlag = false;
     }
     ElementComponent.prototype.ngOnChanges = function (changes) {
     };
     ElementComponent.prototype.ngOnInit = function () {
         var _this = this;
+        if (!ElementComponent_1.changeSubscription) {
+            ElementComponent_1.changeSubscription = ElementComponent_1.changeSubject.subscribe({
+                next: function (data) {
+                    console.log('element change : ', data);
+                    switch (data.event) {
+                        case 'moveUpOne':
+                            _this.moveUpOne(data);
+                            break;
+                        case 'moveDownOne':
+                            _this.moveDownOne(data);
+                            break;
+                        case 'moveToTop':
+                            _this.moveToTop(data);
+                            break;
+                        case 'moveToBottom':
+                            _this.moveToBottom(data);
+                            break;
+                    }
+                }
+            });
+        }
         if (this.ele.type == 'text') {
             this.textSubscription = this.templateService.changeTextSubject.subscribe({
                 next: function (eleId) {
@@ -48,7 +70,7 @@ var ElementComponent = (function () {
                     }
                 }
             });
-            this.changeSubject = border2_component_1.Border2Component.changeSubject.subscribe({
+            this.borderSubscription = border2_component_1.Border2Component.changeSubject.subscribe({
                 next: function (data) {
                     if (_this.ele._id != data.id) {
                         return;
@@ -60,6 +82,39 @@ var ElementComponent = (function () {
                 }
             });
         }
+    };
+    //上移一层
+    ElementComponent.prototype.moveUpOne = function (data) {
+        this.templateService.elements.forEach(function (item, index, elements) {
+            if (item._id == ElementComponent_1.currentRightMenuId && item.zIndex < (template_service_1.TemplateService.minZIndex + elements.length)) {
+                elements[index].zIndex += 1;
+            }
+        });
+    };
+    //下移一层
+    ElementComponent.prototype.moveDownOne = function (data) {
+        this.templateService.elements.forEach(function (item, index, elements) {
+            console.log('item : ', item);
+            if (item._id == ElementComponent_1.currentRightMenuId && item.zIndex > template_service_1.TemplateService.minZIndex) {
+                elements[index].zIndex -= 1;
+                console.log('yes down one ');
+            }
+        });
+    };
+    //移至底层
+    ElementComponent.prototype.moveToBottom = function (data) {
+        this.templateService.elements.forEach(function (item, index, elements) {
+            if (item._id == ElementComponent_1.currentRightMenuId) {
+                elements[index].zIndex = template_service_1.TemplateService.minZIndex;
+            }
+        });
+    };
+    ElementComponent.prototype.moveToTop = function (data) {
+        this.templateService.elements.forEach(function (item, index, elements) {
+            if (item._id == ElementComponent_1.currentRightMenuId) {
+                elements[index].zIndex = template_service_1.TemplateService.minZIndex + elements.length;
+            }
+        });
     };
     ElementComponent.prototype.collapseToCusotom = function (data) {
         var target = this.textLabel.nativeElement;
@@ -91,8 +146,11 @@ var ElementComponent = (function () {
     ElementComponent.prototype.ngOnDestroy = function () {
         if (this.textSubscription) {
             this.textSubscription.unsubscribe();
-            this.changeSubject.unsubscribe();
+            this.borderSubscription.unsubscribe();
         }
+        // if(ElementComponent.changeSubscription){
+        //     ElementComponent.changeSubscription.unsubscribe();
+        // }
     };
     ElementComponent.prototype.resize = function (event) {
         if (this.ele.type == 'text') {
@@ -113,9 +171,15 @@ var ElementComponent = (function () {
             }
         }
     };
+    ElementComponent.prototype.contextmenu = function (event) {
+        border2_component_1.Border2Component.changeSubject.next({ event: 'showRightClickMenu', eleId: this.ele._id, eventObj: event });
+        event.stopImmediatePropagation();
+        return false;
+    };
     ElementComponent.prototype.onclick = function (event) {
         //close right menu 
         dashboard_component_1.DashboardComponent.changeSubject.next({ event: 'closeRightMenu' });
+        border2_component_1.Border2Component.changeSubject.next({ event: 'elementClict' });
         var currentElement = this.ele;
         this.templateService.currentElement = this.ele;
         this.templateService.showFlag = true;
@@ -127,7 +191,8 @@ var ElementComponent = (function () {
             }
         }
         console.log('onclick ele : ' + JSON.stringify(this.ele));
-        return true;
+        event.stopImmediatePropagation();
+        return false;
     };
     ElementComponent.prototype.changeEleEvent = function () {
     };
@@ -185,6 +250,7 @@ var ElementComponent = (function () {
     };
     return ElementComponent;
 }());
+ElementComponent.changeSubject = new Rx_1.Subject();
 __decorate([
     core_1.Input(),
     __metadata("design:type", Object)
@@ -205,7 +271,7 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", Number)
 ], ElementComponent.prototype, "index", void 0);
-ElementComponent = __decorate([
+ElementComponent = ElementComponent_1 = __decorate([
     core_1.Component({
         moduleId: module.id,
         selector: 'ax-element, [ax-element]',
@@ -216,4 +282,5 @@ ElementComponent = __decorate([
         template_service_1.TemplateService])
 ], ElementComponent);
 exports.ElementComponent = ElementComponent;
+var ElementComponent_1;
 //# sourceMappingURL=element.component.js.map

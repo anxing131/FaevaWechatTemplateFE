@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var element_component_1 = require("./components/background/element.component");
 var dashboard_component_1 = require("./components/dashboard/dashboard.component");
 /**
  * Created by AnXing on 2016/10/26.
@@ -27,6 +28,7 @@ var Border2Component = Border2Component_1 = (function () {
     function Border2Component(renderer, templateService) {
         this.renderer = renderer;
         this.templateService = templateService;
+        this.tempZIndex = 0;
         this.ele = {
             angle: 0,
             px: 200,
@@ -72,12 +74,36 @@ var Border2Component = Border2Component_1 = (function () {
     Border2Component.prototype.ngOnInit = function () {
         var _this = this;
         this.templateService.currentElement = this.templateService.currentElement;
-        this.changeSubjection = Border2Component_1.changeSubject.filter(function (data) { return data.event == 'closeRightMenu'; }).subscribe(function (data) {
-            _this.closeRightMenu();
+        this.changeSubjection = Border2Component_1.changeSubject.filter(function (data) { return data.event == 'closeRightMenu' || data.event == 'closeBorder'; }).subscribe(function (data) {
+            if (data.event == 'closeRightMenu') {
+                _this.closeRightMenu();
+            }
+            else {
+                _this.closeBorder();
+            }
         });
+        this.changeSubjection2 = Border2Component_1.changeSubject.subscribe(function (data) {
+            switch (data.event) {
+                case 'elementClict':
+                    setTimeout(function () {
+                        _this.tempZIndex = _this.templateService.currentElement.zIndex;
+                    }, 20);
+                    break;
+                case 'showRightClickMenu':
+                    _this.showRightClickMenuEle(data.eventObj, data.eleId);
+                    break;
+            }
+        });
+        console.log('boder init ....................  ');
+    };
+    Border2Component.prototype.closeBorder = function () {
+        console.log('closeBorder ... ');
+        this.templateService.showFlag = false;
     };
     Border2Component.prototype.ngOnDestroy = function () {
         this.changeSubjection.unsubscribe();
+        this.changeSubjection2.unsubscribe();
+        console.log('boder destroy ....................  ');
     };
     Border2Component.prototype.getAngle = function (start, end) {
         var diff_x = end.x - start.x, diff_y = end.y - start.y;
@@ -89,32 +115,53 @@ var Border2Component = Border2Component_1 = (function () {
             this.dimmer.show();
         }
     };
-    Border2Component.prototype.click = function (event) {
-        if (this.templateService.currentElement.type == 'text') {
-            var data = {
-                id: this.templateService.currentElement._id,
-                event: 'TextClick',
-                mouseEvent: event,
-            };
-            Border2Component_1.changeSubject.next(data);
+    Border2Component.prototype.click = function (event, type) {
+        switch (type) {
+            case 'moveUpOne':
+            case 'moveDownOne':
+            case 'moveToBottom':
+            case 'moveToTop':
+                element_component_1.ElementComponent.changeSubject.next({
+                    event: type
+                });
+                var rightClickMenuEle = this.rightClickMenu.nativeElement;
+                this.renderer.setElementClass(rightClickMenuEle, 'menu-hide', true);
+                break;
+            default:
+                if (this.templateService.currentElement.type == 'text') {
+                    var data = {
+                        id: this.templateService.currentElement._id,
+                        event: 'TextClick',
+                        mouseEvent: event,
+                    };
+                    Border2Component_1.changeSubject.next(data);
+                }
         }
-        return true;
+        event.stopImmediatePropagation();
+        return false;
     };
     Border2Component.prototype.contextmenu = function (event) {
-        var rightClickMenuEle = this.rightClickMenu.nativeElement;
+        this.showRightClickMenuEle(event, this.templateService.currentElement._id);
+        event.stopImmediatePropagation();
+        return false;
+    };
+    Border2Component.prototype.showRightClickMenuEle = function (event, eleId) {
         var tempBGDiv = $('#background-content-div');
         this.offsetHeight = tempBGDiv.offset().top;
         this.offsetWidth = tempBGDiv.offset().left;
         var pagey = event.pageY - 84 - this.offsetHeight;
         var pagex = event.pageX + 30 - this.offsetWidth;
+        var rightClickMenuEle = this.rightClickMenu.nativeElement;
         this.renderer.setElementStyle(rightClickMenuEle, 'top', pagey + '');
         this.renderer.setElementStyle(rightClickMenuEle, 'left', pagex + '');
         this.renderer.setElementClass(rightClickMenuEle, 'menu-hide', false);
-        event.stopImmediatePropagation();
-        return false;
+        element_component_1.ElementComponent.currentRightMenuId = eleId;
     };
     Border2Component.prototype.closeRightMenu = function () {
         this.renderer.setElementClass(this.rightClickMenu.nativeElement, 'menu-hide', true);
+    };
+    Border2Component.prototype.mouseup = function (event) {
+        console.log('mouseup .... ');
     };
     Border2Component.prototype.mousedown = function (event, type) {
         var tempBGDiv = $('#background-content-div');
@@ -130,7 +177,6 @@ var Border2Component = Border2Component_1 = (function () {
         this.dragViewData = JSON.parse(JSON.stringify(this.templateService.currentElement));
         this.renderer.setElementStyle(this.tempDiv.nativeElement, 'display', 'block');
         if (type == 'element') {
-            this.dragViewData.display2 = 'block';
         }
         else {
             this.elementDraggable = false;
@@ -200,6 +246,7 @@ var Border2Component = Border2Component_1 = (function () {
      *  element 拖动结束
      */
     Border2Component.prototype.mouseupForEnd = function (event) {
+        this.tempZIndex = this.templateService.currentElement.zIndex;
         this.scalingFlag = false;
         this.dragViewData.height = parseInt(this.dragViewData.height);
         this.dragViewData.py = parseInt(this.dragViewData.py);
@@ -213,8 +260,6 @@ var Border2Component = Border2Component_1 = (function () {
         this.templateService.currentElement = null;
         this.templateService.currentElement = JSON.parse(JSON.stringify(this.dragViewData));
         delete this.templateService.currentElement.display;
-        delete this.templateService.currentElement.display2;
-        this.dragViewData.display2 = 'none';
         this.dragViewData.display = 'none';
         this.elementDraggable = true;
         for (var index in this.templateService.elements) {
@@ -264,6 +309,7 @@ var Border2Component = Border2Component_1 = (function () {
         event.stopImmediatePropagation();
     };
     Border2Component.prototype.mousemove = function (event) {
+        this.tempZIndex = 2000;
         switch (this.dragButType) {
             case 'left-top':
                 this.onLeftTop(event);

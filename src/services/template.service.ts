@@ -7,6 +7,8 @@ import * as Rx from "rxjs/Rx";
 
 @Injectable()
 export class TemplateService{
+    static minZIndex = 50;
+
     changeTextSubject: Rx.Subject<any> = new Rx.Subject();
     currentElement: any = {
         _id: 'id1',
@@ -21,14 +23,15 @@ export class TemplateService{
         angle:0,
         borderRadius:'45%',
         color:'0905ff',
-        opacity: 1
+        opacity: 1,
+        zIndex: 50
     };
     showFlag: boolean = false;
 
     bg: string = 'https://s3.cn-north-1.amazonaws.com.cn/be-temp/03F76630004519154AAAD4C018D192AF.jpeg';
     width: string = '800';
     height: string = '600'
-    elements: any = [
+    elements: [any] = [
         {
             _id: 'id1',
             name:"tesd",
@@ -43,7 +46,8 @@ export class TemplateService{
             angle:0,
             borderRadius:'45%',
             color:'0905ff',
-            opacity: 1
+            opacity: 1,
+            zIndex: 50
         },
         {   
             _id: 'id2',
@@ -55,7 +59,8 @@ export class TemplateService{
             py: 55, 
             angle:0, 
             borderRadius:'0%', 
-            opacity:1
+            opacity:1,
+            zIndex: 49
         }
     ];
 

@@ -56,7 +56,7 @@ var DashboardComponent = DashboardComponent_1 = (function () {
             loaddingFlag: false,
             errInfo: [] //错误信息
         };
-        this.inputCustomFieldFlag = true;
+        this.inputCustomFieldFlag = false;
         appComponent.addSettingComponent();
         this.appComponent = appComponent;
     }
@@ -175,6 +175,7 @@ var DashboardComponent = DashboardComponent_1 = (function () {
     DashboardComponent.prototype.onclick = function (event) {
         this.renderer.setElementClass(this.rightClickMenu.nativeElement, 'menu-hide', true);
         border2_component_1.Border2Component.changeSubject.next({ event: 'closeRightMenu' });
+        border2_component_1.Border2Component.changeSubject.next({ event: 'closeBorder' });
     };
     DashboardComponent.prototype.click = function (event, type) {
         switch (type) {

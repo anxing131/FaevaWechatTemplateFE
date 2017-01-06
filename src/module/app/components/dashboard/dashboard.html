@@ -60,7 +60,9 @@
             <!--<ax-right-side (fieldSelect)="addField($event)"></ax-right-side>-->
        
             <!--右击菜单  menu-hide-->
-            <div class="ui middle aligned list right-menu" #rightClickMenu>
+            <div class="ui middle aligned list right-menu" #rightClickMenu
+                style="z-index: 999"
+            >
                 <div class="item" (click)="rightMenuItemClick($event, 'changeBG')">
                     <i class="image icon"></i><div class="content">更换背景</div>
                 </div>
@@ -77,7 +79,7 @@
 
 <div class="ui modal changeBGModal ">
     
-    <div *ngIf="changeBGModalConf.loaddingFlag" class="loadding ui segment" style="z-index: 2000">
+    <div *ngIf="changeBGModalConf.loaddingFlag" class="loadding ui segment" style="z-index: 1000">
         <div class="ui active inverted dimmer">
             <div class="ui text loader">Uploading ~</div>
         </div>

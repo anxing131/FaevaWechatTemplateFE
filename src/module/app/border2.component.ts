@@ -1,3 +1,4 @@
+import { ElementComponent } from './components/background/element.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 /**
  * Created by AnXing on 2016/10/26.
@@ -27,8 +28,10 @@ declare var $ : any;
 })
 export class Border2Component implements OnInit, OnDestroy{
 
+    tempZIndex = 0;
     static changeSubject:Subject<any> = new Subject();
-     changeSubjection :Subscription;
+    changeSubjection :Subscription;
+    changeSubjection2 :Subscription;
 
     ele: any = {
         angle: 0,
@@ -110,13 +113,41 @@ export class Border2Component implements OnInit, OnDestroy{
 
     ngOnInit(){
         this.templateService.currentElement = this.templateService.currentElement;
-        this.changeSubjection =  Border2Component.changeSubject.filter(data => data.event == 'closeRightMenu').subscribe(data => {
-            this.closeRightMenu();
+        this.changeSubjection =  Border2Component.changeSubject.filter(data => data.event == 'closeRightMenu' || data.event == 'closeBorder').subscribe(data => {
+            if(data.event == 'closeRightMenu'){
+                this.closeRightMenu();
+            }else{
+                this.closeBorder();
+            }
         });    
+
+        this.changeSubjection2 =  Border2Component.changeSubject.subscribe(data => {
+            switch(data.event){
+                case 'elementClict':
+                    setTimeout(() => {
+                        this.tempZIndex = this.templateService.currentElement.zIndex;
+                    }, 20);
+                    break;
+
+                case 'showRightClickMenu' :
+                    this.showRightClickMenuEle(data.eventObj, data.eleId);
+                    break;
+            }
+         
+        });
+
+        console.log('boder init ....................  ');
+    }
+
+    closeBorder(){
+        console.log('closeBorder ... ');
+        this.templateService.showFlag = false;
     }
 
     ngOnDestroy(){
         this.changeSubjection.unsubscribe();
+        this.changeSubjection2.unsubscribe();
+        console.log('boder destroy ....................  ');
     }
 
     getAngle(start,end){
@@ -132,40 +163,62 @@ export class Border2Component implements OnInit, OnDestroy{
         }
     }
 
-    click(event: MouseEvent){
-        if(this.templateService.currentElement.type == 'text'){
-            let data = {
-                id: this.templateService.currentElement._id,
-                event: 'TextClick',
-                mouseEvent: event,
-            }
-            Border2Component.changeSubject.next(data);
-        }
+    click(event: MouseEvent, type ?: string){
+        switch(type){
+            case 'moveUpOne':
+            case 'moveDownOne':
+            case 'moveToBottom':
+            case 'moveToTop':
+                ElementComponent.changeSubject.next({
+                    event: type
+                });
 
-        return true;
+                let rightClickMenuEle:HTMLElement = <HTMLElement>this.rightClickMenu.nativeElement;
+                this.renderer.setElementClass(rightClickMenuEle, 'menu-hide', true);
+                break;
+            default: 
+                if(this.templateService.currentElement.type == 'text'){
+                    let data = {
+                        id: this.templateService.currentElement._id,
+                        event: 'TextClick',
+                        mouseEvent: event,
+                    }
+                    Border2Component.changeSubject.next(data);
+                }
+        }
+        
+
+        event.stopImmediatePropagation();
+        return false;
     }
 
 
     contextmenu(event){
-        
-        let rightClickMenuEle:HTMLElement = <HTMLElement>this.rightClickMenu.nativeElement;
-        
+        this.showRightClickMenuEle(event, this.templateService.currentElement._id);
+        event.stopImmediatePropagation();
+        return false;
+    }
+
+    showRightClickMenuEle(event, eleId){
         let tempBGDiv =  $('#background-content-div');
         this.offsetHeight = tempBGDiv.offset().top;
         this.offsetWidth = tempBGDiv.offset().left;
 
         let pagey:number = <number>event.pageY - 84 - this.offsetHeight;
         let pagex: number = <number>event.pageX + 30 - this.offsetWidth;
+        let rightClickMenuEle:HTMLElement = <HTMLElement>this.rightClickMenu.nativeElement;
         this.renderer.setElementStyle(rightClickMenuEle, 'top', pagey + '');
         this.renderer.setElementStyle(rightClickMenuEle, 'left', pagex + '');
         this.renderer.setElementClass(rightClickMenuEle, 'menu-hide', false);
-        
-        event.stopImmediatePropagation();
-        return false;
+
+        ElementComponent.currentRightMenuId = eleId;
     }
 
     closeRightMenu(){
         this.renderer.setElementClass(this.rightClickMenu.nativeElement, 'menu-hide', true);
+    }
+    mouseup(event: MouseEvent){
+        console.log('mouseup .... ');
     }
     mousedown(event: MouseEvent, type: string){
 
@@ -187,7 +240,6 @@ export class Border2Component implements OnInit, OnDestroy{
         this.renderer.setElementStyle(this.tempDiv.nativeElement, 'display', 'block');
 
         if(type == 'element'){
-            this.dragViewData.display2 = 'block';
         }else{
             this.elementDraggable = false;
             this.dragViewData.display = 'block';
@@ -276,6 +328,8 @@ export class Border2Component implements OnInit, OnDestroy{
      *  element 拖动结束
      */
     mouseupForEnd(event: any){
+        this.tempZIndex = this.templateService.currentElement.zIndex;
+
         this.scalingFlag = false;
         this.dragViewData.height = parseInt(this.dragViewData.height);
         this.dragViewData.py = parseInt(this.dragViewData.py);
@@ -294,8 +348,6 @@ export class Border2Component implements OnInit, OnDestroy{
         this.templateService.currentElement = null;
         this.templateService.currentElement = JSON.parse(JSON.stringify(this.dragViewData));
         delete this.templateService.currentElement.display;
-        delete this.templateService.currentElement.display2;
-        this.dragViewData.display2 = 'none';
         this.dragViewData.display = 'none';
 
         this.elementDraggable = true;
@@ -353,6 +405,7 @@ export class Border2Component implements OnInit, OnDestroy{
     }
 
     mousemove(event: any){
+        this.tempZIndex = 2000;
         switch (this.dragButType){
             case 'left-top':
                 this.onLeftTop(event);

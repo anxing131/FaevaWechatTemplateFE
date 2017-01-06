@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
     }
 
 
-    inputCustomFieldFlag: boolean = true;
+    inputCustomFieldFlag: boolean = false;
     static changeSubject: Subject<any> = new Subject();
     changeSubjection: Subscription;
     
@@ -220,7 +220,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
     onclick(event: MouseEvent){
         this.renderer.setElementClass(this.rightClickMenu.nativeElement, 'menu-hide', true);
-        Border2Component.changeSubject.next({event: 'closeRightMenu'});    
+        Border2Component.changeSubject.next({event: 'closeRightMenu'});   
+        Border2Component.changeSubject.next({event: 'closeBorder'});   
     }
 
     click(event: MouseEvent, type: string){

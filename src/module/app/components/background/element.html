@@ -5,11 +5,23 @@
     (dblclick)="onEleDblclick($event)"
     (dragend)="onEleDragend($event)"
     (dragstart)="onEleDragstart($event)"
-    [ngStyle]="{'left': ele.px, 'top': ele.py,  'height':ele.height, 'border-radius':ele.borderRadius, 'opacity':ele.opacity}"
+    [ngStyle]="{
+        'left': ele.px,
+        'top': ele.py,  
+        'height':ele.height, 
+        'border-radius':ele.borderRadius, 
+        'opacity':ele.opacity,
+        'z-index': ele.zIndex - 1
+    }"
+    (contextmenu)="contextmenu($event)"
     #elementDiv
 >
 
-    <div [ngSwitch]="ele.type"  [ngStyle]="{'position':'absolute', 'top': '0', 'left':'0'}">
+    <div [ngSwitch]="ele.type"  [ngStyle]="{
+        'position':'absolute', 
+        'top': '0', 
+        'left':'0'
+    }">
         <div *ngSwitchCase="'img'"
                 [ngStyle]="{'-webkit-transform': 'rotate('+ele.angle+'deg)', 'transform':'rotate('+ele.angle+'deg)'}"
         >

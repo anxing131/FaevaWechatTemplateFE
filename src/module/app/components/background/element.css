@@ -1,6 +1,6 @@
 .element{
     position: absolute;
-    z-index: 1500;
+    /*z-index: 1500;*/
     width: auto;
     display:inline-block;
     text-align: center;

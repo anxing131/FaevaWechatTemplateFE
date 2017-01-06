@@ -1,5 +1,14 @@
 <div class="my-border" 
-    [ngStyle]="{'-webkit-transform': 'rotate('+templateService.currentElement.angle+'deg)', 'top': templateService.currentElement.py, 'left': templateService.currentElement.px, 'width': templateService.currentElement.width, 'height':templateService.currentElement.height}" draggable="true"   #eleDragBorder
+    [ngStyle]="
+        {
+            '-webkit-transform': 'rotate('+templateService.currentElement.angle+'deg)', 
+            'top': templateService.currentElement.py, 
+            'left': templateService.currentElement.px, 
+            'width': templateService.currentElement.width, 
+            'height':templateService.currentElement.height,
+            'z-index': tempZIndex
+        }"
+     draggable="true"   #eleDragBorder
     (mousedown)="mousedown($event, 'element')"
     *ngIf="templateService.showFlag"
     (dblclick)="ondblclick($event)"
@@ -7,9 +16,9 @@
     (contextmenu)="contextmenu($event)"
     onmousedown="event.stopPropagation()"
     (click)="click($event)" 
+    (mouseup)="mouseup($event)"
 >
 <!---->
-
     <div class="testtt" #tempDiv
          (mouseup)="mouseupForEnd($event)"
          (mousemove)="mousemove($event)"
@@ -82,19 +91,50 @@
 
 
 <div class="element-area"
-     [ngStyle]="{'-webkit-transform': 'rotate('+dragViewData.angle+'deg)', 'top': dragViewData.py, 'left': dragViewData.px, 'width': dragViewData.width, 'height':dragViewData.height,
-            'display': dragViewData.display}"
+     [ngStyle]="{
+         '-webkit-transform': 'rotate('+dragViewData.angle+'deg)', 
+         'top': dragViewData.py,
+         'left': dragViewData.px, 
+         'width': dragViewData.width, 
+         'height':dragViewData.height,
+         'display': dragViewData.display,
+         'z-index':  tempZIndex - 1
+     }"
+     
      draggable="true"
      ondrop="return true;"
 >
+<!--'z-index':  templateService.currentElement.zIndex - 1-->
 </div>
 
 <!--右击菜单-->
-<div class="ui middle aligned list right-menu ax-border menu-hide" #rightClickMenu>
+<div class="ui middle aligned list right-menu ax-border menu-hide" #rightClickMenu
+    style="z-index: 999"
+>
     <div class="item">
         <i class="image icon"></i><div class="content">更换背景</div>
     </div>
     <div class="item">
         <i class="paste icon"></i><div class="content">粘贴</div>
+    </div>
+    <div class="item"
+        (click)="click($event, 'moveUpOne')"
+    >
+        <i class="Angle Up icon"></i><div class="content">上移一层</div>
+    </div>
+    <div class="item"
+        (click)="click($event, 'moveDownOne')"
+    >
+        <i class="Angle Down icon"></i><div class="content">下移一层</div>
+    </div>
+    <div class="item"
+        (click)="click($event, 'moveToBottom')"
+    >
+        <i class="Level Down icon"></i><div class="content">移至底层</div>
+    </div>
+    <div class="item" 
+        (click)="click($event, 'moveToTop')"
+    >
+        <i class="Level Up icon"></i><div class="content">移至顶层</div>
     </div>
 </div>

@@ -29,7 +29,8 @@ var TemplateService = (function () {
             angle: 0,
             borderRadius: '45%',
             color: '0905ff',
-            opacity: 1
+            opacity: 1,
+            zIndex: 50
         };
         this.showFlag = false;
         this.bg = 'https://s3.cn-north-1.amazonaws.com.cn/be-temp/03F76630004519154AAAD4C018D192AF.jpeg';
@@ -50,7 +51,8 @@ var TemplateService = (function () {
                 angle: 0,
                 borderRadius: '45%',
                 color: '0905ff',
-                opacity: 1
+                opacity: 1,
+                zIndex: 50
             },
             {
                 _id: 'id2',
@@ -62,7 +64,8 @@ var TemplateService = (function () {
                 py: 55,
                 angle: 0,
                 borderRadius: '0%',
-                opacity: 1
+                opacity: 1,
+                zIndex: 49
             }
         ];
         this.changeTextSubject.subscribe({
@@ -77,6 +80,7 @@ var TemplateService = (function () {
     };
     return TemplateService;
 }());
+TemplateService.minZIndex = 50;
 TemplateService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [])
