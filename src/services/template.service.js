@@ -33,7 +33,11 @@ var TemplateService = (function () {
             zIndex: 50
         };
         this.showFlag = false;
-        this.bg = 'https://s3.cn-north-1.amazonaws.com.cn/be-temp/03F76630004519154AAAD4C018D192AF.jpeg';
+        this.name = 'name';
+        this.tags = null;
+        this.preview = 'https://s3.cn-north-1.amazonaws.com.cn/common/img/splash/splashDemo.jpg';
+        // bg: string = 'https://s3.cn-north-1.amazonaws.com.cn/common/img/splash/splashDemo.jpg';
+        this.bg = '#f3f3f3';
         this.width = '800';
         this.height = '600';
         this.elements = [

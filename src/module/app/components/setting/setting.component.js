@@ -1,9 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -13,25 +8,105 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var router_1 = require("@angular/router");
+var app_component_1 = require("./../../app.component");
+var template_service_1 = require("./../../../../services/template.service");
 /**
  * Created by Administrator on 2016/10/26.
  */
 var core_1 = require("@angular/core");
 var user_service_1 = require("../../../../services/user.service");
 var dashboard_component_1 = require("./../dashboard/dashboard.component");
-var SettingComponent = (function (_super) {
-    __extends(SettingComponent, _super);
-    function SettingComponent(renderer, userService) {
-        var _this = _super.call(this) || this;
-        _this.renderer = renderer;
-        _this.userService = userService;
-        _this.settingFlag = true;
-        _this.attrSidebarOpenFlag = false;
-        return _this;
+var SettingComponent = (function () {
+    function SettingComponent(renderer, userService, templateService, router) {
+        this.renderer = renderer;
+        this.userService = userService;
+        this.templateService = templateService;
+        this.router = router;
+        this.settingFlag = true;
+        this.attrSidebarOpenFlag = false;
+        this.settingTagsAddFlag = false;
     }
     SettingComponent.prototype.ngOnInit = function () {
         this._settingEle = document.getElementById('test');
         $('.ui.dropdown').dropdown({ on: 'dblclick' });
+    };
+    SettingComponent.prototype.ngOnDestroy = function () {
+        if (this.tempAppComponentSubjection) {
+            this.tempAppComponentSubjection.unsubscribe();
+        }
+        console.log('setting component OnDestroy...');
+    };
+    SettingComponent.prototype.change = function (event, type) {
+        switch (type) {
+            case 'inputTagChange':
+                var target = event.target;
+                var value = target.value;
+                if (this.templateService.tags) {
+                    this.templateService.tags.push(value);
+                }
+                else {
+                    this.templateService.tags = [value];
+                }
+                this.settingTagsAddFlag = false;
+                break;
+        }
+        console.log('change ....');
+    };
+    SettingComponent.prototype.settingModalClick = function (event, type) {
+        var _this = this;
+        switch (type) {
+            case 'addTag':
+                if (this.settingTagsAddFlag) {
+                    this.settingTagsAddFlag = false;
+                }
+                else {
+                    this.settingTagsAddFlag = true;
+                }
+                break;
+            case 'delTag':
+                var target = event.target;
+                var index = target.attributes['data-index'].value;
+                this.templateService.tags.splice(index, 1);
+                break;
+            case 'cancel':
+                this.templateService = this.tempTemplateService;
+                $('.templateSettingModal').modal('hide');
+                break;
+            case 'save':
+                $('.templateSettingModal').modal('hide');
+                break;
+            case 'editPreview':
+                var ts_1 = Date.now();
+                app_component_1.AppComponent.changeSubject.next({
+                    event: 'inputFiles',
+                    originData: {
+                        ts: ts_1,
+                        config: {
+                            uploadToS3Flag: true
+                        }
+                    },
+                });
+                if (this.tempAppComponentSubjection) {
+                    this.tempAppComponentSubjection.unsubscribe();
+                }
+                this.tempAppComponentSubjection = app_component_1.AppComponent.changeSubject
+                    .filter(function (data) { return data.originData.ts && data.event == 'finishedUploadToS3' && data.originData.ts == ts_1; })
+                    .subscribe({
+                    next: function (data) {
+                        if (data.result.code == 200) {
+                            var link = data.result.msg.link;
+                            _this.templateService.preview = link;
+                        }
+                        else {
+                            console.log('setting component upload img to s3 fail!', data.result);
+                        }
+                    }
+                });
+                break;
+        }
+        event.stopImmediatePropagation();
+        return false;
     };
     SettingComponent.prototype.onMouseover = function (event) {
         if (this._settingEle.offsetLeft < 0) {
@@ -92,6 +167,7 @@ var SettingComponent = (function (_super) {
         this._settingEle.style.left = '-1000';
     };
     SettingComponent.prototype.onTagClick = function (tag) {
+        var _this = this;
         switch (tag) {
             case 'tag':
                 break;
@@ -100,9 +176,40 @@ var SettingComponent = (function (_super) {
                 break;
             case 'OpenAttributesSidebar':
                 this.toggleAttributesSidebar();
+                break;
+            case 'new-template':
+                this.newTemplate();
+                break;
+            case 'setting':
+                $('.templateSettingModal').modal({
+                    closable: false,
+                    onHidden: function () {
+                        _this.tempTemplateService = null;
+                    },
+                    onShow: function () {
+                        _this.tempTemplateService = Object.assign({}, _this.templateService);
+                    }
+                }).modal('show');
+                break;
+            case 'SaveToRemote':
+                console.log('save to remote');
+                break;
+            case 'Exit':
+                var link = ['template-list'];
+                this.router.navigate(link);
+                break;
             default:
                 break;
         }
+    };
+    SettingComponent.prototype.newTemplate = function () {
+        this.templateService.elements = [];
+        this.templateService.currentElement = null;
+        this.templateService.bg = '#f3f3f3';
+        this.templateService.width = '800';
+        this.templateService.height = '600';
+        this.templateService.showFlag = false;
+        console.log('newTemplate');
     };
     SettingComponent.prototype.toggleAttributesSidebar = function () {
         var _this = this;
@@ -149,7 +256,7 @@ var SettingComponent = (function (_super) {
         console.log('onDragstart');
     };
     return SettingComponent;
-}(core_1.OnInit));
+}());
 SettingComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
@@ -174,7 +281,9 @@ SettingComponent = __decorate([
         ]
     }),
     __metadata("design:paramtypes", [core_1.Renderer,
-        user_service_1.UserService])
+        user_service_1.UserService,
+        template_service_1.TemplateService,
+        router_1.Router])
 ], SettingComponent);
 exports.SettingComponent = SettingComponent;
 //# sourceMappingURL=setting.component.js.map

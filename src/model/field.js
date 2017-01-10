@@ -12,7 +12,6 @@ var fieldType;
     fieldType[fieldType["OriginalPrice"] = 5] = "OriginalPrice";
     fieldType[fieldType["Catalogs"] = 6] = "Catalogs";
 })(fieldType = exports.fieldType || (exports.fieldType = {}));
-//暂时不要, 好像是多余不需要的
 var Field = (function () {
     function Field(obj) {
         this.id = obj && obj.id || undefined;
@@ -20,6 +19,15 @@ var Field = (function () {
         this.createDate = obj && obj.createDate || -1;
         this.type = obj && obj.type || fieldType.OptionKey;
         this.optionType = obj && obj.optionType || 'text';
+        this.px = obj && obj.px || 0;
+        this.py = obj && obj.py || 0;
+        this.width = obj && obj.width || 100;
+        this.height = obj && obj.widht || 100;
+        this.fontWeight = obj && obj.fontWeight || 400;
+        this.fontSize = obj && obj.fontSize || 14;
+        if (obj && obj.fontFamily) {
+            this.fontFamily = obj.fontFamily;
+        }
     }
     return Field;
 }());

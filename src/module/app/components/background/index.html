@@ -1,5 +1,9 @@
 <div class="content" id="background-content-div"
-     [ngStyle]="{height: templateService.height, width: templateService.width, background: 'url('+ templateService.bg +') no-repeat center center'}"
+    *ngIf="templateService"
+     [ngStyle]="{
+         height: templateService.height, 
+         width: templateService.width, 
+         background: templateService.bg.toLowerCase().indexOf('http') == 0 ? 'url('+ templateService.bg +')' + ' no-repeat center center' : templateService.bg + ' no-repeat center center'}"
 >
     <!--<div class="bottom-background"
         [ngStyle]="{height: templateService.height, width: templateService.width, 'background': 'url('+ templateService.bg +') no-repeat center center'}"

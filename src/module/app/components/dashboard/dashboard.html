@@ -7,10 +7,9 @@
     [ngClass]="{'very': inputCustomFieldFlag, 'wide': inputCustomFieldFlag}"
     class="ui right vertical sidebar menu dashboard-content-right-menu" id="dashboard-content-right-menu">
         
-        <a class="item" *ngFor="let field of fields"> 
+        <a class="item" *ngFor="let field of fields" (click)="rightSidebarClick($event, field)" (contextmenu)="contentmenuField($event, field)"> 
             {{field.name}} <i class="olive {{field.icon}} icon"></i> 
         </a>
-        
   
         <hr/>
         <a class="item"  (dblclick)="rightBarDbclick('addCustomFieldFlag')"> 
@@ -22,12 +21,12 @@
                 <div class="ui action input form-group">
                     <input type="text" placeholder="name" #newFieldName (keypress)="onAddFieldInputKeyPress(newFieldName, newFieldType,$event)" (mousedown)="clearInputBorderWarnning(newFieldName)">
                     <select class="ui compact selection dropdown" #newFieldType>
-                        <option value="info">Custom</option>
+                        <option value="custom">Custom</option>
                         <option selected="" value="image">Image</option>
-                        <option value="content">Field</option>
+                        <option value="field">Field</option>
                     </select>
 
-                    <div type="submit" class="ui mini button" (click)="addField(newFieldName, newFieldType)">Add</div>
+                    <div type="submit" class="ui mini button" (click)="addField(newFieldName.value, newFieldType.value)">Add</div>
                 </div>
             </div>
         </div>
@@ -45,7 +44,6 @@
 
     <div class="pusher">
         <div class="content">
-
             <!--已经移动到app component 下-->
             <!--<ax-setting></ax-setting>-->
             
@@ -60,7 +58,7 @@
             <!--<ax-right-side (fieldSelect)="addField($event)"></ax-right-side>-->
        
             <!--右击菜单  menu-hide-->
-            <div class="ui middle aligned list right-menu" #rightClickMenu
+            <div class="ui middle aligned list right-menu menu-hide" #rightClickMenu
                 style="z-index: 999"
             >
                 <div class="item" (click)="rightMenuItemClick($event, 'changeBG')">

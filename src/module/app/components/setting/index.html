@@ -25,16 +25,23 @@
             <i class="olive setting big icon"></i>Setting
         </div>
         <div class="item" (click)="onTagClick('OpenAttributesSidebar')">
-           <i class="olive Hashtag big icon"></i>  
-           <span *ngIf="attrSidebarOpenFlag" >Close</span> 
-           <span *ngIf="!attrSidebarOpenFlag" >Open</span> 
-           Attributes Sidebar
+           <i class="olive Hashtag big icon"></i><span *ngIf="!attrSidebarOpenFlag" >Open Attributes Sidebar</span>
+           <span *ngIf="attrSidebarOpenFlag" >Close Attributes Sidebar</span>
+           
+           
         </div>
         <div class="item" (click)="onTagClick('new-template')">
             <i class="olive plus big icon"></i>New Template
         </div>
+        <div class="item" (click)="onTagClick('SaveToRemote')">
+           <i class="olive Save big icon"></i>Save To Remote
+        </div>
         <div class="item" (click)="onTagClick('LoginOut')">
             <i class="olive connectdevelop big icon"></i>Log out
+        </div>
+
+        <div class="item" (click)="onTagClick('Exit')">
+            <i class="olive Sign out big icon"></i>Exit
         </div>
       
 
@@ -61,4 +68,71 @@
         </div>
     </div>-->
     </div>
+</div>
+
+<div class="ui standard modal transition hidden templateSettingModal" style="margin-top: -234.132px; display: block !important;">
+        <div class="header"> <img class="ui mini right spaced image" src="{{templateService.preview}}"> {{templateService.name}}</div>
+        <div class="image content">
+            <div class="description">
+                <div class="ui icon input">
+                    <div class="header" style="line-height: 37px;text-align: center;">
+                        名称
+                    </div>
+                    
+                    <input type="text" placeholder="Name" [(ngModel)]="templateService.name" style="margin-left:5px;">
+                </div>
+                <br>
+                <br>
+                <div class="ui icon input">
+                    <div class="header" style="line-height: 52px;text-align: center;">
+                        标签
+                    </div>
+                    
+                    <div class="ui basic right labeled dropdown icon button" style="margin-left:5px;">
+                        <i class="plus icon" 
+                            [class.plus]="!settingTagsAddFlag"
+                            [class.remove]="settingTagsAddFlag"
+                            (click)="settingModalClick($event, 'addTag')"
+                        ></i>
+
+                        <div *ngIf="settingTagsAddFlag"> 
+                            <input type="text" placeholder="Input your tags name ..." style="margin-left:5px;" (change)="change($event, 'inputTagChange')">
+                        </div>
+                        
+                        <div *ngIf="!settingTagsAddFlag && templateService.tags"> 
+
+                            <a class="ui label transition visible" style="display: inline-block !important;"
+                                *ngFor="let tag of templateService.tags; let i = index;"
+                            >{{tag}}
+                                <i class="delete icon"
+                                    (click)="settingModalClick($event, 'delTag')"
+                                    attr.data-index="{{i}}"
+                                ></i>
+                            
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <br>
+                <br>
+                <div class="ui labeled icon input">
+                    <div class="header" style="line-height: 37px;text-align: center;">
+                        预览
+                        <img class="ui mini right spaced image" src="{{templateService.preview}}" style="border: 1px solid green;">
+                        
+                        <div style="display: inline-block; margin-left: 10px; line-height: 37px; margin-bottom: 0px;"> 
+                            <a (click)="settingModalClick($event, 'editPreview')"><i class="ui edit icon"></i></a>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black cancel button" (click)="settingModalClick($event, 'cancel')"> Cancel </div>
+            <div class="ui positive right labeled icon button" (click)="settingModalClick($event, 'save')"> Save <i class="save icon"></i> </div>
+        </div>
 </div>

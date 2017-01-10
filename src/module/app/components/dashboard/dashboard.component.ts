@@ -1,3 +1,4 @@
+import { Field } from './../../../../model/field';
 import { BackgroundComponent } from './../background/background.component';
 import { AppComponent } from './../../app.component';
 // import { IsObjectPipe } from './../../../../assets/angular-pipes/src/boolean/types.pipe';
@@ -26,10 +27,12 @@ declare var $ : any;
 export class DashboardComponent implements OnInit, OnDestroy{
     imgSrc: string = '';
     fields: any = [
-        {name: 'QrCode', type: 'image', icon: 'image'},
-        {name: 'ProductImg', type: 'productImg', icon: 'image'},
-        {name: 'ProductName', type: 'field', icon: 'Code'},
-        {name: 'xxxxx', type: 'custom', icon: 'Add User'},
+        {name: 'QrCode', type: 'image', fType: 'image', icon: 'image', id: Date.now()},
+        {name: 'ProductImg', type: 'productImg', fType: 'image', icon: 'image', id: Date.now()},
+        {name: 'ProductName', type: 'field', fType:　'text', icon: 'Code', id: Date.now()},
+        {name: 'ActualPrice', type: 'field', fType:　'text', icon: 'Code', id: Date.now()},
+        {name: 'Catalogs', type: 'field', fType:　'text', icon: 'Code', id: Date.now()},
+        {name: 'xxxxx', type: 'custom', fType:　'text', icon: 'Add User', id: Date.now()},
     ];
 
     //背景图
@@ -59,7 +62,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
     inputCustomFieldFlag: boolean = false;
     static changeSubject: Subject<any> = new Subject();
     changeSubjection: Subscription;
-    
+
     private appComponent: any;
 
     @ViewChild('rightClickMenu') rightClickMenu: any;
@@ -84,6 +87,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
     ) {
         appComponent.addSettingComponent();
         this.appComponent = appComponent;
+
+        console.log('dashboard component constructor ... ');
     }
 
 
@@ -151,8 +156,49 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
     }
 
-    addField(field: any){
-        console.log('field in : ' + JSON.stringify(field));
+    
+
+    addField(name: any, type: any){
+        console.log('name : ' + name);
+        console.log('type : ' + type);
+        
+        let field: any;
+
+        switch(type){
+            case 'custom': 
+                field = {
+                    type: 'custom',
+                    fType: 'text',
+                    name: name,
+                    icon: 'Add User'
+                };
+                break;
+            case 'image': 
+                field = {
+                    type: 'image',
+                    fType: 'image',
+                    name: name,
+                    icon: 'image'
+                };
+                break;
+            case 'field': 
+                field = {
+                    type: 'field',
+                    fType: 'text',
+                    name: name,
+                    icon: 'code'
+                };
+                break;
+        }
+
+        if(field){
+            field.id = Date.now();
+            this.fields.push(field);
+        }
+    }
+
+    contentmenuField(event: MouseEvent, field: any){
+        console.log('contextmenu field : ', field);
     }
 
     dblclick(event: MouseEvent, type: string){
@@ -172,6 +218,83 @@ export class DashboardComponent implements OnInit, OnDestroy{
         }
         
         console.log('rightBarDbclick -----------------');
+    }
+
+    rightSidebarClick($event, field: any){
+        let tWidth  = parseInt(this.templateService.width);
+        let tHeight = parseInt(this.templateService.height);
+        let newElement = null;
+
+        if(field.type == 'image' && field.name == 'QrCode'){
+            newElement = {
+                _id: Date.now(),
+                name:"qrCode",
+                type:'img',
+                url: '/src/assets/img/qrCode.jpg',
+                width: tWidth * 0.08,
+                height: tHeight * 0.08,
+                px: tWidth * 0.1, 
+                py: tHeight * 0.1,  
+                angle:0, 
+                borderRadius:'0%', 
+                opacity:1,
+                zIndex: TemplateService.minZIndex
+            };
+        } else if(field.type == 'productImg' && field.name == 'ProductImg'){
+            newElement = {
+                _id: Date.now(),
+                name:"productImg",
+                type:'img',
+                url: '/src/assets/img/product.jpg',
+                width: tWidth * 0.08,
+                height: tHeight * 0.08,
+                px: tWidth * 0.1, 
+                py: tHeight * 0.1,  
+                angle:0, 
+                borderRadius:'0%', 
+                opacity:1,
+                zIndex: TemplateService.minZIndex
+            };
+        } else if(field.type == 'field'){
+            newElement = {
+                _id: Date.now(),
+                name:field.name,
+                type:'text',
+                width: tWidth * 0.08,
+                height: tHeight * 0.08,
+                px: tWidth * 0.1, 
+                py: tHeight * 0.1,  
+                angle:0, 
+                borderRadius:'0%', 
+                opacity:1,
+                zIndex: TemplateService.minZIndex,
+                clamp: -1,
+                fontSize: 55,
+                fontWeight:15,
+                color:'000000',
+            };
+        } else if (field.type == 'custom'){
+            newElement = {
+                _id: Date.now(),
+                name:field.name,
+                type:'text',
+                width: tWidth * 0.08,
+                height: tHeight * 0.08,
+                px: tWidth * 0.1, 
+                py: tHeight * 0.1,  
+                angle:0, 
+                borderRadius:'0%', 
+                opacity:1,
+                zIndex: TemplateService.minZIndex,
+                clamp: -1,
+                fontSize: 55,
+                fontWeight:15,
+                color:'000000',
+            };
+        }
+
+        newElement.zIndex += this.templateService.elements.length;
+        this.templateService.elements.push(newElement);
     }
 
     rightMenuItemClick(event: MouseEvent, type: string){
@@ -378,6 +501,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
                 break;
             
             default:
+                console.log('default .... ');
                 img = <HTMLImageElement>document.getElementById('changeBGModalConf_preview_img');
                 this.uploadImgToS3(img.src, (result) => {
                     this.changeBGModalConf.loaddingFlag = false;
@@ -434,6 +558,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
         this.beApiService.commonReqByFaeva(url, body, null, (result: any) =>{
             cb(result);
+            this.changeBGModalConf.loaddingFlag = false;
         });
     }
 

@@ -51,6 +51,7 @@ export class BeApiService{
             let result: any;
             try {
                 result = JSON.parse(JSON.stringify(resp.json()));
+                // console.log('http require result : ', result);
             }catch (err){
                 let errInfo = {
                     title: 'Can parse to json format',

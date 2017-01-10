@@ -35,10 +35,12 @@ var DashboardComponent = DashboardComponent_1 = (function () {
         this.userService = userService;
         this.imgSrc = '';
         this.fields = [
-            { name: 'QrCode', type: 'image', icon: 'image' },
-            { name: 'ProductImg', type: 'productImg', icon: 'image' },
-            { name: 'ProductName', type: 'field', icon: 'Code' },
-            { name: 'xxxxx', type: 'custom', icon: 'Add User' },
+            { name: 'QrCode', type: 'image', fType: 'image', icon: 'image', id: Date.now() },
+            { name: 'ProductImg', type: 'productImg', fType: 'image', icon: 'image', id: Date.now() },
+            { name: 'ProductName', type: 'field', fType: 'text', icon: 'Code', id: Date.now() },
+            { name: 'ActualPrice', type: 'field', fType: 'text', icon: 'Code', id: Date.now() },
+            { name: 'Catalogs', type: 'field', fType: 'text', icon: 'Code', id: Date.now() },
+            { name: 'xxxxx', type: 'custom', fType: 'text', icon: 'Add User', id: Date.now() },
         ];
         //背景图
         this.bottomBackground = 'green';
@@ -59,6 +61,7 @@ var DashboardComponent = DashboardComponent_1 = (function () {
         this.inputCustomFieldFlag = false;
         appComponent.addSettingComponent();
         this.appComponent = appComponent;
+        console.log('dashboard component constructor ... ');
     }
     DashboardComponent.prototype.input = function (event, type) {
         if (type != 'blur') {
@@ -121,8 +124,43 @@ var DashboardComponent = DashboardComponent_1 = (function () {
         console.log('test');
         var img = document.getElementById('background-content-div');
     };
-    DashboardComponent.prototype.addField = function (field) {
-        console.log('field in : ' + JSON.stringify(field));
+    DashboardComponent.prototype.addField = function (name, type) {
+        console.log('name : ' + name);
+        console.log('type : ' + type);
+        var field;
+        switch (type) {
+            case 'custom':
+                field = {
+                    type: 'custom',
+                    fType: 'text',
+                    name: name,
+                    icon: 'Add User'
+                };
+                break;
+            case 'image':
+                field = {
+                    type: 'image',
+                    fType: 'image',
+                    name: name,
+                    icon: 'image'
+                };
+                break;
+            case 'field':
+                field = {
+                    type: 'field',
+                    fType: 'text',
+                    name: name,
+                    icon: 'code'
+                };
+                break;
+        }
+        if (field) {
+            field.id = Date.now();
+            this.fields.push(field);
+        }
+    };
+    DashboardComponent.prototype.contentmenuField = function (event, field) {
+        console.log('contextmenu field : ', field);
     };
     DashboardComponent.prototype.dblclick = function (event, type) {
         switch (type) {
@@ -139,6 +177,83 @@ var DashboardComponent = DashboardComponent_1 = (function () {
                 break;
         }
         console.log('rightBarDbclick -----------------');
+    };
+    DashboardComponent.prototype.rightSidebarClick = function ($event, field) {
+        var tWidth = parseInt(this.templateService.width);
+        var tHeight = parseInt(this.templateService.height);
+        var newElement = null;
+        if (field.type == 'image' && field.name == 'QrCode') {
+            newElement = {
+                _id: Date.now(),
+                name: "qrCode",
+                type: 'img',
+                url: '/src/assets/img/qrCode.jpg',
+                width: tWidth * 0.08,
+                height: tHeight * 0.08,
+                px: tWidth * 0.1,
+                py: tHeight * 0.1,
+                angle: 0,
+                borderRadius: '0%',
+                opacity: 1,
+                zIndex: template_service_1.TemplateService.minZIndex
+            };
+        }
+        else if (field.type == 'productImg' && field.name == 'ProductImg') {
+            newElement = {
+                _id: Date.now(),
+                name: "productImg",
+                type: 'img',
+                url: '/src/assets/img/product.jpg',
+                width: tWidth * 0.08,
+                height: tHeight * 0.08,
+                px: tWidth * 0.1,
+                py: tHeight * 0.1,
+                angle: 0,
+                borderRadius: '0%',
+                opacity: 1,
+                zIndex: template_service_1.TemplateService.minZIndex
+            };
+        }
+        else if (field.type == 'field') {
+            newElement = {
+                _id: Date.now(),
+                name: field.name,
+                type: 'text',
+                width: tWidth * 0.08,
+                height: tHeight * 0.08,
+                px: tWidth * 0.1,
+                py: tHeight * 0.1,
+                angle: 0,
+                borderRadius: '0%',
+                opacity: 1,
+                zIndex: template_service_1.TemplateService.minZIndex,
+                clamp: -1,
+                fontSize: 55,
+                fontWeight: 15,
+                color: '000000',
+            };
+        }
+        else if (field.type == 'custom') {
+            newElement = {
+                _id: Date.now(),
+                name: field.name,
+                type: 'text',
+                width: tWidth * 0.08,
+                height: tHeight * 0.08,
+                px: tWidth * 0.1,
+                py: tHeight * 0.1,
+                angle: 0,
+                borderRadius: '0%',
+                opacity: 1,
+                zIndex: template_service_1.TemplateService.minZIndex,
+                clamp: -1,
+                fontSize: 55,
+                fontWeight: 15,
+                color: '000000',
+            };
+        }
+        newElement.zIndex += this.templateService.elements.length;
+        this.templateService.elements.push(newElement);
     };
     DashboardComponent.prototype.rightMenuItemClick = function (event, type) {
         switch (type) {
@@ -304,6 +419,7 @@ var DashboardComponent = DashboardComponent_1 = (function () {
                 });
                 break;
             default:
+                console.log('default .... ');
                 img = document.getElementById('changeBGModalConf_preview_img');
                 this.uploadImgToS3(img.src, function (result) {
                     _this.changeBGModalConf.loaddingFlag = false;
@@ -334,6 +450,7 @@ var DashboardComponent = DashboardComponent_1 = (function () {
         }, 1000);
     };
     DashboardComponent.prototype.uploadImgToS3 = function (content, cb) {
+        var _this = this;
         this.changeBGModalConf.loaddingFlag = true;
         var url = this.faevaBeApiService.getUrl('uploadTemporaryImgByAdmin');
         var userId = this.userService.loginUser.id;
@@ -351,6 +468,7 @@ var DashboardComponent = DashboardComponent_1 = (function () {
         };
         this.beApiService.commonReqByFaeva(url, body, null, function (result) {
             cb(result);
+            _this.changeBGModalConf.loaddingFlag = false;
         });
     };
     DashboardComponent.prototype.closeChangeBGModal = function () {

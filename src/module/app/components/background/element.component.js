@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var dashboard_component_1 = require("./../dashboard/dashboard.component");
 var border2_component_1 = require("./../../border2.component");
 /**
  * Created by Administrator on 2016/10/26.
@@ -178,7 +177,7 @@ var ElementComponent = ElementComponent_1 = (function () {
     };
     ElementComponent.prototype.onclick = function (event) {
         //close right menu 
-        dashboard_component_1.DashboardComponent.changeSubject.next({ event: 'closeRightMenu' });
+        border2_component_1.Border2Component.changeSubject.next({ event: 'closeRightMenu' });
         border2_component_1.Border2Component.changeSubject.next({ event: 'elementClict' });
         var currentElement = this.ele;
         this.templateService.currentElement = this.ele;

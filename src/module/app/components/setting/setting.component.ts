@@ -1,3 +1,7 @@
+import { OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppComponent } from './../../app.component';
+import { TemplateService } from './../../../../services/template.service';
 /**
  * Created by Administrator on 2016/10/26.
  */
@@ -9,6 +13,7 @@ import {Component, OnInit, trigger,
     Renderer
 } from '@angular/core';
 import {UserService} from "../../../../services/user.service";
+import {Subject, Subscription, Observable} from "rxjs/Rx";
 import { DashboardComponent } from './../dashboard/dashboard.component';
 
 declare var $ : any;
@@ -35,7 +40,7 @@ declare var $ : any;
         ])
     ]
 })
-export class SettingComponent extends OnInit{
+export class SettingComponent implements OnInit, OnDestroy{
     _settingEle: HTMLElement;
     x: number;
     y: number;
@@ -43,15 +48,110 @@ export class SettingComponent extends OnInit{
 
     attrSidebarOpenFlag: boolean = false;
 
+    private settingTagsAddFlag: boolean = false;
+
+    //临时缓存(在修改template)
+    private tempTemplateService: any;
+    private tempAppComponentSubjection: Subscription; 
+
+
     constructor(private renderer: Renderer,
-        private userService : UserService
+        private userService : UserService,
+        private templateService : TemplateService,
+        private router : Router
     ){
-        super();
     }
 
     ngOnInit(){
         this._settingEle = <HTMLElement>document.getElementById('test');
         $('.ui.dropdown').dropdown({on:'dblclick'});
+    }
+
+    ngOnDestroy(){
+        if(this.tempAppComponentSubjection){
+            this.tempAppComponentSubjection.unsubscribe();
+        }
+
+        console.log('setting component OnDestroy...');
+    }
+
+    change(event: MouseEvent, type: string){
+        switch(type){
+            case 'inputTagChange': 
+                let target = <HTMLInputElement>event.target;
+                let value = target.value;
+
+                if(this.templateService.tags){
+                    this.templateService.tags.push(value);
+                }else{
+                    this.templateService.tags = [value];
+                }
+                this.settingTagsAddFlag = false;
+                break;
+        }
+
+        console.log('change ....')
+    }
+
+    settingModalClick(event: MouseEvent, type: string){
+        switch(type){
+            case 'addTag':
+                if(this.settingTagsAddFlag){
+                    this.settingTagsAddFlag = false;
+                }else{
+                    this.settingTagsAddFlag = true;
+                }
+                break;
+            case 'delTag':
+                let target = <HTMLElement>event.target;
+                let index = <number>target.attributes['data-index'].value;
+                
+                this.templateService.tags.splice(index, 1);
+                break;
+            
+            case 'cancel':
+                 this.templateService = this.tempTemplateService;
+                 $('.templateSettingModal').modal('hide');
+                break;
+            
+            case 'save':
+                $('.templateSettingModal').modal('hide');
+                break;
+            case 'editPreview': 
+                let ts = Date.now();
+                AppComponent.changeSubject.next({
+                    event: 'inputFiles',
+                    originData: {
+                        ts: ts, 
+                        config:  {
+                            uploadToS3Flag: true
+                        }
+                    },
+                    
+                });
+
+                if(this.tempAppComponentSubjection){
+                    this.tempAppComponentSubjection.unsubscribe();
+                }
+
+                this.tempAppComponentSubjection = AppComponent.changeSubject
+                    .filter((data) => {return data.originData.ts && data.event == 'finishedUploadToS3' && data.originData.ts == ts})
+                    .subscribe({
+                        next: data => {
+                            if(data.result.code == 200){
+                                let link = data.result.msg.link;
+                                this.templateService.preview = link;
+                            }else{
+                                console.log('setting component upload img to s3 fail!', data.result);
+                            }
+                        }
+                    });
+
+                break;
+        }
+
+        event.stopImmediatePropagation();
+        return false;
     }
 
     onMouseover(event: MouseEvent){
@@ -137,9 +237,44 @@ export class SettingComponent extends OnInit{
                 break;
             case 'OpenAttributesSidebar': 
                 this.toggleAttributesSidebar();
+                break;
+            case 'new-template': 
+                this.newTemplate();
+                break;
+            case 'setting':
+                $('.templateSettingModal').modal({
+                    closable: false,
+                    onHidden: () => {
+                        this.tempTemplateService = null;
+                    },
+                    onShow: () => {
+                        this.tempTemplateService = Object.assign({}, this.templateService);
+                    }
+                }).modal('show');
+                break;
+            case 'SaveToRemote':
+
+                console.log('save to remote');
+                break;
+            case 'Exit':
+                let link = ['template-list'];
+                this.router.navigate(link);
+                break;
             default :
                 break;
         }
+    }
+
+    newTemplate(){
+        this.templateService.elements = [];
+        this.templateService.currentElement = null;
+        this.templateService.bg = '#f3f3f3';
+        this.templateService.width = '800';
+        this.templateService.height = '600';
+        this.templateService.showFlag = false;
+
+
+        console.log('newTemplate');
     }
 
     toggleAttributesSidebar(){

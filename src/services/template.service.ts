@@ -28,10 +28,14 @@ export class TemplateService{
     };
     showFlag: boolean = false;
 
-    bg: string = 'https://s3.cn-north-1.amazonaws.com.cn/be-temp/03F76630004519154AAAD4C018D192AF.jpeg';
+    name: string = 'name';
+    tags: [any] = null;
+    preview: string  = 'https://s3.cn-north-1.amazonaws.com.cn/common/img/splash/splashDemo.jpg';
+    // bg: string = 'https://s3.cn-north-1.amazonaws.com.cn/common/img/splash/splashDemo.jpg';
+    bg: string = '#f3f3f3';
     width: string = '800';
     height: string = '600'
-    elements: [any] = [
+    elements: any = [
         {
             _id: 'id1',
             name:"tesd",

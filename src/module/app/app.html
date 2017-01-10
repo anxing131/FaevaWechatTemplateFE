@@ -2,6 +2,16 @@
      [init]="[this, 'this.data = \'anxing\';']"
      id="app-content"
 >   
+
+    <div class="globalInputFiles">
+        <input type="file" style="display: none" id="tempGlobalInputFiles"
+                #tempGlobalInputFiles
+                (change)="fileChange($event, 'tempGlobalInputFiles')"
+            />
+
+        <img id="globalInputFilesPreviewImg" style="display: none">    
+    </div>
+
     <div #axSetting></div>
     <!--<ax-setting></ax-setting>-->
 

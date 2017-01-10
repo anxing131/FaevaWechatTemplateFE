@@ -25,9 +25,17 @@
         <div *ngSwitchCase="'img'"
                 [ngStyle]="{'-webkit-transform': 'rotate('+ele.angle+'deg)', 'transform':'rotate('+ele.angle+'deg)'}"
         >
-            <img src="../../../../../src/assets/img/drawable-xxhdpi-icon.png"
+            <div *ngIf="ele.url">
+                <img src="{{ele.url}}"
+                    [ngStyle]="{'width': ele.width, 'height': ele.height, 'border-radius':ele.borderRadius}"
+                >
+            </div>
+            <div *ngIf="!ele.url">
+                <img src="../../../../../src/assets/img/drawable-xxhdpi-icon.png"
                     [ngStyle]="{'width': ele.width, 'height': ele.height, 'border-radius':ele.borderRadius}"
             >
+            </div>
+            
         </div>
 
         <div *ngSwitchCase="'text'"

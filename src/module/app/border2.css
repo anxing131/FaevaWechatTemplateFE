@@ -129,7 +129,7 @@
 }
 
 .right{
-    position: absolute;
+    position: fixed;
     width: .9vw;
     height: .9vw;
     min-width: 6px;
@@ -206,6 +206,7 @@
     left: -5px;
     top: 48%;
     content: '';
+    z-index: 5000;
 }
 
 .right-menu{

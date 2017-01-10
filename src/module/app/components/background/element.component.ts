@@ -219,10 +219,8 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
     }
 
     onclick(event){
-
         //close right menu 
-        DashboardComponent.changeSubject.next({event: 'closeRightMenu'});
-
+        Border2Component.changeSubject.next({event: 'closeRightMenu'});
         Border2Component.changeSubject.next({event: 'elementClict'});
 
         let currentElement = this.ele;
