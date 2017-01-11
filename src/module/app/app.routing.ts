@@ -10,7 +10,7 @@ import {TemplateListComponent} from "./components/template-list/template-list.co
 let path = [
     {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'template-list',
         pathMatch: 'full'
     },{
         path: 'dashboard/:id',

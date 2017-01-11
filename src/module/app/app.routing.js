@@ -11,7 +11,7 @@ var template_list_component_1 = require("./components/template-list/template-lis
 var path = [
     {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'template-list',
         pathMatch: 'full'
     }, {
         path: 'dashboard/:id',
