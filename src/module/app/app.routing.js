@@ -14,7 +14,7 @@ var path = [
         redirectTo: 'dashboard',
         pathMatch: 'full'
     }, {
-        path: 'dashboard',
+        path: 'dashboard/:id',
         component: dashboard_component_1.DashboardComponent,
         canActivate: [user_service_1.UserService]
     }, {

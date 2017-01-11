@@ -40,38 +40,7 @@ var TemplateService = (function () {
         this.bg = '#f3f3f3';
         this.width = '800';
         this.height = '600';
-        this.elements = [
-            {
-                _id: 'id1',
-                name: "tesd",
-                type: 'text',
-                clamp: -1,
-                width: 100,
-                height: 100,
-                px: 34,
-                py: 35,
-                fontSize: 150,
-                fontWeight: 23,
-                angle: 0,
-                borderRadius: '45%',
-                color: '0905ff',
-                opacity: 1,
-                zIndex: 50
-            },
-            {
-                _id: 'id2',
-                name: "qrCode",
-                type: 'img',
-                width: 45,
-                height: 45,
-                px: 54,
-                py: 55,
-                angle: 0,
-                borderRadius: '0%',
-                opacity: 1,
-                zIndex: 49
-            }
-        ];
+        this.elements = [];
         this.changeTextSubject.subscribe({
             next: function (param) {
                 // console.log('param : ' + param);

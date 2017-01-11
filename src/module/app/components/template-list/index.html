@@ -106,7 +106,17 @@
 
     <template #preview let-row="row" let-value="value" >
         <div class="center" *ngIf="value !== ''">
-            <img src="{{value}}" width="44px" height="33px">
+            <img src="{{row.preview}}" width="44px" height="33px">
+        </div>
+    </template>
+
+    <template #tags let-row="row" let-value="value" >
+        <div class="ui form" >
+            <div class="field" >
+                <select class="ui search dropdown" style="background: #fffc7f;">
+                    <option *ngFor="let tag of row.tags">{{tag}}</option>
+                </select>
+            </div>
         </div>
     </template>
 </div>

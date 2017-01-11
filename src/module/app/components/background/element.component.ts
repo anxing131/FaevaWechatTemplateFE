@@ -39,6 +39,8 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
     static changeSubject: Subject<any> = new Subject();
     contentEditableFlag: boolean = false;
 
+    static textInit: any = [];
+
     //当前右击的element id
     static currentRightMenuId : any;
 
@@ -57,7 +59,6 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
     }
 
     ngOnInit(){
-        
         if(!ElementComponent.changeSubscription){
             ElementComponent.changeSubscription = ElementComponent.changeSubject.subscribe({
                 next: data => {
@@ -82,6 +83,37 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
         
 
         if(this.ele.type == 'text'){
+            setTimeout(() => {
+                let hasFlag = false;
+                ElementComponent.textInit.forEach((item) => {
+                    if(item == this.ele._id){
+                        hasFlag = true;
+                    }
+                });
+
+                if(!hasFlag){
+                    ElementComponent.textInit.push(this.ele._id);
+                    let textLableEle: HTMLElement = <HTMLElement>this.textLabel.nativeElement;
+                    this.templateService.elements.forEach((item, index, elements) => {
+                        if(this.ele._id == item._id){
+                            let text =  textLableEle.innerText;
+                            let textSize = text.replace(/[\u0391-\uFFE5]/g,"aa").length;
+                            
+                            // item.height = textLableEle.offsetHeight;
+                            item.height = item.fontSize;
+                            item.width =  (textSize * item.fontSize) / 2 + item.fontSize / 4;
+                            
+
+                            if(this.templateService.currentElement._id == this.ele._id){
+                                this.templateService.currentElement = item;
+                            }
+
+                            return item;
+                        }
+                    });
+                }
+            }, 20);
+
             this.textSubscription = this.templateService.changeTextSubject.subscribe({
                 next: (eleId) => {
                     if(this.ele._id === eleId){

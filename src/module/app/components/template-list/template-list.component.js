@@ -403,22 +403,18 @@ var TemplateListComponent = (function () {
             ];
         /**/
         this.allColumns = [
-            {
-                name: 'eventId',
-                maxWidth: 200,
-                checked: false,
-            },
+            // {
+            //     name:'eventId', 
+            //     maxWidth: 200,
+            //     checked: false,
+            // },
             {
                 name: 'name',
                 checked: true,
             },
             {
-                name: 'version',
-                checked: false,
-            },
-            {
-                name: 'status',
-                checked: false,
+                name: 'createDate',
+                checked: true,
             },
         ];
         this.selectColumns = []; /**/
@@ -522,12 +518,17 @@ var TemplateListComponent = (function () {
     TemplateListComponent.prototype.getTemplateList = function (index, limit, keyword) {
         var _this = this;
         this.loaddingFlag = true;
-        var url = this.faevaBeApiService.getUrl('getEventTemplateListByPagination');
+        var url = this.faevaBeApiService.getUrl('getAgentProductTemplateList');
+        var userId = this.userService.loginUser.id;
+        var token = this.userService.loginUser.token;
         var body = {
             ws: {
-                "platformType": "Builder"
+                platformType: 'Builder',
+                userType: 'admin',
+                token: token
             },
             data: {
+                userId: userId,
                 index: index,
                 limit: limit,
                 keyword: ''
@@ -561,16 +562,19 @@ var TemplateListComponent = (function () {
     TemplateListComponent.prototype.handleSuccess = function (result) {
         var _this = this;
         this.count = result.msg.size;
-        var templateList = result.msg.eventList.map(function (item) {
+        var templateList = result.msg.tempList.map(function (item) {
             var newItem = {
                 _id: item.id,
-                eventId: item.eventId,
-                name: item.eventName,
-                version: item.version,
+                name: item.name,
                 createDate: item.createDate,
-                preview: item.preview,
+                preview: item.priview,
+                qrCodeWidth: item.qrCodeWidth,
+                tags: item.tags,
+                positionConfig: item.positionConfig
             };
-            newItem.version = 'V' + item.version.major + '.' + item.version.minor + '.' + item.version.revision;
+            var createDate = new Date();
+            createDate.setTime(item.createDate * 1000);
+            newItem.createDate = createDate.toLocaleString("en-US", { timeZone: "Asia/Shanghai", timeZoneName: "short" });
             return newItem;
         });
         // console.log('templateList : ', templateList);
@@ -610,11 +614,11 @@ var TemplateListComponent = (function () {
         $('.menu .browse')
             .popup({
             inline: true,
-            // hoverable  : true,
+            hoverable: true,
             position: 'bottom left',
             delay: {
-                show: 100,
-                hide: 200
+                show: 400,
+                hide: 800
             },
             onHidden: function (context) {
                 _this.filterFieldsKey = '';
@@ -627,11 +631,15 @@ var TemplateListComponent = (function () {
                 {
                     name: 'name',
                 }, {
-                    name: 'eventId',
-                }, {
                     name: 'preview',
                     maxWidth: 200,
                     cellTemplate: _this.preview,
+                }, {
+                    name: 'tags',
+                    maxWidth: 150,
+                    cellTemplate: _this.tags,
+                }, {
+                    name: 'createDate',
                 }, {
                     name: '',
                     maxWidth: 200,
@@ -639,6 +647,13 @@ var TemplateListComponent = (function () {
                     cellTemplate: _this.editTmpl,
                 },
             ];
+            _this.allColumns.push({
+                name: 'tags',
+                checked: false,
+                maxWidth: 150,
+                cellTemplate: _this.tags,
+            });
+            _this.allColumns = _this.allColumns.slice();
             _this.fetch(1, 20);
         }, 500);
         var columns = [
@@ -657,7 +672,7 @@ var TemplateListComponent = (function () {
             return;
         }
         this.deletingFlag = true;
-        var url = this.faevaBeApiService.getUrl('deleteTemplate');
+        var url = this.faevaBeApiService.getUrl('delAgentProductTemplate');
         var userId = this.userService.loginUser.id;
         var token = this.userService.loginUser.token;
         var body = {
@@ -667,7 +682,7 @@ var TemplateListComponent = (function () {
                 userType: "admin",
             },
             data: {
-                eventId: row._id,
+                tempId: row._id,
                 userId: userId
             }
         };
@@ -687,7 +702,7 @@ var TemplateListComponent = (function () {
     };
     TemplateListComponent.prototype.edit = function (event, row) {
         // let link = ['dashboard', row._id];
-        var link = ['dashboard'];
+        var link = ['dashboard', row._id];
         this.router.navigate(link);
     };
     Object.defineProperty(TemplateListComponent.prototype, "getFilterFieldsKey", {
@@ -799,6 +814,10 @@ __decorate([
     core_2.ViewChild('preview'),
     __metadata("design:type", core_2.TemplateRef)
 ], TemplateListComponent.prototype, "preview", void 0);
+__decorate([
+    core_2.ViewChild('tags'),
+    __metadata("design:type", core_2.TemplateRef)
+], TemplateListComponent.prototype, "tags", void 0);
 __decorate([
     core_2.ViewChild('datatable'),
     __metadata("design:type", Object)

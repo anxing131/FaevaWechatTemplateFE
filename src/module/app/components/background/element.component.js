@@ -52,6 +52,31 @@ var ElementComponent = ElementComponent_1 = (function () {
             });
         }
         if (this.ele.type == 'text') {
+            setTimeout(function () {
+                var hasFlag = false;
+                ElementComponent_1.textInit.forEach(function (item) {
+                    if (item == _this.ele._id) {
+                        hasFlag = true;
+                    }
+                });
+                if (!hasFlag) {
+                    ElementComponent_1.textInit.push(_this.ele._id);
+                    var textLableEle_1 = _this.textLabel.nativeElement;
+                    _this.templateService.elements.forEach(function (item, index, elements) {
+                        if (_this.ele._id == item._id) {
+                            var text = textLableEle_1.innerText;
+                            var textSize = text.replace(/[\u0391-\uFFE5]/g, "aa").length;
+                            // item.height = textLableEle.offsetHeight;
+                            item.height = item.fontSize;
+                            item.width = (textSize * item.fontSize) / 2 + item.fontSize / 4;
+                            if (_this.templateService.currentElement._id == _this.ele._id) {
+                                _this.templateService.currentElement = item;
+                            }
+                            return item;
+                        }
+                    });
+                }
+            }, 20);
             this.textSubscription = this.templateService.changeTextSubject.subscribe({
                 next: function (eleId) {
                     if (_this.ele._id === eleId) {
@@ -250,6 +275,7 @@ var ElementComponent = ElementComponent_1 = (function () {
     return ElementComponent;
 }());
 ElementComponent.changeSubject = new Rx_1.Subject();
+ElementComponent.textInit = [];
 __decorate([
     core_1.Input(),
     __metadata("design:type", Object)

@@ -63,6 +63,7 @@ export class TemplateListComponent implements OnInit {
     @ViewChild('editTmpl') editTmpl: TemplateRef<any>;
     @ViewChild('hdrTpl') hdrTpl: TemplateRef<any>;
     @ViewChild('preview') preview: TemplateRef<any>;
+    @ViewChild('tags') tags: TemplateRef<any>;
 
 /*
     templateList = [
@@ -418,23 +419,19 @@ export class TemplateListComponent implements OnInit {
         }
     ];
 /**/
-    allColumns = [
-        {
-            name:'eventId', 
-            maxWidth: 200,
-            checked: false,
-        },
+    allColumns: any = [
+        // {
+        //     name:'eventId', 
+        //     maxWidth: 200,
+        //     checked: false,
+        // },
         {
             name:'name',
             checked: true,
         },
         {
-            name:'version', 
-            checked: false,
-        },
-        {
-            name:'status', 
-            checked: false,
+            name:'createDate',
+            checked: true,
         },
     ];
 
@@ -564,12 +561,19 @@ export class TemplateListComponent implements OnInit {
 
     getTemplateList(index: number, limit: number, keyword?: string){
         this.loaddingFlag = true;
-        let url = this.faevaBeApiService.getUrl('getEventTemplateListByPagination');
+        let url = this.faevaBeApiService.getUrl('getAgentProductTemplateList');
+
+        let userId = this.userService.loginUser.id;
+        let token = this.userService.loginUser.token;
+
         let body = {
             ws:{
-                "platformType": "Builder"
+                platformType: 'Builder',
+                userType: 'admin',
+                token: token
             },
             data:{
+                userId: userId,
                 index: index,
                 limit: limit,
                 keyword: ''
@@ -602,18 +606,22 @@ export class TemplateListComponent implements OnInit {
 
     handleSuccess(result){
         this.count = result.msg.size;
-        let templateList = result.msg.eventList.map((item) => {
+        let templateList = result.msg.tempList.map((item) => {
             let newItem = {
                 _id : item.id,
-                eventId: item.eventId,
-                name: item.eventName,
-                version: item.version,
+                name: item.name,
                 createDate: item.createDate,
-                preview: item.preview,
+                preview: item.priview,
+                qrCodeWidth: item.qrCodeWidth,
+                tags: item.tags,
+                positionConfig: item.positionConfig
             };
-            
-            newItem.version = 'V' + item.version.major + '.' + item.version.minor + '.' + item.version.revision;
 
+            let createDate = new Date();
+            createDate.setTime(item.createDate * 1000);
+    
+            newItem.createDate = createDate.toLocaleString("en-US", 
+                {timeZone: "Asia/Shanghai",timeZoneName: "short"});
             return newItem;
         });
 // console.log('templateList : ', templateList);
@@ -656,11 +664,11 @@ export class TemplateListComponent implements OnInit {
         $('.menu .browse')
             .popup({
                 inline     : true,
-                // hoverable  : true,
+                hoverable  : true,
                 position   : 'bottom left',
                 delay: {
-                    show: 100,
-                    hide: 200
+                    show: 400,
+                    hide: 800
                 },
                 onHidden: (context) => {
                     this.filterFieldsKey = '';
@@ -676,11 +684,15 @@ export class TemplateListComponent implements OnInit {
                 {
                     name: 'name',
                 },{
-                    name: 'eventId',
-                },{
                     name:'preview', 
                     maxWidth:200,
                     cellTemplate: this.preview,
+                },{
+                    name:'tags', 
+                    maxWidth: 150,
+                    cellTemplate: this.tags,
+                },{
+                    name:'createDate', 
                 },{
                     name:'', 
                     maxWidth:200,
@@ -691,6 +703,14 @@ export class TemplateListComponent implements OnInit {
             
             ];
 
+            this.allColumns.push({
+                name:'tags',
+                checked: false,
+                maxWidth: 150,
+                cellTemplate: this.tags,
+            });
+
+            this.allColumns = [...this.allColumns];
             this.fetch(1, 20); 
         }, 500);
 
@@ -711,7 +731,7 @@ export class TemplateListComponent implements OnInit {
         }
 
         this.deletingFlag = true;
-        let url = this.faevaBeApiService.getUrl('deleteTemplate');
+        let url = this.faevaBeApiService.getUrl('delAgentProductTemplate');
         let userId = this.userService.loginUser.id;
         let token = this.userService.loginUser.token;
         let body = {
@@ -721,7 +741,7 @@ export class TemplateListComponent implements OnInit {
                  userType:"admin",
             },
             data:{
-                eventId:row._id,
+                tempId:row._id,
                 userId: userId
             }
         };
@@ -743,7 +763,7 @@ export class TemplateListComponent implements OnInit {
 
     edit(event, row){
         // let link = ['dashboard', row._id];
-        let link = ['dashboard'];
+        let link = ['dashboard', row._id];
         this.router.navigate(link);
     }
 

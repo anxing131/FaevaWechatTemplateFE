@@ -38,13 +38,14 @@
             
         </div>
 
+        <!--有table-cell 的效果是居中-->
+        <!--[ngStyle]="{'display':'table-cell', 'vertical-align':'middle', 'text-align':'center', 'width': ele.width, 'height': ele.height,'-webkit-transform': 'rotate('+ele.angle+'deg)', 'transform':'rotate('+ele.angle+'deg)'}"-->
         <div *ngSwitchCase="'text'"
-                [ngStyle]="{'display':'table-cell', 'vertical-align':'middle', 'text-align':'center', 'width': ele.width, 'height': ele.height,'-webkit-transform': 'rotate('+ele.angle+'deg)', 'transform':'rotate('+ele.angle+'deg)'}"
+                [ngStyle]="{'vertical-align':'middle', 'text-align':'center', 'width': ele.width, 'height': ele.height,'-webkit-transform': 'rotate('+ele.angle+'deg)', 'transform':'rotate('+ele.angle+'deg)'}"
                 class="test33"
                 
         >
-            <!--<span>{{ele.name}}</span>-->
-            <span [ngStyle]="{'line-height':ele.fontSize + 'px', 'width': ele.width, 'font-weight': ele.fontWeight, 'font-size': ele.fontSize, 'color': ele.color}"
+            <span [ngStyle]="{'line-height':ele.fontSize + 'px', 'width': ele.width, 'font-weight': ele.fontWeight, 'font-size': ele.fontSize, 'color': ele.color, 'text-align': ele.textAlign}"
                 class="testSpan"
                 #textLabel
                 id="textLabel"
@@ -54,7 +55,7 @@
 
                 {{ele.name}}
             </span>
-
+            
         </div>
     </div>
 

@@ -13,7 +13,7 @@ let path = [
         redirectTo: 'dashboard',
         pathMatch: 'full'
     },{
-        path: 'dashboard',
+        path: 'dashboard/:id',
         component: DashboardComponent,
         canActivate: [UserService]
     },{

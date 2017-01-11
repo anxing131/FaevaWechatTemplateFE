@@ -45,6 +45,7 @@ export class SettingComponent implements OnInit, OnDestroy{
     x: number;
     y: number;
     settingFlag: boolean =true;
+    openSettingFlag: boolean =false;
 
     attrSidebarOpenFlag: boolean = false;
 
@@ -246,15 +247,16 @@ export class SettingComponent implements OnInit, OnDestroy{
                     closable: false,
                     onHidden: () => {
                         this.tempTemplateService = null;
+                        this.openSettingFlag = false;
                     },
                     onShow: () => {
+                        this.openSettingFlag = true;
                         this.tempTemplateService = Object.assign({}, this.templateService);
                     }
                 }).modal('show');
                 break;
             case 'SaveToRemote':
-
-                console.log('save to remote');
+                DashboardComponent.changeSubject.next({event: 'saveTemplate'});
                 break;
             case 'Exit':
                 let link = ['template-list'];
@@ -266,12 +268,17 @@ export class SettingComponent implements OnInit, OnDestroy{
     }
 
     newTemplate(){
+        this.templateService.originData = null;
         this.templateService.elements = [];
         this.templateService.currentElement = null;
         this.templateService.bg = '#f3f3f3';
         this.templateService.width = '800';
         this.templateService.height = '600';
         this.templateService.showFlag = false;
+        this.templateService.name = '';
+        this.templateService.preview = '';
+        this.templateService.tags = null;
+
 
 
         console.log('newTemplate');

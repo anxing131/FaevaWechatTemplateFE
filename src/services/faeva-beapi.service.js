@@ -18,7 +18,11 @@ var urls = {
     getEventTemplateList: 'dm/wechatDm/listWxEvent',
     getEventTemplateListByPagination: 'dm/wechatDm/listWxEventByPagination',
     deleteTemplate: 'admin/eventmgt/deleteEvent',
-    uploadTemporaryImgByAdmin: 'dm/assets/uploadTemporaryImgByAdmin'
+    uploadTemporaryImgByAdmin: 'dm/assets/uploadTemporaryImgByAdmin',
+    getAgentProductTemplateList: 'dm/accountProductAgent/getTemplateList',
+    delAgentProductTemplate: 'dm/accountProductAgent/delTemplate',
+    updateAgentProductTemplate: 'dm/accountProductAgent/updateTemplate',
+    createAgentProductTemplate: 'dm/accountProductAgent/createTemplate'
 };
 var FaevaBeApiService = (function () {
     function FaevaBeApiService(http) {

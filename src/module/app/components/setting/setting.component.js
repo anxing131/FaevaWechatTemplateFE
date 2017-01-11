@@ -24,6 +24,7 @@ var SettingComponent = (function () {
         this.templateService = templateService;
         this.router = router;
         this.settingFlag = true;
+        this.openSettingFlag = false;
         this.attrSidebarOpenFlag = false;
         this.settingTagsAddFlag = false;
     }
@@ -185,14 +186,16 @@ var SettingComponent = (function () {
                     closable: false,
                     onHidden: function () {
                         _this.tempTemplateService = null;
+                        _this.openSettingFlag = false;
                     },
                     onShow: function () {
+                        _this.openSettingFlag = true;
                         _this.tempTemplateService = Object.assign({}, _this.templateService);
                     }
                 }).modal('show');
                 break;
             case 'SaveToRemote':
-                console.log('save to remote');
+                dashboard_component_1.DashboardComponent.changeSubject.next({ event: 'saveTemplate' });
                 break;
             case 'Exit':
                 var link = ['template-list'];
@@ -203,12 +206,16 @@ var SettingComponent = (function () {
         }
     };
     SettingComponent.prototype.newTemplate = function () {
+        this.templateService.originData = null;
         this.templateService.elements = [];
         this.templateService.currentElement = null;
         this.templateService.bg = '#f3f3f3';
         this.templateService.width = '800';
         this.templateService.height = '600';
         this.templateService.showFlag = false;
+        this.templateService.name = '';
+        this.templateService.preview = '';
+        this.templateService.tags = null;
         console.log('newTemplate');
     };
     SettingComponent.prototype.toggleAttributesSidebar = function () {
