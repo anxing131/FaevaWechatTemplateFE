@@ -121,6 +121,7 @@ var Border2Component = Border2Component_1 = (function () {
             case 'moveDownOne':
             case 'moveToBottom':
             case 'moveToTop':
+            case 'remove':
                 element_component_1.ElementComponent.changeSubject.next({
                     event: type
                 });
@@ -262,9 +263,11 @@ var Border2Component = Border2Component_1 = (function () {
         delete this.templateService.currentElement.display;
         this.dragViewData.display = 'none';
         this.elementDraggable = true;
+        var editEle = null;
         for (var index in this.templateService.elements) {
-            var tempEle = this.templateService.elements[index];
-            if (this.templateService.currentElement._id == tempEle._id) {
+            editEle = Object.assign({}, this.templateService.elements[index]);
+            if (this.templateService.currentElement._id == editEle._id) {
+                console.log('editEle 1 : ', editEle);
                 this.templateService.elements[index] = this.templateService.currentElement;
                 break;
             }
@@ -299,13 +302,11 @@ var Border2Component = Border2Component_1 = (function () {
                 break;
         }
         console.log('change Ele : ', this.templateService.currentElement);
-        console.log('height : ' + this.templateService.currentElement.height);
         var tempEles = this.templateService.elements;
         this.templateService.elements = null;
         this.templateService.elements = tempEles.slice();
-        console.log('height2 : ' + this.templateService.elements[0].height);
         console.log('list : ', this.templateService.elements);
-        this.templateService.changeTextSubject.next(this.templateService.currentElement._id);
+        this.templateService.changeTextSubject.next({ eleId: this.templateService.currentElement._id, oldData: editEle });
         event.stopImmediatePropagation();
     };
     Border2Component.prototype.mousemove = function (event) {

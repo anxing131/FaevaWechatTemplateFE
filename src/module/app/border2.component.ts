@@ -169,6 +169,7 @@ export class Border2Component implements OnInit, OnDestroy{
             case 'moveDownOne':
             case 'moveToBottom':
             case 'moveToTop':
+            case 'remove':
                 ElementComponent.changeSubject.next({
                     event: type
                 });
@@ -351,10 +352,12 @@ export class Border2Component implements OnInit, OnDestroy{
         this.dragViewData.display = 'none';
 
         this.elementDraggable = true;
+        let editEle = null;
 
         for(let index in this.templateService.elements){
-            let tempEle = this.templateService.elements[index];
-            if(this.templateService.currentElement._id == tempEle._id){
+            editEle = Object.assign({}, this.templateService.elements[index]);
+            if(this.templateService.currentElement._id == editEle._id){
+                console.log('editEle 1 : ', editEle);
                 this.templateService.elements[index] = this.templateService.currentElement;
                 break;
             }
@@ -394,13 +397,11 @@ export class Border2Component implements OnInit, OnDestroy{
         }
 
         console.log('change Ele : ', this.templateService.currentElement);
-        console.log('height : ' +   this.templateService.currentElement.height);
         let tempEles = this.templateService.elements;
         this.templateService.elements = null;
         this.templateService.elements = [...tempEles];
-        console.log('height2 : ' + this.templateService.elements[0].height);
         console.log('list : ', this.templateService.elements);
-        this.templateService.changeTextSubject.next(this.templateService.currentElement._id);
+        this.templateService.changeTextSubject.next({eleId: this.templateService.currentElement._id, oldData: editEle});
         event.stopImmediatePropagation();
     }
 

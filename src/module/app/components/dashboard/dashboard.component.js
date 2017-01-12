@@ -71,6 +71,25 @@ var DashboardComponent = DashboardComponent_1 = (function () {
     };
     DashboardComponent.prototype.ngOnInit = function () {
         var _this = this;
+        var keydownListener = (function (context) {
+            return function (e) {
+                if (e.ctrlKey) {
+                    switch (e.keyCode) {
+                        case 67:
+                            break;
+                        case 86:
+                            break;
+                        case 90:
+                            context.backOneStep();
+                            break;
+                        case 89:
+                            context.forwardOneStep();
+                            break;
+                    }
+                }
+            };
+        })(this);
+        $(document).keydown(keydownListener);
         this.routerSubjection = this.router.params.subscribe({
             next: function (params) {
                 _this.getTemplateById(params['id']);
@@ -121,6 +140,72 @@ var DashboardComponent = DashboardComponent_1 = (function () {
         setTimeout(function () {
             _this.reflashUI();
         }, 500);
+    };
+    //前进一步
+    DashboardComponent.prototype.forwardOneStep = function () {
+        var _this = this;
+        var oldEle = this.templateService.cancelHistorys.pop();
+        if (oldEle) {
+            switch (oldEle.action) {
+                case 'del':
+                    var tempElements = this.templateService.elements.filter(function (ele) { return ele._id != oldEle.oldData._id; });
+                    this.templateService.elements = tempElements;
+                    if (oldEle.oldData._id == this.templateService.currentElement._id) {
+                        this.templateService.showFlag = false;
+                        this.templateService.currentElement = null;
+                    }
+                    break;
+                case 'add':
+                    this.templateService.elements.push(oldEle.oldData);
+                    break;
+                case 'edit':
+                    var elements = this.templateService.elements.slice();
+                    elements.forEach(function (element, index, elements) {
+                        if (element._id == oldEle.oldData._id) {
+                            var oldData = Object.assign({}, element);
+                            if (_this.templateService.currentElement._id == oldEle.oldData._id) {
+                                _this.templateService.currentElement = oldEle.oldData;
+                            }
+                            elements[index] = oldEle.oldData;
+                            _this.templateService.elements = elements;
+                            oldEle.oldData = oldData;
+                        }
+                    });
+                    break;
+            }
+            this.templateService.historys.push(oldEle);
+        }
+    };
+    //后退一步
+    DashboardComponent.prototype.backOneStep = function () {
+        var _this = this;
+        var oldEle = this.templateService.historys.pop();
+        if (oldEle) {
+            switch (oldEle.action) {
+                case 'del':
+                    this.templateService.elements.push(oldEle.oldData);
+                    break;
+                case 'add':
+                    var tempElements = this.templateService.elements.filter(function (ele) { return ele._id != oldEle.oldData._id; });
+                    this.templateService.elements = tempElements;
+                    break;
+                case 'edit':
+                    var elements = this.templateService.elements.slice();
+                    elements.forEach(function (element, index, elements) {
+                        if (element._id == oldEle.oldData._id) {
+                            var oldData = Object.assign({}, element);
+                            if (_this.templateService.currentElement._id == oldEle.oldData._id) {
+                                _this.templateService.currentElement = oldEle.oldData;
+                            }
+                            elements[index] = oldEle.oldData;
+                            _this.templateService.elements = elements;
+                            oldEle.oldData = oldData;
+                        }
+                    });
+                    break;
+            }
+            this.templateService.cancelHistorys.push(oldEle);
+        }
     };
     DashboardComponent.prototype.ngOnDestroy = function () {
         this.changeSubjection.unsubscribe();

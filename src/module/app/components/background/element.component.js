@@ -47,6 +47,9 @@ var ElementComponent = ElementComponent_1 = (function () {
                         case 'moveToBottom':
                             _this.moveToBottom(data);
                             break;
+                        case 'remove':
+                            _this.removeElement(data);
+                            break;
                     }
                 }
             });
@@ -78,7 +81,8 @@ var ElementComponent = ElementComponent_1 = (function () {
                 }
             }, 20);
             this.textSubscription = this.templateService.changeTextSubject.subscribe({
-                next: function (eleId) {
+                next: function (params) {
+                    var eleId = params.eleId;
                     if (_this.ele._id === eleId) {
                         var textLableEle = _this.textLabel.nativeElement;
                         // this.templateService.currentElement.width = textLableEle.offsetWidth;
@@ -106,6 +110,26 @@ var ElementComponent = ElementComponent_1 = (function () {
                 }
             });
         }
+    };
+    //删除
+    ElementComponent.prototype.removeElement = function (data) {
+        var delEleId = null;
+        if (data.removeId) {
+            delEleId = data.removeId;
+        }
+        else {
+            delEleId = ElementComponent_1.currentRightMenuId;
+        }
+        var delEle = null;
+        var elements = this.templateService.elements.filter(function (ele) { if (ele._id == delEleId) {
+            delEle = ele;
+        } return ele._id != delEleId; });
+        this.templateService.elements = elements;
+        if (delEleId == this.templateService.currentElement._id) {
+            this.templateService.showFlag = false;
+            this.templateService.currentElement = null;
+        }
+        this.templateService.historys.push({ action: 'del', oldData: delEle });
     };
     //上移一层
     ElementComponent.prototype.moveUpOne = function (data) {

@@ -76,6 +76,9 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
                         case 'moveToBottom':
                             this.moveToBottom(data);
                             break;
+                        case 'remove':
+                            this.removeElement(data);
+                            break;
                     }
                 }
             });
@@ -115,7 +118,8 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
             }, 20);
 
             this.textSubscription = this.templateService.changeTextSubject.subscribe({
-                next: (eleId) => {
+                next: (params) => {
+                    let eleId = params.eleId;
                     if(this.ele._id === eleId){
                         let textLableEle = <HTMLElement>this.textLabel.nativeElement;
                         // this.templateService.currentElement.width = textLableEle.offsetWidth;
@@ -146,6 +150,26 @@ export class ElementComponent implements OnInit, OnChanges, OnDestroy{
                 }
             });
         }
+    }
+
+    //删除
+    removeElement(data: any){
+        let delEleId = null;
+        if(data.removeId){
+            delEleId = data.removeId;
+        }else{
+            delEleId = ElementComponent.currentRightMenuId;
+        }
+        
+        let delEle = null;
+        let elements =  this.templateService.elements.filter(ele => {if(ele._id  == delEleId){delEle = ele;} return ele._id != delEleId});
+        this.templateService.elements = elements;
+        if(delEleId == this.templateService.currentElement._id){
+            this.templateService.showFlag = false;
+            this.templateService.currentElement = null;
+        }
+
+        this.templateService.historys.push({action: 'del', oldData: delEle});
     }
 
     //上移一层

@@ -96,9 +96,26 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
 
     ngOnInit(): void{
-        
-    
-        
+        let keydownListener = ((context) => {
+           return (e) => {
+                if(e.ctrlKey){
+                    switch(e.keyCode){
+                       case 67: //ctrl + C
+                            break;
+                       case 86: //ctrl + V
+                            break;
+                       case 90: //Ctrl + Z
+                            context.backOneStep();
+                            break;
+                       case 89: //Ctrl + Y
+                            context.forwardOneStep();
+                            break;
+                   }
+               }
+           }
+        })(this);
+
+        $(document).keydown(keydownListener);
         this.routerSubjection = this.router.params.subscribe({
             next: (params ) => {
                 this.getTemplateById(params['id']);
@@ -154,6 +171,84 @@ export class DashboardComponent implements OnInit, OnDestroy{
         setTimeout(() => {
             this.reflashUI();
         }, 500);
+    }
+
+    //前进一步
+    forwardOneStep(){
+        let oldEle = this.templateService.cancelHistorys.pop();
+        if(oldEle){
+            
+            switch(oldEle.action){
+                case 'del':
+                    let tempElements =  this.templateService.elements.filter(ele => {return ele._id != oldEle.oldData._id});
+                    this.templateService.elements = tempElements;
+                    if(oldEle.oldData._id == this.templateService.currentElement._id){
+                        this.templateService.showFlag = false;
+                        this.templateService.currentElement = null;
+                    }
+                    
+                    break;
+                
+                case 'add':
+                    this.templateService.elements.push(oldEle.oldData);
+                    break;
+                
+                case 'edit':
+                    let elements = [...this.templateService.elements]; 
+                    elements.forEach((element,index, elements) => {
+                        if(element._id == oldEle.oldData._id){
+                            let oldData = Object.assign({}, element);
+                            if(this.templateService.currentElement._id == oldEle.oldData._id){
+                                this.templateService.currentElement = oldEle.oldData;
+                            }
+
+                            elements[index] = oldEle.oldData;
+                            this.templateService.elements = elements;
+                            oldEle.oldData = oldData;
+                        }
+                    });
+                    break;
+                
+            }
+
+            this.templateService.historys.push(oldEle);
+        }
+    }
+
+    //后退一步
+    backOneStep(){
+        let oldEle = this.templateService.historys.pop();
+        if(oldEle){
+            switch(oldEle.action){
+                case 'del':
+                    this.templateService.elements.push(oldEle.oldData);
+                    break;
+                
+                case 'add':
+                    let tempElements =  this.templateService.elements.filter(ele => {return ele._id != oldEle.oldData._id});
+                    this.templateService.elements = tempElements;
+                    break;
+                
+                case 'edit':
+                    let elements = [...this.templateService.elements]; 
+                    elements.forEach((element,index, elements) => {
+                        if(element._id == oldEle.oldData._id){
+                            let oldData = Object.assign({}, element);
+                            if(this.templateService.currentElement._id == oldEle.oldData._id){
+                                this.templateService.currentElement = oldEle.oldData;
+                            }
+
+                            elements[index] = oldEle.oldData;
+                            this.templateService.elements = elements;
+                            oldEle.oldData = oldData;
+                         }
+                    });
+                    break;
+                
+            }
+
+            this.templateService.cancelHistorys.push(oldEle);
+        }
     }
 
     ngOnDestroy(){

@@ -15,6 +15,7 @@ var core_1 = require("@angular/core");
 var Rx = require("rxjs/Rx");
 var TemplateService = (function () {
     function TemplateService() {
+        var _this = this;
         this.changeTextSubject = new Rx.Subject();
         this.currentElement = {
             _id: 'id1',
@@ -41,9 +42,21 @@ var TemplateService = (function () {
         this.width = '800';
         this.height = '600';
         this.elements = [];
+        /*
+            union format :
+            {
+                action: string    add/del/edit
+                oldData: element
+            }
+        */
+        this.cancelHistorys = [];
+        this.historys = [];
         this.changeTextSubject.subscribe({
             next: function (param) {
-                // console.log('param : ' + param);
+                _this.historys.push({
+                    action: 'edit',
+                    oldData: param.oldData
+                });
             }
         });
     }

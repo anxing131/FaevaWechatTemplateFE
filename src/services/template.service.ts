@@ -71,10 +71,23 @@ export class TemplateService{
         // }
     ];
 
+    /* 
+        union format : 
+        {
+            action: string    add/del/edit
+            oldData: element
+        }
+    */
+    cancelHistorys: any = [];
+    historys: any = [];
+
     constructor(){
         this.changeTextSubject.subscribe({
             next: (param) => {
-                // console.log('param : ' + param);
+               this.historys.push({
+                   action: 'edit',
+                   oldData: param.oldData
+               });
             }
         });
     }
